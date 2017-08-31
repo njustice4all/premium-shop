@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import '../css/App.scss';
+import { Route, Switch } from 'react-router-dom';
+
+import { Signin, Signup } from './auth';
+import { AddShop, AddProducts } from './main';
 
 class App extends Component {
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Switch>
+        <Route exact path="/" component={Signin} />
+        <Route path="/auth/signup" component={Signup} />
+        <Route path="/franchise/addShop" component={AddShop} />
+        <Route path="/franchise/addProducts" component={AddProducts} />
+      </Switch>
     );
   }
 }

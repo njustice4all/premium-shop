@@ -1,0 +1,94 @@
+$space-50: 50px;
+$space-40: 40px;
+$space-30: 30px;
+$space-20: 20px;
+$space-10: 10px;
+
+$font-15: 15px;
+$font-20: 20px;
+$font-40: 40px;
+
+$color-theme: #000000;
+$color-bg: #f4f1ef;
+$color-theme-lighter: tint($color-theme, 10);
+$color-input-border: #000000;
+$color-input-focus: tint($color-theme, 20);
+$color-weather: #fff3bf;
+$color-btn-open: #66d9e8;
+$color-btn-close: #fa5252;
+$color-refresh: #20c997;
+$color-time: #f2f2f2;
+$color-notify: #554949;
+$color-btn-close-dark: #20222b;
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.login-form {
+  padding: 50px;
+  height: 100%;;
+
+  h1 {
+    text-align: center;
+    margin: 50px 0;
+  }
+
+  .login-label {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  .login-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 5%;
+    font-size: 20px;
+    outline: none;
+    border-width: 0 0 3px;
+    border-color: #000000;
+    padding: 5px 0 0 0;
+    background-color: transparent;
+    transition: border-color 1s;
+  }
+
+  .login-input:focus {
+    border-color: $color-input-focus;
+  }
+
+  .btn-login {
+    display: block;
+    margin: 10% 0;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid $color-theme;
+    width: 100%;
+    background-color: white;
+    transition: background-color 0.2s;
+  }
+
+  .btn-login:hover {
+    background-color: $color-theme;
+    color: #ffffff;
+  }
+
+  .btn-modal {
+    position: absolute;
+    text-align: center;
+    // color: #ffffff;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+
+    span {
+      display: block;
+    }
+  }
+}
