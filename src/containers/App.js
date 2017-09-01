@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
+import Header from '../components/Header';
 import { Signin, Signup } from './auth';
 import { AddShop, AddProducts } from './main';
 
@@ -8,12 +9,13 @@ class App extends Component {
 
   render() {
     return (
-      <Switch>
+      <div>
+        {window.location.pathname === '/' ? null : <Header />}
         <Route exact path="/" component={Signin} />
         <Route path="/auth/signup" component={Signup} />
         <Route path="/franchise/addShop" component={AddShop} />
         <Route path="/franchise/addProducts" component={AddProducts} />
-      </Switch>
+      </div>
     );
   }
 }

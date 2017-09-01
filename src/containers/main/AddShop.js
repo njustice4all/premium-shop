@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
+import { Images } from '../../components';
+
 export default class AddShop extends Component {
 
-  state = { file: '', imagePreviewUrl: '' }
+  state = { images: [], imagePreviewUrl: [] }
 
   handleChange = (e) => {
     e.preventDefault();
@@ -10,32 +12,60 @@ export default class AddShop extends Component {
     let file = e.target.files[0];
 
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
+      this.setState((prevState) => {
+        return {
+          images: [...prevState.images, file],
+          imagePreviewUrl: [...prevState.imagePreviewUrl, reader.result]
+        };
       });
     };
 
     reader.readAsDataURL(file);
   }
 
-  render() {
-    let { imagePreviewUrl } = this.state;
-    let preview = null;
-    if (imagePreviewUrl) {
-      preview = (<img src={imagePreviewUrl} alt='' />);
-    } else {
-      preview = (<h1>this is preview</h1>);
+  renderRowTop = (imagePreviewUrl) => {
+    const topArray = [];
+    let imageLength = imagePreviewUrl.length > 4 ? 4 : imagePreviewUrl.length;
+
+    for (let i = 0; i < imageLength; i++) {
+      topArray.push(imagePreviewUrl[i]);
     }
 
+    return topArray.map((value, i) => {
+      return (
+        <div className="images" key={`images-${i}`}>
+          <img src={value} alt='' />
+        </div>
+      );
+    });
+  }
+
+  renderRowBottom = (imagePreviewUrl) => {
+    const bottomArray = [];
+    for (let i = 4; i < imagePreviewUrl.length; i++) {
+      bottomArray.push(imagePreviewUrl[i]);
+    }
+
+    return bottomArray.map((value, i) => {
+      return (
+        <div className="images" key={`images-${i}`}>
+          <img src={value} alt='' />
+        </div>
+      );
+    });
+  }
+
+  render() {
+    const { imagePreviewUrl } = this.state;
+
     return (
-      <div>
-        <p className="Authentication-intro">
-          <input accept="image/*" multiple="multiple" name="photo" type="file" onChange={(e) => this.handleChange(e)} />
-          <input type="file" name="photo" accept="image/*" capture="gallery" onChange={(e) => this.handleChange(e)} />
-        </p>
-        <button onClick={() => console.log(this.state.file)}>confirm</button>
-        <div>{preview}</div>
+      <div className="container">
+        <Images
+          imagePreviewUrl={imagePreviewUrl}
+          renderRowTop={this.renderRowTop}
+          renderRowBottom={this.renderRowBottom}
+          handleChange={this.handleChange}
+        />
       </div>
     );
   }
