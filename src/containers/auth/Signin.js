@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Signin extends Component {
+import { initSignin } from '../../actions';
+
+class Signin extends Component {
+
+  state = { id: '', password: '' }
 
   handleID = () => {
     console.log('hey');
@@ -12,6 +17,7 @@ export default class Signin extends Component {
 
   handleSignin = () => {
     this.props.history.push('franchise/addShop');
+    // this.props.initSignin({ id: 'hey', password: 'man' });
   }
 
   handleSignup = () => {
@@ -40,3 +46,11 @@ export default class Signin extends Component {
     );
   }
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initSignin: (user) => dispatch(initSignin(user))
+  };
+};
+
+export default connect(undefined, mapDispatchToProps)(Signin);

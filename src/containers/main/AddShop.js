@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Images } from '../../components';
+import { Info } from '../../components';
 
 export default class AddShop extends Component {
 
@@ -66,6 +67,7 @@ export default class AddShop extends Component {
           renderRowBottom={this.renderRowBottom}
           handleChange={this.handleChange}
         />
+        <Info />
       </div>
     );
   }

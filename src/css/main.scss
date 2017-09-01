@@ -135,6 +135,11 @@ $color-btn-close-dark: #20222b;
 .items {
   border: 1px solid $color-border;
   padding: $space-15;
+  margin-bottom: $space-15;
+}
+
+.items:last-child {
+  margin: 0;
 }
 
 .title__big {
