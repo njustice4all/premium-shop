@@ -6,10 +6,11 @@ const addShop = () => {
   };
 };
 
-const addShopSuccess = (result) => {
+const addShopSuccess = (result, shop) => {
   return {
     type: actionTypes.ADD_SHOP_SUCCESS,
-    result
+    result,
+    shop
   };
 };
 
@@ -20,14 +21,14 @@ const addShopFailure = (result) => {
   };
 };
 
-export const initAddShop = () => async (dispatch) => {
+export const initAddShop = (shop) => async (dispatch) => {
   dispatch(addShop());
   // api request here
 
   if ('failure?') {
     dispatch(addShopFailure('failure'));
   } else {
-    dispatch(addShopSuccess('success'));
+    dispatch(addShopSuccess('success', shop));
   }
 };
 
@@ -37,10 +38,11 @@ const addProducts = () => {
   };
 };
 
-const addProductsSuccess = (result) => {
+const addProductsSuccess = (result, products) => {
   return {
     type: actionTypes.ADD_PRODUCTS_SUCCESS,
-    result
+    result,
+    products
   };
 };
 
@@ -51,13 +53,13 @@ const addProductsFailure = (result) => {
   };
 };
 
-export const initAddProducts = () => async (dispatch) => {
+export const initAddProducts = (products) => async (dispatch) => {
   dispatch(addProducts());
   // api request here
 
   if ('failure?') {
     dispatch(addProductsFailure('failure'));
   } else {
-    dispatch(addProductsSuccess('success'));
+    dispatch(addProductsSuccess('success', products));
   }
 };

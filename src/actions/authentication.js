@@ -20,7 +20,10 @@ const reqSigninFailure = (result) => {
   };
 };
 
-export const initSignin = (id, password) => async (dispatch) => {
+/**
+ * user: { id, password }
+ */
+export const initSignin = (user) => async (dispatch) => {
   dispatch(reqSignin());
   // api request here
 
@@ -51,7 +54,10 @@ const reqSignupFailure = (result) => {
   };
 };
 
-export const initSignup = (id, password) => async (dispatch) => {
+/**
+ * user: { id, password }
+ */
+export const initSignup = (user) => async (dispatch) => {
   dispatch(reqSignup());
   // api request here
 
