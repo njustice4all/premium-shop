@@ -59,6 +59,10 @@ class AddShop extends Component {
     this.setState({ address: newAddress });
   }
 
+  handleCategory = (value) => {
+    this.setState({ category: value });
+  }
+
   handleCheck = (index) => {
     const { possible } = this.state;
     const newPossible = Array.from(possible);
@@ -174,7 +178,7 @@ class AddShop extends Component {
   }
 
   render() {
-    const { imagePreviewUrl, isOpenAddress, address, possible, description } = this.state;
+    const { imagePreviewUrl, isOpenAddress, address, possible, description, category } = this.state;
 
     return (
       <div className="container">
@@ -194,11 +198,13 @@ class AddShop extends Component {
           possible={possible}
           isOpenAddress={isOpenAddress}
           description={description}
+          category={category}
           initiate={this.initiate}
           toggleAddress={this.toggleAddress}
           handleCheck={this.handleCheck}
           setStateByKey={this.setStateByKey}
           handleDetailAddress={this.handleDetailAddress}
+          handleCategory={this.handleCategory}
         />
         <div className="franchise__btn__confirm__wrapper">
           <div className="franchise__btn">취소하기</div>

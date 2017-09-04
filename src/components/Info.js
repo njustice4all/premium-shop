@@ -6,9 +6,11 @@ const Info = ({
   address,
   possible,
   description,
+  category,
   handleCheck,
   setStateByKey,
   handleDetailAddress,
+  handleCategory,
 }) => {
   return (
     <div className="items">
@@ -17,7 +19,7 @@ const Info = ({
         <div className="input__box">
           <div className="input__title">분류</div>
           <div className="input__content">
-            <select>
+            <select value={category} onChange={(e) => handleCategory(e.target.value)}>
               <option>선택하세요</option>
               <option value="cafe">카페</option>
               <option value="korean">한식</option>

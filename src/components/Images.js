@@ -18,7 +18,8 @@ const Images = ({
         accept="image/*"
         name="photo"
         type="file"
-        onChange={(e) => onImageChange(e)} />
+        onChange={(e) => onImageChange(e)}
+      />
     </div>
   );
 
