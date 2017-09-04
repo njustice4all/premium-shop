@@ -108,7 +108,7 @@ export default class AddShop extends Component {
   }
 
   render() {
-    const { imagePreviewUrl, isOpenAddress, address, possible } = this.state;
+    const { imagePreviewUrl, isOpenAddress, address, possible, description } = this.state;
 
     return (
       <div className="container">
@@ -127,9 +127,11 @@ export default class AddShop extends Component {
           address={address}
           possible={possible}
           isOpenAddress={isOpenAddress}
+          description={description}
           initiate={this.initiate}
           toggleAddress={this.toggleAddress}
           handleCheck={this.handleCheck}
+          setStateByKey={this.setStateByKey}
         />
         <div className="franchise__btn__confirm__wrapper">
           <div className="franchise__btn">취소하기</div>

@@ -5,7 +5,9 @@ const Info = ({
   toggleAddress,
   address,
   possible,
+  description,
   handleCheck,
+  setStateByKey,
 }) => {
   return (
     <div className="items">
@@ -38,16 +40,20 @@ const Info = ({
               type="text"
               className="input__content__field"
               placeholder="가게 이름을 입력하세요."
+              onChange={(e) => setStateByKey('name', e.target.value)}
             />
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title">가맹점소개</div>
+          <div className="input__title" style={{ verticalAlign: 'top' }}>가맹점소개</div>
           <div className="input__content">
-            <input
-              type="text"
+            <textarea
               className="input__content__field"
+              style={{ border: '1px solid #c9c9c9', resize: 'none' }}
+              rows='4'
+              value={description}
               placeholder="사장님 가맹점만의 특별한 매력을 소개해주세요."
+              onChange={(e) => setStateByKey('description', e.target.value)}
             />
           </div>
         </div>
