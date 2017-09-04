@@ -25,7 +25,7 @@ export const initAddShop = (shop) => async (dispatch) => {
   dispatch(addShop());
   // api request here
 
-  if ('failure?') {
+  if (false) {
     dispatch(addShopFailure('failure'));
   } else {
     dispatch(addShopSuccess('success', shop));

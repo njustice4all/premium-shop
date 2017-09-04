@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+
+import { initAddShop } from '../../actions';
 
 import { Images } from '../../components';
 import { Info } from '../../components';
 import Address from './Address';
 
-export default class AddShop extends Component {
+class AddShop extends Component {
 
   state = {
     images: [],
@@ -20,7 +23,7 @@ export default class AddShop extends Component {
       detailAddress: '',
     },
     contact: '',
-    openingnHours: '',
+    openingHours: '',
     closeDays: '',
     possible: [
       { index: 0, title: '홀', isChecked: false },
@@ -40,10 +43,20 @@ export default class AddShop extends Component {
   }
 
   handleAddress = (data) => {
-    this.setState({
-      address: { zipCode: data.zonecode, roadAddress: data.address, },
-      isOpenAddress: false,
-    });
+    const { address } = this.state;
+    const newAddress = Object.assign({}, address);
+    newAddress.zipCode = data.zonecode;
+    newAddress.roadAddress = data.address;
+
+    this.setState({ address: newAddress, isOpenAddress: false, });
+  }
+
+  handleDetailAddress = (value) => {
+    const { address } = this.state;
+    const newAddress = Object.assign({}, address);
+    newAddress.detailAddress = value;
+
+    this.setState({ address: newAddress });
   }
 
   handleCheck = (index) => {
@@ -72,7 +85,14 @@ export default class AddShop extends Component {
   }
 
   handleConfirm = () => {
-    console.log(this.state);
+    // const { possible } = this.state;
+    const { initAddShop } = this.props;
+    // const newPossible = [];
+    // for (let i = 0; i < possible.length; i++) {
+    //   if (possible[i].isChecked) newPossible.push(possible[i]);
+    // }
+
+    initAddShop(this.state);
   }
 
   renderRowTop = (imagePreviewUrl) => {
@@ -132,6 +152,7 @@ export default class AddShop extends Component {
           toggleAddress={this.toggleAddress}
           handleCheck={this.handleCheck}
           setStateByKey={this.setStateByKey}
+          handleDetailAddress={this.handleDetailAddress}
         />
         <div className="franchise__btn__confirm__wrapper">
           <div className="franchise__btn">취소하기</div>
@@ -146,3 +167,11 @@ export default class AddShop extends Component {
     );
   }
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initAddShop: (shop) => dispatch(initAddShop(shop))
+  };
+};
+
+export default connect(undefined, mapDispatchToProps)(AddShop);

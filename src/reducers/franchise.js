@@ -11,11 +11,11 @@ const initFranchise = {
     category: '',
     name: '',
     description: '',
-    address: '',
+    address: {},
     contact: '',
     openingHours: '',
     closedDays: '',
-    possible: '', // 홀, 배달, 포장, 예약, 주차
+    possible: [], // 홀, 배달, 포장, 예약, 주차
   },
   products: [], // { image: '', title: '', price: 0 }
 };

@@ -8,6 +8,7 @@ const Info = ({
   description,
   handleCheck,
   setStateByKey,
+  handleDetailAddress,
 }) => {
   return (
     <div className="items">
@@ -63,13 +64,23 @@ const Info = ({
             <input className="address__zipcode" value={address.zipCode} disabled />
             <span className="address__zipcode zipcode__btn" onClick={toggleAddress}>주소검색</span>
             <input className="default__form" value={address.roadAddress} placeholder="기본주소" />
-            <input className="default__form" placeholder="상세주소" />
+            <input
+              type="text"
+              className="default__form"
+              placeholder="상세주소"
+              onChange={(e) => handleDetailAddress(e.target.value)}
+            />
           </div>
         </div>
         <div className="input__box">
           <div className="input__title">전화번호</div>
           <div className="input__content">
-            <input type="number" placeholder=" - 제외하고 입력" className="default__form" />
+            <input
+              type="number"
+              placeholder=" - 제외하고 입력"
+              className="default__form"
+              onChange={(e) => setStateByKey('contact', e.target.value)}
+            />
           </div>
         </div>
         <div className="input__box">
@@ -79,6 +90,7 @@ const Info = ({
               type="text"
               placeholder="평일 11:00 ~ 22:00 / 일요일 11:30 ~ 22:30"
               className="default__form"
+              onChange={(e) => setStateByKey('openingHours', e.target.value)}
             />
           </div>
         </div>
@@ -89,6 +101,7 @@ const Info = ({
               type="text"
               placeholder="연중무휴 / 일요일휴무"
               className="default__form"
+              onChange={(e) => setStateByKey('closeDays', e.target.value)}
             />
           </div>
         </div>
