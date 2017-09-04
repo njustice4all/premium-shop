@@ -85,14 +85,60 @@ class AddShop extends Component {
   }
 
   handleConfirm = () => {
-    // const { possible } = this.state;
+    const {
+      images,
+      imagePreviewUrl,
+      category,
+      name,
+      description,
+      address,
+      contact,
+      openingHours,
+      closeDays,
+      possible,
+    } = this.state;
     const { initAddShop } = this.props;
-    // const newPossible = [];
-    // for (let i = 0; i < possible.length; i++) {
-    //   if (possible[i].isChecked) newPossible.push(possible[i]);
-    // }
+    const newPossible = [];
+    for (let i = 0; i < possible.length; i++) {
+      if (possible[i].isChecked) newPossible.push(possible[i]);
+    }
 
-    initAddShop(this.state);
+    const validateLength = (obj) => {
+      if (obj.trim().length > 0) {
+        return true;
+      }
+      return false;
+    };
+
+    const validate = () => {
+      if (
+        validateLength(name) &&
+        validateLength(description) &&
+        validateLength(contact) &&
+        validateLength(openingHours) &&
+        validateLength(closeDays)
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    if (validate()) {
+      initAddShop({
+        images,
+        imagePreviewUrl,
+        category,
+        name,
+        description,
+        address,
+        contact,
+        openingHours,
+        closeDays,
+        newPossible
+      });
+    } else {
+      console.log('가맹점 정보 양식을 모두 작성해 주세요 popup창');
+    }
   }
 
   renderRowTop = (imagePreviewUrl) => {
