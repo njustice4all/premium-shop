@@ -1,3 +1,4 @@
+/* space */
 $space-50: 50px;
 $space-40: 40px;
 $space-30: 30px;
@@ -5,24 +6,22 @@ $space-20: 20px;
 $space-15: 15px;
 $space-10: 10px;
 
+$theme-padding: 10px;
+$theme-padding-default: 5px;
+
+/* font */
 $font-15: 15px;
 $font-20: 20px;
 $font-40: 40px;
 
-$color-border: #c9c9c9;
-$color-nav-on: #0f243f;
-$color-theme: #000000;
-$color-bg: #f4f1ef;
-$color-theme-lighter: tint($color-theme, 10);
-$color-input-border: #000000;
+/* color */
+$color-theme: #222831;
+$color-theme-second: #393E46;
+$color-theme-third: #00ADB5;
+$color-theme-fourth: #EEEEEE;
 $color-input-focus: tint($color-theme, 20);
-$color-weather: #fff3bf;
-$color-btn-open: #66d9e8;
-$color-btn-close: #fa5252;
-$color-refresh: #20c997;
-$color-time: #f2f2f2;
-$color-notify: #554949;
-$color-btn-close-dark: #20222b;
+$color-input-border: #000000;
+$color-border: #c9c9c9;
 
 * {
   margin: 0;
@@ -30,6 +29,16 @@ $color-btn-close-dark: #20222b;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.overlay.active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #34363d;
+  opacity: .8;
 }
 
 /**
@@ -117,7 +126,7 @@ $color-btn-close-dark: #20222b;
   }
 
   .header__nav__link.on {
-    background-color: $color-nav-on;
+    background-color: $color-theme;
     color: white;
   }
 }
@@ -126,7 +135,7 @@ $color-btn-close-dark: #20222b;
 *  컨테이너
 */
 .container {
-  padding: $space-15;
+  padding: $theme-padding;
 }
 
 /**
@@ -134,12 +143,8 @@ $color-btn-close-dark: #20222b;
 */
 .items {
   border: 1px solid $color-border;
-  padding: $space-15;
+  padding: $theme-padding;
   margin-bottom: $space-15;
-}
-
-.items:last-child {
-  margin: 0;
 }
 
 .title__big {
@@ -178,5 +183,111 @@ $color-btn-close-dark: #20222b;
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+}
+
+/**
+*  가맹점 정보
+*/
+.info__wrapper {
+  margin-top: 10px;
+
+  .input__box {
+    padding: 5px 0;
+
+    .input__title {
+      display: inline-block;
+      width: 18%;
+      margin-right: 2%;
+      font-size: 12px;
+    }
+
+    .input__content {
+      display: inline-block;
+      width: 80%;
+
+      .input__content__field {
+        width: 100%;
+        padding: 5px 10px;
+        border: 1px solid;
+      }
+    }
+  }
+}
+
+.possible__wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .possible__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 19%;
+    height: 50px;
+    background-color: #c9c9c9;
+  }
+
+  .possible__icon.active {
+    background-color: red;
+  }
+}
+
+.address__zipcode {
+  display: inline-block;
+  width: 25%;
+  border: 1px solid;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.address__zipcode.zipcode__btn {
+  width: 100px;
+  background-color: $color-theme;
+  padding: 4px 0;
+  color: white;
+  margin-left: 20px;
+}
+
+.default__form {
+  margin-top: 5px;
+  border: 1px solid;
+  width: 100%;
+  padding: 5px;
+}
+
+/**
+*  주소검색 팝업
+*/
+.address__wrapper {
+  position: fixed;
+  padding: 10px;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  background: white;
+  z-index: 200;
+  max-width: 400px;
+  margin: auto;
+}
+
+/**
+*  가맹점정보 버튼
+*/
+.franchise__btn__confirm__wrapper {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+
+  .franchise__btn {
+    width: 48%;
+    padding: 10px 0;
+    border: 1px solid;
+  }
+
+  .franchise__btn.btn__confirm {
+    background-color: $color-theme;
+    color: white;
+    border: none;
   }
 }

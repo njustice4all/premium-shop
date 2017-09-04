@@ -2,7 +2,7 @@ import React from 'react';
 
 const Images = ({
   imagePreviewUrl,
-  handleChange,
+  onImageChange,
   renderRowTop,
   renderRowBottom,
 }) => {
@@ -18,7 +18,7 @@ const Images = ({
         accept="image/*"
         name="photo"
         type="file"
-        onChange={(e) => handleChange(e)} />
+        onChange={(e) => onImageChange(e)} />
     </div>
   );
 
