@@ -48,7 +48,7 @@ export const franchise = (state = initFranchise, action) => {
           isFetching: false,
           errorMessage: state.status.errorMessage,
         },
-        products: [...state.products, ...action.products],
+        products: [...action.products],
       });
     // case actionTypes.REQ_UPLOAD_SUCCESS:
     //   return assign({}, state, {

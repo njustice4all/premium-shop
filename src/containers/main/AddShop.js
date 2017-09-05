@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import { initAddShop } from '../../actions';
 
-import { Images } from '../../components';
-import { Info } from '../../components';
+import { Images, Info, Buttons } from '../../components';
 import Address from './Address';
 
 class AddShop extends Component {
@@ -206,15 +205,7 @@ class AddShop extends Component {
           handleDetailAddress={this.handleDetailAddress}
           handleCategory={this.handleCategory}
         />
-        <div className="franchise__btn__confirm__wrapper">
-          <div className="franchise__btn">취소하기</div>
-          <div
-            className="franchise__btn btn__confirm"
-            onClick={() => this.handleConfirm()}
-          >
-            등록하기
-          </div>
-        </div>
+        <Buttons handleConfirm={this.handleConfirm} />
       </div>
     );
   }

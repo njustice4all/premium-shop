@@ -57,7 +57,7 @@ export const initAddProducts = (products) => async (dispatch) => {
   dispatch(addProducts());
   // api request here
 
-  if ('failure?') {
+  if (false) {
     dispatch(addProductsFailure('failure'));
   } else {
     dispatch(addProductsSuccess('success', products));
