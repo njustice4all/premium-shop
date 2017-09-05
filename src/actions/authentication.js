@@ -27,10 +27,11 @@ export const initSignin = (user) => async (dispatch) => {
   dispatch(reqSignin());
   // api request here
 
-  if ('failure?') {
+  if (false) {
     dispatch(reqSigninFailure('failure'));
   } else {
     dispatch(reqSigninSuccess('success'));
+    return true;
   }
 };
 
