@@ -72,19 +72,23 @@ class AddShop extends Component {
 
   onImageChange = (e) => {
     e.preventDefault();
-    const reader = new FileReader();
-    const file = e.target.files[0];
+    const files = e.target.files;
 
-    reader.onloadend = () => {
-      this.setState((prevState) => {
-        return {
-          images: [...prevState.images, file],
-          imagePreviewUrl: [...prevState.imagePreviewUrl, reader.result]
-        };
-      });
-    };
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
 
-    reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.setState((prevState) => {
+          return {
+            images: [...prevState.images, files[i]],
+            imagePreviewUrl: [...prevState.imagePreviewUrl, reader.result]
+          };
+        });
+      };
+
+      reader.readAsDataURL(files[i]);
+    }
+
   }
 
   handleConfirm = () => {
