@@ -11,13 +11,16 @@ const Info = ({
   setStateByKey,
   handleDetailAddress,
   handleCategory,
+  validateClass,
 }) => {
   return (
     <div className="items">
       <h5 className="title__big">가맹점 정보</h5>
       <div className="info__wrapper">
         <div className="input__box">
-          <div className="input__title">분류</div>
+          <div className={classNames('input__title', { wrong: validateClass('category') })}>
+            분류
+          </div>
           <div className="input__content">
             <select value={category} onChange={(e) => handleCategory(e.target.value)}>
               <option>선택하세요</option>
@@ -37,7 +40,9 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title">가맹점명</div>
+          <div className={classNames('input__title', { wrong: validateClass('name') })}>
+            가맹점명
+          </div>
           <div className="input__content">
             <input
               type="text"
@@ -48,7 +53,12 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title" style={{ verticalAlign: 'top' }}>가맹점소개</div>
+          <div
+            className={classNames('input__title', { wrong: validateClass('description') })}
+            style={{ verticalAlign: 'top' }}
+          >
+            가맹점소개
+          </div>
           <div className="input__content">
             <textarea
               className="input__content__field"
@@ -61,11 +71,16 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title" style={{ verticalAlign: 'top', paddingTop: '5px' }}>주소</div>
+          <div
+            className={classNames('input__title', { wrong: validateClass('address') })}
+            style={{ verticalAlign: 'top', paddingTop: '5px' }}
+          >
+            주소
+          </div>
           <div className="input__content">
             <input className="address__zipcode" value={address.zipCode} disabled />
             <span className="address__zipcode zipcode__btn" onClick={toggleAddress}>주소검색</span>
-            <input className="default__form" value={address.roadAddress} placeholder="기본주소" />
+            <input className="default__form" value={address.firstAddress} placeholder="기본주소" />
             <input
               type="text"
               className="default__form"
@@ -75,7 +90,9 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title">전화번호</div>
+          <div className={classNames('input__title', { wrong: validateClass('contact') })}>
+            전화번호
+          </div>
           <div className="input__content">
             <input
               type="number"
@@ -86,7 +103,9 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title">영업시간</div>
+          <div className={classNames('input__title', { wrong: validateClass('openingHours') })}>
+            영업시간
+          </div>
           <div className="input__content">
             <input
               type="text"
@@ -97,7 +116,9 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title">휴무일</div>
+          <div className={classNames('input__title', { wrong: validateClass('closeDays') })}>
+            휴무일
+          </div>
           <div className="input__content">
             <input
               type="text"
@@ -108,7 +129,12 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className="input__title" style={{ verticalAlign: 'top' }}>가능여부</div>
+          <div
+            className={classNames('input__title', { wrong: validateClass('possible') })}
+            style={{ verticalAlign: 'top' }}
+          >
+            가능여부
+          </div>
           <div className="input__content">
             <div className="possible__wrapper">
               {

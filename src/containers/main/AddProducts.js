@@ -62,7 +62,6 @@ class AddProducts extends Component {
   handleConfirm = () => {
     const { products } = this.state;
     const { initAddProducts } = this.props;
-    // var imagedata = document.querySelector('input[type="file"]').files[0];
     const data = new FormData();
     data.append('products', products);
     initAddProducts(products);

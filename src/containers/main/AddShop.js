@@ -18,7 +18,7 @@ class AddShop extends Component {
     description: '',
     address: {
       zipCode: '',
-      roadAddress: '',
+      firstAddress: '',
       detailAddress: '',
     },
     contact: '',
@@ -31,6 +31,7 @@ class AddShop extends Component {
       { index: 3, title: '예약', isChecked: false },
       { index: 4, title: '주차', isChecked: false },
     ],
+    errors: [],
   }
 
   setStateByKey = (key, value) => {
@@ -45,7 +46,7 @@ class AddShop extends Component {
     const { address } = this.state;
     const newAddress = Object.assign({}, address);
     newAddress.zipCode = data.zonecode;
-    newAddress.roadAddress = data.address;
+    newAddress.firstAddress = data.address;
 
     this.setState({ address: newAddress, isOpenAddress: false, });
   }
@@ -88,13 +89,13 @@ class AddShop extends Component {
 
       reader.readAsDataURL(files[i]);
     }
-
   }
+
+  validateClass = (name) => this.state.errors.includes(name) ? true : false
 
   handleConfirm = () => {
     const {
       images,
-      imagePreviewUrl,
       category,
       name,
       description,
@@ -110,30 +111,24 @@ class AddShop extends Component {
       if (possible[i].isChecked) newPossible.push(possible[i]);
     }
 
-    const validateLength = (obj) => {
-      if (obj.trim().length > 0) {
-        return true;
-      }
-      return false;
-    };
+    const validateText = (text) => text.trim().length > 0 ? true : false
 
-    const validate = () => {
-      if (
-        validateLength(name) &&
-        validateLength(description) &&
-        validateLength(contact) &&
-        validateLength(openingHours) &&
-        validateLength(closeDays)
-      ) {
-        return true;
-      }
-      return false;
-    }
+    const errors = [];
+    if (images.length === 0) errors.push('images')
+    if (!validateText(category)) errors.push('category')
+    if (!validateText(name)) errors.push('name')
+    if (!validateText(description)) errors.push('description')
+    if (!validateText(address.zipCode)) errors.push('address')
+    if (!validateText(contact)) errors.push('contact')
+    if (!validateText(openingHours)) errors.push('openingHours')
+    if (!validateText(closeDays)) errors.push('closeDays')
+    if (newPossible.length === 0) errors.push('possible')
 
-    if (validate()) {
+    this.setState({ errors: errors });
+
+    if (errors.length === 0) {
       initAddShop({
         images,
-        imagePreviewUrl,
         category,
         name,
         description,
@@ -141,47 +136,23 @@ class AddShop extends Component {
         contact,
         openingHours,
         closeDays,
-        newPossible
+        possible: newPossible
       });
     } else {
-      console.log('가맹점 정보 양식을 모두 작성해 주세요 popup창');
+      console.log('validate');
     }
-  }
-
-  renderRowTop = (imagePreviewUrl) => {
-    const topArray = [];
-    let imageLength = imagePreviewUrl.length > 4 ? 4 : imagePreviewUrl.length;
-
-    for (let i = 0; i < imageLength; i++) {
-      topArray.push(imagePreviewUrl[i]);
-    }
-
-    return topArray.map((value, i) => {
-      return (
-        <div className="images" key={`images-${i}`}>
-          <img src={value} alt='' />
-        </div>
-      );
-    });
-  }
-
-  renderRowBottom = (imagePreviewUrl) => {
-    const bottomArray = [];
-    for (let i = 4; i < imagePreviewUrl.length; i++) {
-      bottomArray.push(imagePreviewUrl[i]);
-    }
-
-    return bottomArray.map((value, i) => {
-      return (
-        <div className="images" key={`images-${i}`}>
-          <img src={value} alt='' />
-        </div>
-      );
-    });
   }
 
   render() {
-    const { imagePreviewUrl, isOpenAddress, address, possible, description, category } = this.state;
+    const {
+      imagePreviewUrl,
+      isOpenAddress,
+      address,
+      possible,
+      description,
+      category,
+      errors,
+    } = this.state;
 
     return (
       <div className="container">
@@ -192,9 +163,8 @@ class AddShop extends Component {
         {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
         <Images
           imagePreviewUrl={imagePreviewUrl}
-          renderRowTop={this.renderRowTop}
-          renderRowBottom={this.renderRowBottom}
           onImageChange={this.onImageChange}
+          validateClass={this.validateClass}
         />
         <Info
           address={address}
@@ -208,8 +178,9 @@ class AddShop extends Component {
           setStateByKey={this.setStateByKey}
           handleDetailAddress={this.handleDetailAddress}
           handleCategory={this.handleCategory}
+          validateClass={this.validateClass}
         />
-        <Buttons handleConfirm={this.handleConfirm} />
+        <Buttons handleConfirm={this.handleConfirm} errors={errors.length > 0 ? true : false} />
       </div>
     );
   }

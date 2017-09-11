@@ -35,7 +35,7 @@ $color-border: #c9c9c9;
 // }
 
 .overlay.active {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -178,13 +178,21 @@ $color-border: #c9c9c9;
   border-bottom: 1px solid $color-border;
 }
 
+.title__big.wrong {
+  color: red;
+}
+
 .image__wrapper {
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
+  overflow: auto;
+  white-space: nowrap;
   margin-top: 15px;
 }
 
 .images {
+  display: inline-block;
+  margin: 0 1%;
   position: relative;
   width: 65px;
   height: 65px;
@@ -226,6 +234,10 @@ $color-border: #c9c9c9;
       width: 18%;
       margin-right: 2%;
       font-size: 12px;
+    }
+
+    .input__title.wrong {
+      color: red;
     }
 
     .input__content {
@@ -279,6 +291,8 @@ $color-border: #c9c9c9;
   padding: 4px 0;
   color: white;
   margin-left: 20px;
+  font-size: 12px;
+  vertical-align: bottom;
 }
 
 .default__form {

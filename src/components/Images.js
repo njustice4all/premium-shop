@@ -1,44 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
+import classNames from 'classnames';
 
-const Images = ({
-  imagePreviewUrl,
-  onImageChange,
-  renderRowTop,
-  renderRowBottom,
-}) => {
-  const button = (
-    <div className="images">
-      <label htmlFor="upload-image">
-        <h1>+</h1>
-      </label>
-      <input
-        style={{ display: 'none' }}
-        id="upload-image"
-        multiple
-        accept="image/*"
-        name="photo"
-        type="file"
-        onChange={(e) => onImageChange(e)}
-      />
-    </div>
-  );
+export default class Images extends Component {
 
-  return (
-    <div className="items">
-      <h5 className="title__big">가맹점 이미지 (외부3 / 내부5)</h5>
-      <div className="image__wrapper">
-        {renderRowTop(imagePreviewUrl)}
-        {imagePreviewUrl.length > 3 ? null : button}
+  render() {
+    const { imagePreviewUrl, onImageChange, validateClass } = this.props;
+    const button = (
+      <div className="images">
+        <label htmlFor="upload-image">
+          <h1>+</h1>
+        </label>
+        <input
+          style={{ display: 'none' }}
+          id="upload-image"
+          multiple
+          accept="image/*"
+          name="photo"
+          type="file"
+          onChange={(e) => onImageChange(e)}
+        />
       </div>
-      {
-        imagePreviewUrl.length > 3 ?
-          <div className="image__wrapper">
-            {renderRowBottom(imagePreviewUrl)}
-            {imagePreviewUrl.length > 3 && imagePreviewUrl.length < 8 ? button : null}
-          </div> : null
-      }
-    </div>
-  );
-};
+    );
 
-export default Images;
+    return (
+      <div className="items">
+        <h5 className={classNames('title__big', { wrong: validateClass('images') })}>가맹점 이미지</h5>
+        <div className="image__wrapper">
+          {imagePreviewUrl.map((value, i) => (
+            <div className="images" key={`images-${i}`}>
+              <img src={value} alt='' />
+            </div>
+          ))}
+          {button}
+        </div>
+      </div>
+    );
+  }
+}
