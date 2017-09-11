@@ -35,12 +35,12 @@ class AddProducts extends Component {
     });
   }
 
-  onImageChange = (e, index) => {
+  onImageChange = (e, index, form) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
 
-    reader.onloadend = () => {
+    reader.onloadend = (upload) => {
       this.setState((prevState) => {
         const list = fromJS(prevState.products);
         return {
@@ -62,6 +62,9 @@ class AddProducts extends Component {
   handleConfirm = () => {
     const { products } = this.state;
     const { initAddProducts } = this.props;
+    // var imagedata = document.querySelector('input[type="file"]').files[0];
+    const data = new FormData();
+    data.append('products', products);
     initAddProducts(products);
   }
 

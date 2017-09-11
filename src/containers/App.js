@@ -7,10 +7,20 @@ import { AddShop, AddProducts } from './main';
 
 class App extends Component {
 
+  _renderHeader = () => {
+    switch (window.location.pathname) {
+      case '/':
+      case '/auth/signup':
+        return null;
+      default:
+        return <Header />;
+    }
+  }
+
   render() {
     return (
       <div>
-        {window.location.pathname === '/' ? null : <Header />}
+        {this._renderHeader()}
         <Route exact path="/" component={Signin} />
         <Route path="/auth/signup" component={Signup} />
         <Route path="/franchise/addShop" component={AddShop} />

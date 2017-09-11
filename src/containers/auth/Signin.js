@@ -5,7 +5,7 @@ import { initSignin } from '../../actions';
 
 class Signin extends Component {
 
-  state = { id: '', password: '' }
+  state = { email: '', password: '' }
 
   setStateByKey = (key, value) => {
     this.setState({ [key]: value });
@@ -13,8 +13,9 @@ class Signin extends Component {
 
   handleSignin = () => {
     const { initSignin, history } = this.props;
-    const { id, password } = this.state;
-    initSignin({ id, password }).then((value) => value ? history.push('franchise/addShop') : null);
+    const { email, password } = this.state;
+    initSignin({ email, password })
+      .then(value => value ? history.push('franchise/addShop') : null);
   }
 
   handleSignup = () => {
@@ -25,27 +26,27 @@ class Signin extends Component {
     return (
       <div className="mobile-auth-wrapper">
         <div className="login-form">
-          <h1>SIGN IN</h1>
+          <h1>로그인</h1>
           <div>
-            <label className="login-label">ID</label>
+            <label className="login-label">이메일</label>
             <input
-              type="text"
+              type="email"
               className="login-input"
-              onChange={(e) => this.setStateByKey('id', e.target.value)}
+              onChange={(e) => this.setStateByKey('email', e.target.value)}
             />
-            <label className="login-label">PASSWORD</label>
+            <label className="login-label">비밀번호</label>
             <input
               type="password"
               className="login-input"
               onChange={(e) => this.setStateByKey('password', e.target.value)}
             />
             <button className="btn-login" onClick={() => this.handleSignin()}>
-              Enter
+              로그인
+            </button>
+            <button className="btn-login signup" onClick={() => this.handleSignup()}>
+              회원가입
             </button>
           </div>
-          <button className="btn-modal" onClick={() => this.handleSignup()}>
-            SIGN UP
-          </button>
         </div>
       </div>
     );

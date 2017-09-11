@@ -30,6 +30,10 @@ $color-border: #c9c9c9;
   box-sizing: border-box;
 }
 
+// html, body, #root, .mobile-auth-wrapper {
+//   min-height: 100%;
+// }
+
 .overlay.active {
   position: absolute;
   top: 0;
@@ -58,12 +62,17 @@ $color-border: #c9c9c9;
 *  로그인폼
 */
 .login-form {
-  padding: 50px;
-  height: 100%;;
+  // padding: 50px;
+  // min-height: 100%;
+  min-height:100%;
+  margin-bottom: -40px;
+  /* Put negative height of the footer here */
+  padding-bottom: 40px;
+  padding: 0 40px;
 
   h1 {
     text-align: center;
-    margin: 50px 0;
+    margin: 100px 0;
   }
 
   .login-label {
@@ -81,7 +90,11 @@ $color-border: #c9c9c9;
     border-color: #000000;
     padding: 5px 0 0 0;
     background-color: transparent;
-    transition: border-color 1s;
+    transition: border-color .5s;
+  }
+
+  .login-input.wrong {
+    border-color: red;
   }
 
   .login-input:focus {
@@ -90,7 +103,8 @@ $color-border: #c9c9c9;
 
   .btn-login {
     display: block;
-    margin: 10% 0;
+    font-size: 16px;
+    margin-top: 50px;
     text-align: center;
     padding: 10px;
     border: 1px solid $color-theme;
@@ -99,26 +113,25 @@ $color-border: #c9c9c9;
     transition: background-color 0.2s;
   }
 
+  .btn-login.signup {
+    background-color: black;
+    color: white;
+    margin-top: 15px;
+  }
+
   .btn-login:hover {
     background-color: $color-theme;
     color: #ffffff;
   }
+}
 
-  .btn-modal {
-    position: absolute;
-    text-align: center;
-    // color: #ffffff;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-
-    span {
-      display: block;
-    }
-  }
+.btn-signup {
+  width: 100%;
+  overflow: hidden;
+  background:#2E2E2E;
+  text-align:center;
+  line-height: 15px;
+  color: #fff;
 }
 
 /**
@@ -222,6 +235,12 @@ $color-border: #c9c9c9;
       .input__content__field {
         width: 100%;
         padding: 5px 10px;
+        border: 1px solid $color-border;
+      }
+
+      select {
+        width: 100%;
+        height: 100%;
         border: 1px solid $color-border;
       }
     }
