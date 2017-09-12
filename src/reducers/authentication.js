@@ -22,6 +22,7 @@ export const authentication = (state = initAuth, action) => {
     case actionTypes.REQ_SIGNIN_SUCCESS:
       return assign({}, state, {
         isLogin: true,
+        seq: action.seq,
         status: {
           isFetching: false,
           errorMessage: state.status.errorMessage,

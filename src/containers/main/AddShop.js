@@ -11,7 +11,6 @@ class AddShop extends Component {
 
   state = {
     images: [],
-    imagePreviewUrl: [],
     isOpenAddress: false,
     category: '',
     name: '',
@@ -78,12 +77,14 @@ class AddShop extends Component {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        this.setState((prevState) => {
-          return {
-            images: [...prevState.images, files[i]],
-            imagePreviewUrl: [...prevState.imagePreviewUrl, reader.result]
-          };
-        });
+        this.setState((prevState) => ({
+          images: [...prevState.images, {
+            image: reader.result,
+            imageName:
+            files[i].name,
+            imageType: files[i].type
+          }]
+        }));
       };
 
       reader.readAsDataURL(files[i]);
@@ -144,7 +145,7 @@ class AddShop extends Component {
 
   render() {
     const {
-      imagePreviewUrl,
+      images,
       isOpenAddress,
       address,
       possible,
@@ -161,7 +162,7 @@ class AddShop extends Component {
         />
         {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
         <Images
-          imagePreviewUrl={imagePreviewUrl}
+          images={images}
           onImageChange={this.onImageChange}
           validateClass={this.validateClass}
         />

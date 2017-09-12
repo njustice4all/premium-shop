@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export default class Images extends Component {
 
   render() {
-    const { imagePreviewUrl, onImageChange, validateClass } = this.props;
+    const { images, onImageChange, validateClass } = this.props;
     const button = (
       <div className="images">
         <label htmlFor="upload-image">
@@ -26,9 +26,9 @@ export default class Images extends Component {
       <div className="items">
         <h5 className={classNames('title__big', { wrong: validateClass('images') })}>가맹점 이미지</h5>
         <div className="image__wrapper">
-          {imagePreviewUrl.map((value, i) => (
+          {images.map((value, i) => (
             <div className="images" key={`images-${i}`}>
-              <img src={value} alt='' />
+              <img src={value.image} alt='' />
             </div>
           ))}
           {button}

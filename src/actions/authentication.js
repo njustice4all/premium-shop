@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { apiSignin, apiSignup } from '../constants/api';
 
 const reqSignin = () => {
   return {
@@ -25,14 +26,15 @@ const reqSigninFailure = (result) => {
  */
 export const initSignin = (user) => async (dispatch) => {
   dispatch(reqSignin());
-  // api request here
-
-  if (false) {
-    dispatch(reqSigninFailure('failure'));
-  } else {
-    dispatch(reqSigninSuccess('success'));
-    return true;
-  }
+  const response = await apiSignin(user);
+  console.log(response);
+  // if (true) {
+  //   dispatch(reqSigninFailure('failure'));
+  // } else {
+  //   const result = await response.json();
+  //   dispatch(reqSigninSuccess(result.seq));
+  //   return true;
+  // }
 };
 
 const reqSignup = () => {

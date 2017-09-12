@@ -4,11 +4,11 @@ class Product extends Component {
 
   render() {
     const {
-      preview,
+      image,
       title,
       price,
       index,
-      handleProductChange,
+      setStateByKey,
       removeProduct,
       onImageChange,
     } = this.props;
@@ -19,7 +19,7 @@ class Product extends Component {
           <div className="product__image__wrapper">
             <div className="full-block">
               <label className="full-block center">
-                {preview ? <img className="img-cover" src={preview} alt='' /> : '+'}
+                {image ? <img className="img-cover" src={image} alt='' /> : '+'}
                 <form
                   onChange={(e) => onImageChange(e, index, this.form)}
                   encType="multipart/form-data"
@@ -40,14 +40,14 @@ class Product extends Component {
               type="text"
               value={title}
               placeholder="상품명을 입력하세요."
-              onChange={(e) => handleProductChange(index, 'title', e.target.value)}
+              onChange={(e) => setStateByKey(index, 'title', e.target.value)}
             />
             <div className="product__btn__remove" onClick={() => removeProduct(index)}>X</div>
             <input
               type="number"
               value={price}
               style={{ marginTop: '8px', textAlign: 'right' }}
-              onChange={(e) => handleProductChange(index, 'price', e.target.value)}
+              onChange={(e) => setStateByKey(index, 'price', e.target.value)}
             />
             <span style={{ marginLeft: '5px' }}>원</span>
           </div>

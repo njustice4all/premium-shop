@@ -24,12 +24,10 @@ const addShopFailure = (result) => {
 
 export const initAddShop = (shop) => async (dispatch) => {
   dispatch(addShop());
-  const data = new FormData();
-  data.append('shop', shop);
-  const response = await apiAddProducts(data);
+  // const response = await apiAddProducts(data);
 
-  if (response.status >= 400) {
-    dispatch(addShopFailure(response.statusText));
+  if (false) {
+    // dispatch(addShopFailure(response.statusText));
   } else {
     dispatch(addShopSuccess('success', shop));
   }

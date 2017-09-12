@@ -1,4 +1,27 @@
-const API = `http://localhost:7749/send`;
+const API = `http://api.aty.kr`;
+
+export const apiSignup = (user) => {
+  return fetch(`${API}/sale/memberJoin`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: user.email,
+      password: user.password
+    })
+  });
+}
+
+export const apiSignin = (user) => {
+  return fetch(`${API}/sale/memberLogin`, {
+    headers: new Headers({
+      'Accept': 'application/json',
+    }),
+    method: 'POST',
+    body: JSON.stringify({
+      email: user.email,
+      password: user.password
+    })
+  });
+}
 
 export const apiAddShop = (data) => {
   return fetch(`${API}`, {

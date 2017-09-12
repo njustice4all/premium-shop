@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import { initAddProducts } from '../../actions';
 
@@ -11,13 +11,13 @@ class AddProducts extends Component {
   state = { products: [] }
 
   addProduct = () => {
-    const productPrototype = { image: '', preview: '', title: '', price: 0 };
+    const productPrototype = { image: null, imageName: '', imageType: '', title: '', price: 0 };
     this.setState((prevState) => ({
       products: [...prevState.products, productPrototype]
     }));
   }
 
-  handleProductChange = (index, key, value) => {
+  setStateByKey = (index, key, value) => {
     this.setState((prevState) => {
       const list = fromJS(prevState.products);
       return {
@@ -44,7 +44,10 @@ class AddProducts extends Component {
       this.setState((prevState) => {
         const list = fromJS(prevState.products);
         return {
-          products: list.setIn([index, 'image'], file).setIn([index, 'preview'], reader.result).toJS()
+          products: list.setIn([index, 'image'], reader.result)
+                        .setIn([index, 'imageName'], file.name)
+                        .setIn([index, 'imageType'], file.type)
+                        .toJS()
         };
       });
     };
@@ -53,7 +56,7 @@ class AddProducts extends Component {
   }
 
   isEmptyProduct = (product) => {
-    if (product.preview && product.title && product.price) {
+    if (product.image && product.title && product.price) {
       return false;
     }
     return true;
@@ -76,7 +79,7 @@ class AddProducts extends Component {
         {...value}
         index={i}
         key={`product-${i}`}
-        handleProductChange={this.handleProductChange}
+        setStateByKey={this.setStateByKey}
         removeProduct={this.removeProduct}
         onImageChange={this.onImageChange}
       />
