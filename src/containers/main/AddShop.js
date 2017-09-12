@@ -74,7 +74,6 @@ class AddShop extends Component {
   onImageChange = (e) => {
     e.preventDefault();
     const files = e.target.files;
-
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
 

@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { apiAddProducts } from '../constants/api';
+import { apiAddShop, apiAddProducts } from '../constants/api';
 
 const addShop = () => {
   return {
@@ -24,10 +24,12 @@ const addShopFailure = (result) => {
 
 export const initAddShop = (shop) => async (dispatch) => {
   dispatch(addShop());
-  // api request here
+  const data = new FormData();
+  data.append('shop', shop);
+  const response = await apiAddProducts(data);
 
-  if (false) {
-    dispatch(addShopFailure('failure'));
+  if (response.status >= 400) {
+    dispatch(addShopFailure(response.statusText));
   } else {
     dispatch(addShopSuccess('success', shop));
   }
@@ -56,13 +58,10 @@ const addProductsFailure = (result) => {
 
 export const initAddProducts = (products) => async (dispatch) => {
   dispatch(addProducts());
-  const data = new FormData();
-  data.append('products', products);
-  // data.append('products', JSON.stringify(products));
-  const response = await apiAddProducts(data);
+  // const response = await apiAddProducts(products);
 
-  if (response.status >= 400) {
-    dispatch(addProductsFailure(response.statusText));
+  if (false) {
+    // dispatch(addProductsFailure(response.statusText));
   } else {
     dispatch(addProductsSuccess('success', products));
   }

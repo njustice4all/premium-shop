@@ -11,7 +11,7 @@ class AddProducts extends Component {
   state = { products: [] }
 
   addProduct = () => {
-    const productPrototype = { image: '', preview: '', title: '', price: 0, createNew: true };
+    const productPrototype = { image: '', preview: '', title: '', price: 0 };
     this.setState((prevState) => ({
       products: [...prevState.products, productPrototype]
     }));
@@ -62,8 +62,6 @@ class AddProducts extends Component {
   handleConfirm = () => {
     const { products } = this.state;
     const { initAddProducts } = this.props;
-    const data = new FormData();
-    data.append('products', products);
     initAddProducts(products);
   }
 
