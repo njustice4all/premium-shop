@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { initSignup } from '../../actions';
 
@@ -7,13 +8,15 @@ const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(
 
 class Signup extends Component {
 
-  state = { email: '', password: '', confirmPassword: '' }
+  state = { email: '', password: '', confirmPassword: '', alert: false }
 
   handleEmailChange = (e) => {
     if (!regex.test(e.target.value)) {
       this.email.className = 'login-input wrong';
+      this.setState((prevState) => ({ alert: true }));
     } else {
       this.email.className = 'login-input';
+      this.setState((prevState) => ({ alert: false }));
     }
     this.setState({ email: e.target.value });
   }
@@ -51,12 +54,17 @@ class Signup extends Component {
   }
 
   render() {
+    const { alert } = this.state;
+
     return (
       <div className="mobile-auth-wrapper" style={{ position: 'relative' }}>
         <div className="login-form">
           <h1>회원가입</h1>
           <div>
-            <label className="login-label">이메일</label>
+            <label className="login-label" style={{ display: 'inline' }}>이메일</label>
+            <span className={classNames('msg-alert', { on: alert })}>
+              올바른 이메일 형식이 아닙니다.
+            </span>
             <input
               ref={(email) => this.email = email}
               type="email"

@@ -393,3 +393,13 @@ $color-border: #c9c9c9;
   text-align: center;
   border: 1px solid;
 }
+
+.msg-alert {
+  margin-left: 5%;
+  color: red;
+  display: none;
+}
+
+.msg-alert.on {
+  display: inline;
+}

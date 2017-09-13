@@ -1,7 +1,7 @@
-const API = 'http://api.aty.kr';
+const API = 'http://van.aty.kr/vanapi';
 
 export const apiSignup = (user) => {
-  return fetch(`${API}/sale/memberJoin`, {
+  return fetch(`${API}/memberJoin`, {
     headers: new Headers({
       'Accept': 'application/json',
     }),
@@ -15,7 +15,7 @@ export const apiSignup = (user) => {
 }
 
 export const apiSignin = (user) => {
-  return fetch(`${API}/sale/memberLogin`, {
+  return fetch(`${API}/memberLogin`, {
     headers: new Headers({
       'Accept': 'application/json',
     }),
@@ -29,7 +29,7 @@ export const apiSignin = (user) => {
 }
 
 export const apiAddShop = (shop) => {
-  return fetch(`${API}/sale/addShop`, {
+  return fetch(`${API}/addShop`, {
     headers: new Headers({
       'Accept': 'application/json',
     }),
@@ -42,7 +42,7 @@ export const apiAddShop = (shop) => {
 };
 
 export const apiAddProducts = (products) => {
-  return fetch(`${API}/sale/addProducts`, {
+  return fetch(`${API}/addProducts`, {
     headers: new Headers({
       'Accept': 'application/json',
     }),
