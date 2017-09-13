@@ -1,0 +1,388 @@
+@charset "UTF-8";
+
+/* space */
+
+
+/* font */
+
+
+/* color */
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.overlay.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #34363d;
+  opacity: .8;
+}
+
+.full-block {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.full-block.center {
+  display: flex;
+  font-size: 50px;
+  font-weight: lighter;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/**
+*  로그인폼
+*/
+
+.login-form {
+  min-height: 100%;
+  margin-bottom: -40px;
+  /* Put negative height of the footer here */
+  padding-bottom: 40px;
+  padding: 0 40px;
+}
+
+.login-form h1 {
+  text-align: center;
+  margin: 100px 0;
+}
+
+.login-form .login-label {
+  display: block;
+  margin-bottom: 0;
+}
+
+.login-form .login-input {
+  display: block;
+  width: 100%;
+  margin-bottom: 5%;
+  font-size: 20px;
+  outline: none;
+  border-width: 0 0 3px;
+  border-color: #000000;
+  padding: 5px 0 0 0;
+  background-color: transparent;
+  transition: border-color .5s;
+}
+
+.login-form .login-input.wrong {
+  border-color: red;
+}
+
+/* .login-form .login-input:focus {
+  border-color: #4e535a;
+} */
+
+.login-form .btn-login {
+  display: block;
+  font-size: 16px;
+  margin-top: 50px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #222831;
+  width: 100%;
+  background-color: white;
+  transition: background-color 0.2s;
+}
+
+.login-form .btn-login.signup {
+  background-color: black;
+  color: white;
+  margin-top: 15px;
+}
+
+.login-form .btn-login:hover {
+  background-color: #222831;
+  color: #ffffff;
+}
+
+.btn-signup {
+  width: 100%;
+  overflow: hidden;
+  background: #2E2E2E;
+  text-align: center;
+  line-height: 15px;
+  color: #fff;
+}
+
+
+/**
+*  헤더
+*/
+
+.header__nav {
+  background-color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 1px solid;
+}
+
+.header__nav .header__nav__link {
+  width: 50%;
+  padding: 15px;
+  color: black;
+  text-decoration: none;
+}
+
+.header__nav .header__nav__link.on {
+  background-color: #222831;
+  color: white;
+}
+
+
+/**
+*  컨테이너
+*/
+
+.container {
+  padding: 10px;
+}
+
+
+/**
+*  아이템 박스
+*/
+
+.items {
+  border: 1px solid #c9c9c9;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.title__big {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #c9c9c9;
+}
+
+.title__big.wrong {
+  color: red;
+}
+
+.image__wrapper {
+  overflow: auto;
+  white-space: nowrap;
+  margin-top: 15px;
+}
+
+.images {
+  display: inline-block;
+  margin: 0 1%;
+  position: relative;
+  width: 65px;
+  height: 65px;
+  border: 1px solid #c9c9c9;
+}
+
+.images label {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.images label h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: lighter;
+}
+
+.images img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+
+/**
+*  가맹점 정보
+*/
+
+.info__wrapper {
+  margin-top: 10px;
+}
+
+.info__wrapper .input__box {
+  padding: 5px 0;
+}
+
+.info__wrapper .input__box .input__title {
+  display: inline-block;
+  width: 18%;
+  margin-right: 2%;
+  font-size: 12px;
+}
+
+.info__wrapper .input__box .input__title.wrong {
+  color: red;
+}
+
+.info__wrapper .input__box .input__content {
+  display: inline-block;
+  width: 80%;
+}
+
+.info__wrapper .input__box .input__content .input__content__field {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #c9c9c9;
+}
+
+.info__wrapper .input__box .input__content select {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #c9c9c9;
+}
+
+.possible__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.possible__wrapper .possible__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 19%;
+  height: 50px;
+  background-color: #c9c9c9;
+}
+
+.possible__wrapper .possible__icon.active {
+  background-color: #77cce2;
+}
+
+.address__zipcode {
+  display: inline-block;
+  width: 25%;
+  border: 1px solid #c9c9c9;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.address__zipcode.zipcode__btn {
+  width: 100px;
+  background-color: #222831;
+  padding: 4px 0;
+  color: white;
+  margin-left: 20px;
+  font-size: 12px;
+  vertical-align: bottom;
+}
+
+.default__form {
+  margin-top: 5px;
+  border: 1px solid #c9c9c9;
+  width: 100%;
+  padding: 5px;
+}
+
+
+/**
+*  주소검색 팝업
+*/
+
+.address__wrapper {
+  position: fixed;
+  padding: 10px;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  background: white;
+  z-index: 200;
+  max-width: 400px;
+  margin: auto;
+}
+
+
+/**
+*  가맹점정보 버튼
+*/
+
+.survay__btn__confirm__wrapper {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.survay__btn__confirm__wrapper .survay__btn {
+  width: 48%;
+  padding: 10px 0;
+  border: 1px solid;
+}
+
+.survay__btn__confirm__wrapper .survay__btn.btn__confirm {
+  background-color: #222831;
+  color: white;
+  border: none;
+}
+
+
+/**
+*  판매상품
+*/
+
+.product__wrapper .product__image__wrapper {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  vertical-align: top;
+  border: 1px solid #c9c9c9;
+}
+
+.product__wrapper .product__image__wrapper .img-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.product__wrapper .product__form__wrapper {
+  display: inline-block;
+  width: calc(100% - 90px);
+  margin-left: 10px;
+  position: relative;
+}
+
+.product__wrapper .product__form__wrapper input {
+  border: 1px solid #c9c9c9;
+  width: calc(100% - 30px);
+  padding: 8px 5px;
+  font-size: 16px;
+}
+
+.product__wrapper .product__btn__remove {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  top: -11px;
+  right: -10px;
+  background-color: #222831;
+  color: white;
+}
+
+
+/* 판매상품 추가 */
+
+.btn__add-product {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  text-align: center;
+  border: 1px solid;
+}

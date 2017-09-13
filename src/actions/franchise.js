@@ -7,11 +7,10 @@ const addShop = () => {
   };
 };
 
-const addShopSuccess = (result, shop) => {
+const addShopSuccess = (result) => {
   return {
     type: actionTypes.ADD_SHOP_SUCCESS,
-    result,
-    shop
+    result
   };
 };
 
@@ -24,12 +23,13 @@ const addShopFailure = (result) => {
 
 export const initAddShop = (shop) => async (dispatch) => {
   dispatch(addShop());
-  // const response = await apiAddProducts(data);
+  const response = await apiAddShop(shop);
 
-  if (false) {
-    // dispatch(addShopFailure(response.statusText));
+  if (response.status >= 400) {
+    dispatch(addShopFailure({ error: true }));
   } else {
-    dispatch(addShopSuccess('success', shop));
+    const result = await response.json();
+    dispatch(addShopSuccess(result));
   }
 };
 
@@ -39,11 +39,10 @@ const addProducts = () => {
   };
 };
 
-const addProductsSuccess = (result, products) => {
+const addProductsSuccess = (result) => {
   return {
     type: actionTypes.ADD_PRODUCTS_SUCCESS,
-    result,
-    products
+    result
   };
 };
 
@@ -56,11 +55,14 @@ const addProductsFailure = (result) => {
 
 export const initAddProducts = (products) => async (dispatch) => {
   dispatch(addProducts());
-  // const response = await apiAddProducts(products);
+  const response = await apiAddProducts(products);
 
-  if (false) {
-    // dispatch(addProductsFailure(response.statusText));
+  if (response.status >= 400) {
+    dispatch(addProductsFailure({ error: true }));
+    return { error: true };
   } else {
-    dispatch(addProductsSuccess('success', products));
+    // const result = await response.json();
+    dispatch(addProductsSuccess(products));
+    return true;
   }
 };

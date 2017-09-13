@@ -27,12 +27,20 @@ const reqSigninFailure = (result) => {
 export const initSignin = (user) => async (dispatch) => {
   dispatch(reqSignin());
   const response = await apiSignin(user);
-  console.log(response);
-  // if (true) {
+  const result = await response.json();
+
+  if (!result.msg) {
+    dispatch(reqSigninFailure({ error: true }));
+  } else {
+    dispatch(reqSigninSuccess(result));
+    return true;
+  }
+
+  // if (response.status >= 400) {
   //   dispatch(reqSigninFailure('failure'));
   // } else {
   //   const result = await response.json();
-  //   dispatch(reqSigninSuccess(result.seq));
+  //   dispatch(reqSigninSuccess(result));
   //   return true;
   // }
 };
@@ -62,11 +70,13 @@ const reqSignupFailure = (result) => {
  */
 export const initSignup = (user) => async (dispatch) => {
   dispatch(reqSignup());
-  // api request here
+  const response = await apiSignup(user);
 
-  if ('failure?') {
-    dispatch(reqSignupFailure('failure'));
+  if (response.status >= 400) {
+    dispatch(reqSignupFailure({ error: true }));
   } else {
-    dispatch(reqSignupSuccess('success'));
+    const result = await response.json();
+    dispatch(reqSignupSuccess(result));
+    return true;
   }
 };

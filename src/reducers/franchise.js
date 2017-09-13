@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initFranchise = {
   status: {
     isFetching: false,
-    errorMessage: null,
+    error: false,
   },
   shop: {
     images: [],
@@ -28,14 +28,15 @@ export const franchise = (state = initFranchise, action) => {
       return assign({}, state, {
         status: {
           isFetching: true,
-          errorMessage: state.status.errorMessage,
+          error: state.status.error,
         }
       });
     case actionTypes.ADD_SHOP_SUCCESS:
       return assign({}, state, {
+        seq: action.result.seq,
         status: {
           isFetching: false,
-          errorMessage: state.status.errorMessage,
+          error: state.status.error,
         },
         shop: {
           images: [...state.shop.images],
@@ -46,15 +47,15 @@ export const franchise = (state = initFranchise, action) => {
       return assign({}, state, {
         status: {
           isFetching: false,
-          errorMessage: state.status.errorMessage,
+          error: state.status.error,
         },
-        products: [...action.products],
+        products: [...action.result.products],
       });
     // case actionTypes.REQ_UPLOAD_SUCCESS:
     //   return assign({}, state, {
     //     status: {
     //       isFetching: false,
-    //       errorMessage: state.status.errorMessage,
+    //       error: state.status.error,
     //     },
     //   });
     case actionTypes.ADD_SHOP_FAILURE:
@@ -63,7 +64,7 @@ export const franchise = (state = initFranchise, action) => {
       return assign({}, state, {
         status: {
           isFetching: false,
-          errorMessage: state.status.errorMessage,
+          error: action.result.error,
         },
       });
     default:

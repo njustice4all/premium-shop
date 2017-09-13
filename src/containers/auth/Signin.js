@@ -15,7 +15,10 @@ class Signin extends Component {
     const { initSignin, history } = this.props;
     const { email, password } = this.state;
     initSignin({ email, password })
-      .then(value => value ? history.push('franchise/addShop') : null);
+      .then((value) => {
+        localStorage.setItem('email', email);
+        return value ? history.push('franchise/addShop') : null
+      });
   }
 
   handleSignup = () => {
@@ -26,7 +29,7 @@ class Signin extends Component {
     return (
       <div className="mobile-auth-wrapper">
         <div className="login-form">
-          <h1>로그인</h1>
+          <h1>단골 프로젝트</h1>
           <div>
             <label className="login-label">이메일</label>
             <input

@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Header from '../components/Header';
 import { Signin, Signup } from './auth';
-import { AddShop, AddProducts } from './main';
+import { AddShop, AddProducts, Result } from './main';
 
 class App extends Component {
 
@@ -11,6 +11,7 @@ class App extends Component {
     switch (window.location.pathname) {
       case '/':
       case '/auth/signup':
+      case '/result':
         return null;
       default:
         return <Header />;
@@ -25,6 +26,7 @@ class App extends Component {
         <Route path="/auth/signup" component={Signup} />
         <Route path="/franchise/addShop" component={AddShop} />
         <Route path="/franchise/addProducts" component={AddProducts} />
+        <Route path="/result" component={Result} />
       </div>
     );
   }

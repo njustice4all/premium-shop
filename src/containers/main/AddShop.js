@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { initAddShop } from '../../actions';
+import isLogged from '../../utils';
 
 import { Images, Info, Buttons } from '../../components';
 import Address from './Address';
@@ -105,7 +107,7 @@ class AddShop extends Component {
       closeDays,
       possible,
     } = this.state;
-    const { initAddShop } = this.props;
+    const { initAddShop, history } = this.props;
     const newPossible = [];
     for (let i = 0; i < possible.length; i++) {
       if (possible[i].isChecked) newPossible.push(possible[i]);
@@ -126,24 +128,40 @@ class AddShop extends Component {
 
     this.setState({ errors: errors });
 
-    if (errors.length === 0) {
-      initAddShop({
-        images,
-        category,
-        name,
-        description,
-        address,
-        contact,
-        openingHours,
-        closeDays,
-        possible: newPossible
-      });
-    } else {
-      console.log('validate');
-    }
+    console.log(this.props.authentication);
+
+    initAddShop({
+      images,
+      category,
+      name,
+      description,
+      address,
+      contact,
+      openingHours,
+      closeDays,
+      possible: newPossible
+    }).then((value) => history.push('/franchise/addProducts'));
+
+    // if (errors.length === 0) {
+    //   initAddShop({
+    //     images,
+    //     category,
+    //     name,
+    //     description,
+    //     address,
+    //     contact,
+    //     openingHours,
+    //     closeDays,
+    //     possible: newPossible
+    //   });
+    // } else {
+    //   console.log('validate');
+    // }
   }
 
   render() {
+    if (!isLogged()) return <Redirect to="/" />;
+
     const {
       images,
       isOpenAddress,
@@ -186,10 +204,16 @@ class AddShop extends Component {
   }
 };
 
+const mapStateToProps = (state) => {
+  return {
+    authentication: state.authentication
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     initAddShop: (shop) => dispatch(initAddShop(shop))
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(AddShop);
+export default connect(mapStateToProps, mapDispatchToProps)(AddShop);

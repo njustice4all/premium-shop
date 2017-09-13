@@ -5,7 +5,7 @@ const initAuth = {
   isLogin: false,
   status: {
     isFetching: false,
-    errorMessage: null,
+    error: false,
   },
 };
 
@@ -16,31 +16,33 @@ export const authentication = (state = initAuth, action) => {
       return assign({}, state, {
         status: {
           isFetching: true,
-          errorMessage: state.status.errorMessage
+          error: state.status.error
         }
       });
     case actionTypes.REQ_SIGNIN_SUCCESS:
       return assign({}, state, {
         isLogin: true,
-        seq: action.seq,
+        seq: action.result.seq,
         status: {
           isFetching: false,
-          errorMessage: state.status.errorMessage,
+          error: state.status.error,
         }
       });
-    // case actionTypes.REQ_SIGNUP_SUCCESS:
-    //   return assign({}, state, {
-    //     status: {
-    //       isFetching: false,
-    //       errorMessage: state.status.errorMessage,
-    //     }
-    //   });
+    case actionTypes.REQ_SIGNUP_SUCCESS:
+      return assign({}, state, {
+        isLogin: true,
+        seq: action.result.seq,
+        status: {
+          isFetching: false,
+          error: state.status.error,
+        }
+      });
     case actionTypes.REQ_SIGNIN_FAILURE:
     case actionTypes.REQ_SIGNUP_FAILURE:
       return assign({}, state, {
         status: {
           isFetching: false,
-          errorMessage: state.status.errorMessage,
+          error: action.result.error,
         }
       });
     default:

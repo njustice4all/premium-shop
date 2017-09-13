@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Signup extends Component {
+import { initSignup } from '../../actions';
 
-  state = { email: '', password: '' }
+class Signup extends Component {
+
+  state = { email: '', password: '', confirmPassword: '' }
 
   handleEmailChange = (e) => {
     const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
@@ -30,15 +33,23 @@ export default class Signup extends Component {
     } else {
       this.confirmPassword.className = 'login-input';
     }
+    this.setState({ confirmPassword: e.target.value });
   }
 
   onConfirm = () => {
-    console.log(this.props);
+    const { initSignup, history } = this.props;
+    const { email, password, confirmPassword } = this.state;
+    if (email.trim().length > 0 && (password === confirmPassword)) {
+      initSignup({ email, password }).then((value) => {
+        localStorage.setItem('email', email);
+        return value ? history.push('/franchise/addShop') : null;
+      });
+    }
   }
 
   render() {
     return (
-      <div className="mobile-auth-wrapper">
+      <div className="mobile-auth-wrapper" style={{ position: 'relative' }}>
         <div className="login-form">
           <h1>회원가입</h1>
           <div>
@@ -72,3 +83,11 @@ export default class Signup extends Component {
     )
   }
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initSignup: (user) => dispatch(initSignup(user))
+  };
+};
+
+export default connect(undefined, mapDispatchToProps)(Signup);

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
+import { Redirect } from 'react-router-dom';
 
 import { initAddProducts } from '../../actions';
+import isLogged from '../../utils';
 
 import { Product, Buttons } from '../../components';
 
@@ -64,8 +66,17 @@ class AddProducts extends Component {
 
   handleConfirm = () => {
     const { products } = this.state;
-    const { initAddProducts } = this.props;
-    initAddProducts(products);
+    const { initAddProducts, history, franchise } = this.props;
+
+    initAddProducts({ products, seq: franchise.seq })
+      .then((result) => {
+        if (result.error) {
+          console.error('add products error');
+          return;
+        }
+        history.push('/result');
+      })
+      .catch(e => console.error(e));
   }
 
   renderProducts = () => {
@@ -87,6 +98,8 @@ class AddProducts extends Component {
   }
 
   render() {
+    if (!isLogged()) return <Redirect to="/" />;
+
     return (
       <div className="container">
         {this.renderProducts()}
@@ -97,10 +110,16 @@ class AddProducts extends Component {
   }
 };
 
+const mapStateToProps = (state) => {
+  return {
+    franchise: state.franchise
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     initAddProducts: (products) => dispatch(initAddProducts(products))
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(AddProducts);
+export default connect(mapStateToProps, mapDispatchToProps)(AddProducts);

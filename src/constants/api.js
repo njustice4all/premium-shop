@@ -1,7 +1,11 @@
-const API = `http://api.aty.kr`;
+const API = 'http://api.aty.kr';
 
 export const apiSignup = (user) => {
   return fetch(`${API}/sale/memberJoin`, {
+    headers: new Headers({
+      'Accept': 'application/json',
+    }),
+    mode: 'cors',
     method: 'POST',
     body: JSON.stringify({
       email: user.email,
@@ -15,6 +19,7 @@ export const apiSignin = (user) => {
     headers: new Headers({
       'Accept': 'application/json',
     }),
+    mode: 'cors',
     method: 'POST',
     body: JSON.stringify({
       email: user.email,
@@ -23,23 +28,29 @@ export const apiSignin = (user) => {
   });
 }
 
-export const apiAddShop = (data) => {
-  return fetch(`${API}`, {
-    // headers: new Headers({
-    //   'Accept-Language': 'en-US'
-    // }),
+export const apiAddShop = (shop) => {
+  return fetch(`${API}/sale/addShop`, {
+    headers: new Headers({
+      'Accept': 'application/json',
+    }),
+    mode: 'cors',
     method: 'POST',
-    body: data
+    body: JSON.stringify({
+      shop: shop
+    })
   });
 };
 
-export const apiAddProducts = (data) => {
-  return fetch(`${API}`, {
-    // headers: new Headers({
-    //   'Accept': 'application/json, text/plain, */*',
-    //   'Content-Type': 'application/json'
-    // }),
+export const apiAddProducts = (products) => {
+  return fetch(`${API}/sale/addProducts`, {
+    headers: new Headers({
+      'Accept': 'application/json',
+    }),
+    mode: 'cors',
     method: 'POST',
-    body: data
+    body: JSON.stringify({
+      products: products.products,
+      seq: products.seq
+    })
   });
 };
