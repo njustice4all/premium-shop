@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { initAddShop } from '../../actions';
 import isLogged from '../../utils';
 
-import { Images, Info, Buttons } from '../../components';
+import { Images, Info, Buttons, Loading } from '../../components';
 import Address from './Address';
 
 class AddShop extends Component {
@@ -174,6 +174,7 @@ class AddShop extends Component {
 
     return (
       <div className="container">
+        {this.props.franchise.status.isFetching ? <Loading /> : null}
         <div
           className={classNames('overlay', { active: isOpenAddress })}
           onClick={this.toggleAddress}
@@ -206,7 +207,8 @@ class AddShop extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authentication: state.authentication
+    authentication: state.authentication,
+    franchise: state.franchise,
   };
 };
 

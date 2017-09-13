@@ -56,13 +56,22 @@ const addProductsFailure = (result) => {
 export const initAddProducts = (products) => async (dispatch) => {
   dispatch(addProducts());
   const response = await apiAddProducts(products);
+  const result = await response.json();
 
-  if (response.status >= 400) {
+  if (!result.msg) {
     dispatch(addProductsFailure({ error: true }));
     return { error: true };
   } else {
-    // const result = await response.json();
     dispatch(addProductsSuccess(products));
-    return true;
+    return { error: false };
   }
+
+  // if (response.status >= 400) {
+  //   dispatch(addProductsFailure({ error: true }));
+  //   return { error: true };
+  // } else {
+  //   // const result = await response.json();
+  //   dispatch(addProductsSuccess(products));
+  //   return true;
+  // }
 };

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { initSignin } from '../../actions';
 
+import { Loading } from '../../components';
+
 class Signin extends Component {
 
   state = { email: '', password: '' }
@@ -14,6 +16,8 @@ class Signin extends Component {
   handleSignin = () => {
     const { initSignin, history } = this.props;
     const { email, password } = this.state;
+    if (email.trim().length === 0 && password.trim().length === 0) return;
+
     initSignin({ email, password })
       .then((value) => {
         localStorage.setItem('email', email);
@@ -28,6 +32,7 @@ class Signin extends Component {
   render() {
     return (
       <div className="mobile-auth-wrapper">
+        {this.props.authentication.status.isFetching ? <Loading /> : null}
         <div className="login-form">
           <h1>단골 프로젝트</h1>
           <div>
@@ -58,7 +63,7 @@ class Signin extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLogin: state.authentication.isLogin
+    authentication: state.authentication
   };
 };
 

@@ -6,14 +6,14 @@ import { Redirect } from 'react-router-dom';
 import { initAddProducts } from '../../actions';
 import isLogged from '../../utils';
 
-import { Product, Buttons } from '../../components';
+import { Product, Buttons, Loading } from '../../components';
 
 class AddProducts extends Component {
 
   state = { products: [] }
 
   addProduct = () => {
-    const productPrototype = { image: null, imageName: '', imageType: '', title: '', price: 0 };
+    const productPrototype = { image: '', imageName: '', imageType: '', title: '', price: 0 };
     this.setState((prevState) => ({
       products: [...prevState.products, productPrototype]
     }));
@@ -68,6 +68,13 @@ class AddProducts extends Component {
     const { products } = this.state;
     const { initAddProducts, history, franchise } = this.props;
 
+    if (products.length === 0) return;
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].image.trim().length === 0) return;
+      if (products[i].title.trim().length === 0) return;
+      if (products[i].price.trim().length === 0) return;
+    }
+
     initAddProducts({ products, seq: franchise.seq })
       .then((result) => {
         if (result.error) {
@@ -102,6 +109,7 @@ class AddProducts extends Component {
 
     return (
       <div className="container">
+        {this.props.franchise.status.isFetching ? <Loading /> : null}
         {this.renderProducts()}
         <div className="btn__add-product" onClick={() => this.addProduct()}>판매상품 추가</div>
         <Buttons handleConfirm={this.handleConfirm} />

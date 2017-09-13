@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 
 import { initSignup } from '../../actions';
 
+const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
 class Signup extends Component {
 
   state = { email: '', password: '', confirmPassword: '' }
 
   handleEmailChange = (e) => {
-    const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     if (!regex.test(e.target.value)) {
       this.email.className = 'login-input wrong';
     } else {
@@ -39,6 +40,8 @@ class Signup extends Component {
   onConfirm = () => {
     const { initSignup, history } = this.props;
     const { email, password, confirmPassword } = this.state;
+    if (!regex.test(email)) return;
+    if (password.trim().length < 6) return;
     if (email.trim().length > 0 && (password === confirmPassword)) {
       initSignup({ email, password }).then((value) => {
         localStorage.setItem('email', email);
