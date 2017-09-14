@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 import { initSignup } from '../../actions';
 
@@ -8,15 +8,15 @@ const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(
 
 class Signup extends Component {
 
-  state = { email: '', password: '', confirmPassword: '', alert: false }
+  state = { email: '', password: '', confirmPassword: '' }
 
   handleEmailChange = (e) => {
     if (!regex.test(e.target.value)) {
       this.email.className = 'login-input wrong';
-      this.setState((prevState) => ({ alert: true }));
+      this.validateEmail.className = 'msg-alert on';
     } else {
       this.email.className = 'login-input';
-      this.setState((prevState) => ({ alert: false }));
+      this.validateEmail.className = 'msg-alert';
     }
     this.setState({ email: e.target.value });
   }
@@ -24,8 +24,10 @@ class Signup extends Component {
   handlePasswordChange = (e) => {
     if (e.target.value.trim().length < 6) {
       this.password.className = 'login-input wrong';
+      this.validatePassword.className = 'msg-alert on';
     } else {
       this.password.className = 'login-input';
+      this.validatePassword.className = 'msg-alert';
     }
     this.setState({ password: e.target.value });
   }
@@ -34,8 +36,10 @@ class Signup extends Component {
     const { password } = this.state;
     if (e.target.value !== password) {
       this.confirmPassword.className = 'login-input wrong';
+      this.validateConfirmPassword.className = 'msg-alert on';
     } else {
       this.confirmPassword.className = 'login-input';
+      this.validateConfirmPassword.className = 'msg-alert';
     }
     this.setState({ confirmPassword: e.target.value });
   }
@@ -54,15 +58,13 @@ class Signup extends Component {
   }
 
   render() {
-    const { alert } = this.state;
-
     return (
       <div className="mobile-auth-wrapper" style={{ position: 'relative' }}>
         <div className="login-form">
           <h1>회원가입</h1>
           <div>
             <label className="login-label" style={{ display: 'inline' }}>이메일</label>
-            <span className={classNames('msg-alert', { on: alert })}>
+            <span className="msg-alert" ref={(validateEmail) => this.validateEmail = validateEmail}>
               올바른 이메일 형식이 아닙니다.
             </span>
             <input
@@ -71,14 +73,26 @@ class Signup extends Component {
               className="login-input"
               onChange={(e) => this.handleEmailChange(e)}
             />
-            <label className="login-label">비밀번호</label>
+            <label className="login-label" style={{ display: 'inline' }}>비밀번호</label>
+            <span
+              className="msg-alert"
+              ref={(validatePassword) => this.validatePassword = validatePassword}
+            >
+              비밀번호는 6자리 이상입니다.
+            </span>
             <input
               ref={(password) => this.password = password}
               type="password"
               className="login-input"
               onChange={(e) => this.handlePasswordChange(e)}
             />
-            <label className="login-label">비밀번호 확인</label>
+            <label className="login-label" style={{ display: 'inline' }}>비밀번호 확인</label>
+            <span
+              className="msg-alert"
+              ref={(validateConfirmPassword) => this.validateConfirmPassword = validateConfirmPassword}
+            >
+              비밀번호를 확인해주세요.
+            </span>
             <input
               ref={(confirmPassword) => this.confirmPassword = confirmPassword}
               type="password"

@@ -130,33 +130,21 @@ class AddShop extends Component {
 
     console.log(this.props.authentication);
 
-    initAddShop({
-      images,
-      category,
-      name,
-      description,
-      address,
-      contact,
-      openingHours,
-      closeDays,
-      possible: newPossible
-    }).then((value) => history.push('/franchise/addProducts'));
-
-    // if (errors.length === 0) {
-    //   initAddShop({
-    //     images,
-    //     category,
-    //     name,
-    //     description,
-    //     address,
-    //     contact,
-    //     openingHours,
-    //     closeDays,
-    //     possible: newPossible
-    //   });
-    // } else {
-    //   console.log('validate');
-    // }
+    if (errors.length === 0) {
+      initAddShop({
+        images,
+        category,
+        name,
+        description,
+        address,
+        contact,
+        openingHours,
+        closeDays,
+        possible: newPossible,
+      }).then(value => history.push('/franchise/addProducts'));
+    } else {
+      console.log('validate');
+    }
   }
 
   render() {

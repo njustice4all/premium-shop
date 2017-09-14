@@ -7,8 +7,8 @@ class Result extends Component {
 
   onBack = () => {
     const { history } = this.props;
-    localStorage.clear();
-    history.push('/');
+    // localStorage.clear();
+    history.push('/franchise/addShop');
   }
 
   render() {
