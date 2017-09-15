@@ -38,7 +38,7 @@ const styles = {
   textWrapper: {
     flex: 1,
     backgroundColor: '#222831',
-    color: 'white',
+    color: '#ffffff',
     height: '65px',
     justifyContent: 'center',
     alignItems: 'center',

@@ -9,60 +9,63 @@ import isLogged from '../../utils';
 import { Product, Buttons, Loading } from '../../components';
 
 class AddProducts extends Component {
-
-  state = { products: [] }
+  state = { products: [] };
 
   addProduct = () => {
     const productPrototype = { image: '', imageName: '', imageType: '', title: '', price: 0 };
-    this.setState((prevState) => ({
-      products: [...prevState.products, productPrototype]
+    this.setState(prevState => ({
+      products: [...prevState.products, productPrototype],
     }));
-  }
+  };
 
   setStateByKey = (index, key, value) => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const list = fromJS(prevState.products);
       return {
-        products: list.setIn([index, key], value).setIn([index, key], value).toJS()
+        products: list
+          .setIn([index, key], value)
+          .setIn([index, key], value)
+          .toJS(),
       };
     });
-  }
+  };
 
-  removeProduct = (index) => {
-    this.setState((prevState) => {
+  removeProduct = index => {
+    this.setState(prevState => {
       const list = fromJS(prevState.products);
       return {
-        products: list.delete(index).toJS()
+        products: list.delete(index).toJS(),
       };
     });
-  }
+  };
 
   onImageChange = (e, index, form) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
 
-    reader.onloadend = (upload) => {
-      this.setState((prevState) => {
+    reader.onloadend = upload => {
+      this.setState(prevState => {
         const list = fromJS(prevState.products);
         return {
-          products: list.setIn([index, 'image'], reader.result)
-                        .setIn([index, 'imageName'], file.name)
-                        .setIn([index, 'imageType'], file.type)
-                        .toJS()
+          products: list
+            .setIn([index, 'image'], reader.result)
+            .setIn([index, 'imageName'], file.name)
+            .setIn([index, 'imageType'], file.type)
+            .toJS(),
         };
       });
     };
 
     reader.readAsDataURL(file);
-  }
+  };
 
-  isEmptyProduct = (product) => {
+  isEmptyProduct = product => {
     if (product.image && product.title && product.price) {
       return false;
     }
     return true;
-  }
+  };
 
   handleConfirm = () => {
     const { products } = this.state;
@@ -76,7 +79,7 @@ class AddProducts extends Component {
     }
 
     initAddProducts({ products, seq: franchise.seq })
-      .then((result) => {
+      .then(result => {
         if (result.error) {
           console.error('add products error');
           return;
@@ -84,7 +87,7 @@ class AddProducts extends Component {
         history.push('/result');
       })
       .catch(e => console.error(e));
-  }
+  };
 
   renderProducts = () => {
     const { products } = this.state;
@@ -92,7 +95,7 @@ class AddProducts extends Component {
       return null;
     }
 
-    return products.map((value, i) =>
+    return products.map((value, i) => (
       <Product
         {...value}
         index={i}
@@ -101,32 +104,43 @@ class AddProducts extends Component {
         removeProduct={this.removeProduct}
         onImageChange={this.onImageChange}
       />
-    );
-  }
+    ));
+  };
 
   render() {
     if (!isLogged()) return <Redirect to="/" />;
 
     return (
-      <div className="container">
-        {this.props.franchise.status.isFetching ? <Loading /> : null}
-        {this.renderProducts()}
-        <div className="btn__add-product" onClick={() => this.addProduct()}>판매상품 추가</div>
+      <div style={{ height: 'calc(100% - 66px)' }}>
+        <div className="container" style={{ height: 'calc(100% - 62px)' }}>
+          <div style={{ padding: '0 10px' }}>
+            <div className="btn__add-product" onClick={() => this.addProduct()}>
+              <span id="icon-plus">+</span>판매상품 추가
+            </div>
+          </div>
+          <div id="divider" style={{ marginBottom: 0 }}>
+            <div />
+          </div>
+          <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 83px)' }}>
+            {this.props.franchise.status.isFetching ? <Loading /> : null}
+            {this.renderProducts()}
+          </div>
+        </div>
         <Buttons handleConfirm={this.handleConfirm} />
       </div>
     );
   }
-};
+}
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    franchise: state.franchise
+    franchise: state.franchise,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    initAddProducts: (products) => dispatch(initAddProducts(products))
+    initAddProducts: products => dispatch(initAddProducts(products)),
   };
 };
 

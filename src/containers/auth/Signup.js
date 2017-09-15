@@ -58,11 +58,26 @@ class Signup extends Component {
     }
   };
 
+  onBackPress = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     return (
       <div className="mobile-auth-wrapper" style={{ position: 'relative' }}>
+        <div className="greeting-wrapper">
+          <div id="btn-back" onClick={this.onBackPress}>
+            <i className="fa fa-angle-left" aria-hidden="true" />
+          </div>
+          <div style={{ width: '41px', height: '36px' }}>
+            <img src="/img/icon07.png" alt="" />
+          </div>
+          <div style={{ marginTop: '30px' }}>
+            <h1 style={{ fontWeight: 'normal' }}>회원가입</h1>
+          </div>
+        </div>
         <div className="login-form">
-          <h1>회원가입</h1>
           <div>
             <label className="login-label" style={{ display: 'inline' }}>
               이메일
@@ -107,7 +122,7 @@ class Signup extends Component {
               className="login-input"
               onChange={e => this.handleConfirmPassword(e)}
             />
-            <button className="btn-login" onClick={() => this.onConfirm()}>
+            <button className="btn-login signup signup__page" onClick={() => this.onConfirm()}>
               회원가입하기
             </button>
           </div>

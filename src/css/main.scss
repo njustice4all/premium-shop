@@ -1,3 +1,5 @@
+@import '~font-awesome/css/font-awesome.min.css';
+
 /* space */
 $space-50: 50px;
 $space-40: 40px;
@@ -28,6 +30,12 @@ $color-border: #c9c9c9;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  height: 100%;
 }
 
 /* ios disable rounding */
@@ -78,14 +86,14 @@ input {
 /**
 *  로그인폼
 */
+.mobile-auth-wrapper {
+  height: 100%;
+}
+
 .login-form {
-  // padding: 50px;
-  // min-height: 100%;
-  min-height: 100%;
+  height: 60%;
   margin-bottom: -40px;
-  /* Put negative height of the footer here */
-  padding-bottom: 40px;
-  padding: 0 40px;
+  padding: 50px 40px 0;
 
   h1 {
     text-align: center;
@@ -95,6 +103,23 @@ input {
   .login-label {
     display: block;
     margin-bottom: 0;
+    padding-left: 10px;
+  }
+
+  .login-label.login-email {
+    display: inline-block;
+  }
+
+  .login-label.remember-email {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 13px;
+    float: right;
+
+    input {
+      margin-left: 5px;
+      vertical-align: middle;
+    }
   }
 
   .login-input {
@@ -103,9 +128,9 @@ input {
     margin-bottom: 5%;
     font-size: 20px;
     outline: none;
-    border-width: 0 0 3px;
+    border-width: 0 0 2px;
     border-color: #000000;
-    padding: 5px 0 0 0;
+    padding: 5px 10px;
     background-color: transparent;
     transition: border-color 0.5s;
   }
@@ -127,13 +152,16 @@ input {
     border: 1px solid $color-theme;
     width: 100%;
     background-color: white;
-    transition: background-color 0.2s;
   }
 
   .btn-login.signup {
-    background-color: black;
+    background-color: $color-theme;
     color: white;
     margin-top: 15px;
+  }
+
+  .btn-login.signup.signup__page {
+    margin-top: 50px;
   }
 
   .btn-login:hover {
@@ -188,6 +216,12 @@ input {
   // border: 1px solid $color-border;
   padding: $theme-padding;
   margin-bottom: $space-15;
+}
+
+.items.products {
+  margin: 0;
+  border-bottom: 5px solid $color-border;
+  padding-right: 30px;
 }
 
 .title__big {
@@ -406,7 +440,7 @@ input {
       border: 1px solid $color-border;
       width: calc(100% - 30px);
       padding: 8px 5px;
-      font-size: 16px;
+      font-size: 15px;
     }
   }
 
@@ -417,10 +451,10 @@ input {
     align-items: center;
     width: 30px;
     height: 30px;
-    top: -11px;
-    right: -10px;
-    background-color: $color-theme;
-    color: white;
+    top: -10px;
+    right: -30px;
+    /* background-color: #222831; */
+    color: black;
   }
 }
 
@@ -428,7 +462,7 @@ input {
 .btn__add-product {
   margin-top: 5px;
   margin-bottom: 15px;
-  padding: 10px 0;
+  padding: 15px 0;
   text-align: center;
   border: 1px solid;
 }
@@ -437,8 +471,63 @@ input {
   margin-left: 5%;
   color: red;
   display: none;
+  font-size: 14px;
 }
 
 .msg-alert.on {
   display: inline;
+}
+
+#icon-plus {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: $color-theme;
+  color: white;
+  display: inline-block;
+  vertical-align: baseline;
+  justify-content: center;
+  line-height: 23px;
+  border-radius: 10px;
+}
+
+.row-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+
+  span {
+    margin-right: 5px;
+    width: 30px;
+  }
+
+  #currency {
+    position: absolute;
+    margin: 0;
+    width: 15px;
+    right: 10px;
+  }
+}
+
+.greeting-wrapper {
+  background-color: $color-theme;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  position: relative;
+
+  #btn-back {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 1%;
+    top: 3%;
+    font-size: 40px;
+  }
 }

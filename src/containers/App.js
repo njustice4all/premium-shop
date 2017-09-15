@@ -6,7 +6,6 @@ import { Signin, Signup } from './auth';
 import { AddShop, AddProducts, Result } from './main';
 
 class App extends Component {
-
   _renderHeader = () => {
     switch (window.location.pathname) {
       case '/franchise/addShop':
@@ -21,11 +20,11 @@ class App extends Component {
       // default:
       //   return <Header />;
     }
-  }
+  };
 
   render() {
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         {this._renderHeader()}
         <Route exact path="/" component={Signin} />
         <Route exact path="/auth/signup" component={Signup} />
