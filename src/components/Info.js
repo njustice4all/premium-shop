@@ -18,12 +18,20 @@ const Info = ({
       <h5 className="title__big">가맹점 정보</h5>
       <div className="info__wrapper">
         <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('category') })}>
+          <div
+            className={classNames('input__title', {
+              wrong: validateClass('category'),
+            })}
+          >
             분류
           </div>
-          <div className="input__content">
-            <select value={category} onChange={(e) => handleCategory(e.target.value)}>
-              <option>선택하세요</option>
+          <div className="input__content" style={{ height: '35px' }}>
+            <select
+              value={category}
+              onChange={e => handleCategory(e.target.value)}
+              style={{ borderRadius: '0px', backgroundColor: 'white', paddingLeft: '5px' }}
+            >
+              <option default>카페/한식/중식/일식....</option>
               <option value="cafe">카페</option>
               <option value="korean">한식</option>
               <option value="chinese">중식</option>
@@ -40,21 +48,28 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('name') })}>
+          <div
+            className={classNames('input__title', {
+              wrong: validateClass('name'),
+            })}
+          >
             가맹점명
           </div>
-          <div className="input__content">
+          <div className="input__content" style={{ height: '35px' }}>
             <input
               type="text"
+              style={{ height: '100%' }}
               className="input__content__field"
-              placeholder="가게 이름을 입력하세요."
-              onChange={(e) => setStateByKey('name', e.target.value)}
+              placeholder="가게 이름을 입력하세요"
+              onChange={e => setStateByKey('name', e.target.value)}
             />
           </div>
         </div>
         <div className="input__box">
           <div
-            className={classNames('input__title', { wrong: validateClass('description') })}
+            className={classNames('input__title', {
+              wrong: validateClass('description'),
+            })}
             style={{ verticalAlign: 'top' }}
           >
             가맹점소개
@@ -63,93 +78,125 @@ const Info = ({
             <textarea
               className="input__content__field"
               style={{ border: '1px solid #c9c9c9', resize: 'none' }}
-              rows='4'
+              rows="4"
               value={description}
-              placeholder="사장님 가맹점만의 특별한 매력을 소개해주세요."
-              onChange={(e) => setStateByKey('description', e.target.value)}
+              placeholder="사장님 가맹점만의 특별한 매력을 소개해주세요"
+              onChange={e => setStateByKey('description', e.target.value)}
             />
           </div>
         </div>
-        <div className="input__box">
+        <div className="input__box" style={{ paddingTop: '0px' }}>
           <div
-            className={classNames('input__title', { wrong: validateClass('address') })}
+            className={classNames('input__title', {
+              wrong: validateClass('address'),
+            })}
             style={{ verticalAlign: 'top', paddingTop: '5px' }}
           >
             주소
           </div>
           <div className="input__content">
-            <input className="address__zipcode" value={address.zipCode} disabled />
-            <span className="address__zipcode zipcode__btn" onClick={toggleAddress}>주소검색</span>
-            <input className="default__form" value={address.firstAddress} placeholder="기본주소" />
+            <div>
+              <input className="address__zipcode" value={address.zipCode} disabled />
+              <span className="address__zipcode zipcode__btn" onClick={toggleAddress}>
+                우편번호검색
+              </span>
+            </div>
+            <input
+              className="default__form"
+              value={address.firstAddress}
+              placeholder="기본주소"
+              disabled
+            />
             <input
               type="text"
               className="default__form"
-              placeholder="상세주소"
-              onChange={(e) => handleDetailAddress(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('contact') })}>
-            전화번호
-          </div>
-          <div className="input__content">
-            <input
-              type="number"
-              placeholder=" - 제외하고 입력"
-              className="default__form"
-              onChange={(e) => setStateByKey('contact', e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('openingHours') })}>
-            영업시간
-          </div>
-          <div className="input__content">
-            <input
-              type="text"
-              placeholder="평일 11:00 ~ 22:00 / 일요일 11:30 ~ 22:30"
-              className="default__form"
-              onChange={(e) => setStateByKey('openingHours', e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('closeDays') })}>
-            휴무일
-          </div>
-          <div className="input__content">
-            <input
-              type="text"
-              placeholder="연중무휴 / 일요일휴무"
-              className="default__form"
-              onChange={(e) => setStateByKey('closeDays', e.target.value)}
+              placeholder="나머지주소"
+              onChange={e => handleDetailAddress(e.target.value)}
             />
           </div>
         </div>
         <div className="input__box">
           <div
-            className={classNames('input__title', { wrong: validateClass('possible') })}
+            className={classNames('input__title', {
+              wrong: validateClass('contact'),
+            })}
+          >
+            전화번호
+          </div>
+          <div className="input__content">
+            <input
+              style={{ margin: '0' }}
+              type="number"
+              placeholder=" - 제외하고 입력"
+              className="default__form"
+              onChange={e => setStateByKey('contact', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="input__box">
+          <div
+            className={classNames('input__title', {
+              wrong: validateClass('openingHours'),
+            })}
+          >
+            영업시간
+          </div>
+          <div className="input__content">
+            <input
+              style={{ margin: '0' }}
+              type="text"
+              placeholder="평일 11:00 ~ 22:00 / 일요일 11:30 ~ 22:30"
+              className="default__form"
+              onChange={e => setStateByKey('openingHours', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="input__box">
+          <div
+            className={classNames('input__title', {
+              wrong: validateClass('closeDays'),
+            })}
+          >
+            휴무일
+          </div>
+          <div className="input__content">
+            <input
+              style={{ margin: '0' }}
+              type="text"
+              placeholder="연중무휴 / 일요일휴무"
+              className="default__form"
+              onChange={e => setStateByKey('closeDays', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="input__box">
+          <div
+            className={classNames('input__title', {
+              wrong: validateClass('possible'),
+            })}
             style={{ verticalAlign: 'top' }}
           >
             가능여부
           </div>
           <div className="input__content">
             <div className="possible__wrapper">
-              {
-                possible.map((value, i) => {
-                  return (
-                    <div
-                      key={`icon-${i}`}
-                      className={classNames('possible__icon', { active: value.isChecked })}
-                      onClick={() => handleCheck(value.index)}
-                    >
-                      {value.title}
+              {possible.map((value, i) => {
+                return (
+                  <div
+                    key={`icon-${i}`}
+                    className={classNames('possible__icon', {
+                      active: value.isChecked,
+                    })}
+                    onClick={() => handleCheck(value.index)}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <img src={`${value.src}${value.isChecked ? '_on' : ''}.png`} alt="" />
+                      <p style={{ textAlign: 'center', fontSize: '12px' }}>{value.title}</p>
                     </div>
-                  );
-                })
-              }
+                    <span className={classNames('selected-circle', { on: value.isChecked })} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

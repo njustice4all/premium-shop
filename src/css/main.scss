@@ -16,9 +16,9 @@ $font-40: 40px;
 
 /* color */
 $color-theme: #222831;
-$color-theme-second: #393E46;
-$color-theme-third: #00ADB5;
-$color-theme-fourth: #EEEEEE;
+$color-theme-second: #393e46;
+$color-theme-third: #00adb5;
+$color-theme-fourth: #eeeeee;
 $color-input-focus: tint($color-theme, 20);
 $color-border: #c9c9c9;
 
@@ -30,9 +30,25 @@ $color-border: #c9c9c9;
   box-sizing: border-box;
 }
 
-// html, body, #root, .mobile-auth-wrapper {
-//   min-height: 100%;
-// }
+/* ios disable rounding */
+input {
+  -webkit-border-radius: 0px;
+}
+
+#divider {
+  position: relative;
+  height: 10px;
+  background-color: $color-border;
+  margin-bottom: 10px;
+
+  div {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 2px;
+    background-color: #a0a0a0;
+  }
+}
 
 .overlay.active {
   position: fixed;
@@ -41,7 +57,8 @@ $color-border: #c9c9c9;
   right: 0;
   bottom: 0;
   background-color: #34363d;
-  opacity: .8;
+  opacity: 0.8;
+  z-index: 1;
 }
 
 .full-block {
@@ -64,7 +81,7 @@ $color-border: #c9c9c9;
 .login-form {
   // padding: 50px;
   // min-height: 100%;
-  min-height:100%;
+  min-height: 100%;
   margin-bottom: -40px;
   /* Put negative height of the footer here */
   padding-bottom: 40px;
@@ -90,7 +107,7 @@ $color-border: #c9c9c9;
     border-color: #000000;
     padding: 5px 0 0 0;
     background-color: transparent;
-    transition: border-color .5s;
+    transition: border-color 0.5s;
   }
 
   .login-input.wrong {
@@ -128,8 +145,8 @@ $color-border: #c9c9c9;
 .btn-signup {
   width: 100%;
   overflow: hidden;
-  background:#2E2E2E;
-  text-align:center;
+  background: #2e2e2e;
+  text-align: center;
   line-height: 15px;
   color: #fff;
 }
@@ -168,14 +185,15 @@ $color-border: #c9c9c9;
 *  아이템 박스
 */
 .items {
-  border: 1px solid $color-border;
+  // border: 1px solid $color-border;
   padding: $theme-padding;
   margin-bottom: $space-15;
 }
 
 .title__big {
-  padding-bottom: 5px;
-  border-bottom: 1px solid $color-border;
+  // padding-bottom: 5px;
+  // border-bottom: 1px solid $color-border;
+  font-size: 20px;
 }
 
 .title__big.wrong {
@@ -264,43 +282,63 @@ $color-border: #c9c9c9;
   justify-content: space-between;
 
   .possible__icon {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 19%;
+    width: calc(20% - 4px);
     height: 50px;
-    background-color: #c9c9c9;
+    border: 2px solid $color-border;
+    border-radius: 5px;
+  }
+
+  .selected-circle {
+    position: absolute;
+    bottom: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border: 1px solid $color-border;
+  }
+
+  .selected-circle.on {
+    background-color: black;
+    border-color: black;
   }
 
   .possible__icon.active {
-    background-color: #77cce2;
-    ;
+    // background-color: #77cce2;
   }
 }
 
 .address__zipcode {
   display: inline-block;
-  width: 25%;
+  width: 80px;
   border: 1px solid $color-border;
   text-align: center;
   padding: 5px 0;
+  height: 35px;
+  font-size: 13px;
 }
 
 .address__zipcode.zipcode__btn {
-  width: 100px;
+  width: 80px;
   background-color: $color-theme;
-  padding: 4px 0;
+  padding: 5px 0;
   color: white;
-  margin-left: 20px;
-  font-size: 12px;
+  margin-left: 3px;
+  font-size: 13px;
   vertical-align: bottom;
+  border: none;
+  line-height: 26px;
 }
 
 .default__form {
-  margin-top: 5px;
+  margin-top: 10px;
   border: 1px solid $color-border;
   width: 100%;
   padding: 5px;
+  height: 35px;
 }
 
 /**
@@ -325,11 +363,12 @@ $color-border: #c9c9c9;
   display: flex;
   text-align: center;
   justify-content: space-between;
+  border-top: 1px solid;
+  font-size: 18px;
 
   .survay__btn {
-    width: 48%;
-    padding: 10px 0;
-    border: 1px solid;
+    flex: auto;
+    padding: 20px 0;
   }
 
   .survay__btn.btn__confirm {

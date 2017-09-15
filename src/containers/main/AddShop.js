@@ -25,11 +25,11 @@ class AddShop extends Component {
     openingHours: '',
     closeDays: '',
     possible: [
-      { index: 0, title: '홀', isChecked: false },
-      { index: 1, title: '배달', isChecked: false },
-      { index: 2, title: '포장', isChecked: false },
-      { index: 3, title: '예약', isChecked: false },
-      { index: 4, title: '주차', isChecked: false },
+      { index: 0, title: '홀', isChecked: false, src: '/img/icon01' },
+      { index: 1, title: '배달', isChecked: false, src: '/img/icon02' },
+      { index: 2, title: '포장', isChecked: false, src: '/img/icon03' },
+      { index: 3, title: '예약', isChecked: false, src: '/img/icon04' },
+      { index: 4, title: '주차', isChecked: false, src: '/img/icon05' },
     ],
     errors: [],
   };
@@ -154,32 +154,37 @@ class AddShop extends Component {
     const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
 
     return (
-      <div className="container">
-        {this.props.franchise.status.isFetching ? <Loading /> : null}
-        <div
-          className={classNames('overlay', { active: isOpenAddress })}
-          onClick={this.toggleAddress}
-        />
-        {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
-        <Images
-          images={images}
-          onImageChange={this.onImageChange}
-          validateClass={this.validateClass}
-        />
-        <Info
-          address={address}
-          possible={possible}
-          isOpenAddress={isOpenAddress}
-          description={description}
-          category={category}
-          initiate={this.initiate}
-          toggleAddress={this.toggleAddress}
-          handleCheck={this.handleCheck}
-          setStateByKey={this.setStateByKey}
-          handleDetailAddress={this.handleDetailAddress}
-          handleCategory={this.handleCategory}
-          validateClass={this.validateClass}
-        />
+      <div>
+        <div className="container">
+          {this.props.franchise.status.isFetching ? <Loading /> : null}
+          <div
+            className={classNames('overlay', { active: isOpenAddress })}
+            onClick={this.toggleAddress}
+          />
+          {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
+          <Images
+            images={images}
+            onImageChange={this.onImageChange}
+            validateClass={this.validateClass}
+          />
+          <div id="divider">
+            <div />
+          </div>
+          <Info
+            address={address}
+            possible={possible}
+            isOpenAddress={isOpenAddress}
+            description={description}
+            category={category}
+            initiate={this.initiate}
+            toggleAddress={this.toggleAddress}
+            handleCheck={this.handleCheck}
+            setStateByKey={this.setStateByKey}
+            handleDetailAddress={this.handleDetailAddress}
+            handleCategory={this.handleCategory}
+            validateClass={this.validateClass}
+          />
+        </div>
         <Buttons handleConfirm={this.handleConfirm} errors={errors.length > 0 ? true : false} />
       </div>
     );
