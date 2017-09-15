@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 
 export default class Address extends Component {
-
   componentDidMount = () => {
     this.loadScript();
-  }
+  };
 
   loadScript = () => {
     const script = document.createElement('script');
     script.src = 'https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js?autoload=false';
     script.onload = () => this.initiate();
     document.body.appendChild(script);
-  }
+  };
 
   initiate = () => {
     const { handleAddress } = this.props;
@@ -28,14 +27,9 @@ export default class Address extends Component {
 
       Postcode.embed(this.addr, { q: null, autoClose: false });
     });
-  }
+  };
 
   render() {
-    return (
-      <div
-        ref={(addr) => this.addr = addr}
-        className="address__wrapper"
-      />
-    );
+    return <div ref={addr => (this.addr = addr)} className="address__wrapper" />;
   }
-};
+}

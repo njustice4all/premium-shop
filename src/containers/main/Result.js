@@ -4,12 +4,12 @@ import { Redirect } from 'react-router-dom';
 import isLogged from '../../utils';
 
 class Result extends Component {
-
   onBack = () => {
     const { history } = this.props;
     // localStorage.clear();
+    // document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     history.push('/franchise/addShop');
-  }
+  };
 
   render() {
     if (!isLogged()) return <Redirect to="/" />;
@@ -17,7 +17,9 @@ class Result extends Component {
     return (
       <div style={styles.wrapper}>
         <h1>감사합니다</h1>
-        <h1 style={styles.text} onClick={() => this.onBack()}>돌아가기</h1>
+        <h1 style={styles.text} onClick={() => this.onBack()}>
+          돌아가기
+        </h1>
       </div>
     );
   }
@@ -36,5 +38,5 @@ const styles = {
   text: {
     marginTop: '10%',
     color: '#8b41d4',
-  }
+  },
 };

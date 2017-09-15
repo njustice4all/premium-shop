@@ -99,6 +99,7 @@
   "devDependencies": {
     "cross-env": "^5.0.5",
     "node-sass": "^4.5.3",
+    "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^6.0.6"
   }
 }

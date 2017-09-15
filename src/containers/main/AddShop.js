@@ -10,7 +10,6 @@ import { Images, Info, Buttons, Loading } from '../../components';
 import Address from './Address';
 
 class AddShop extends Component {
-
   state = {
     images: [],
     isOpenAddress: false,
@@ -33,67 +32,69 @@ class AddShop extends Component {
       { index: 4, title: '주차', isChecked: false },
     ],
     errors: [],
-  }
+  };
 
   setStateByKey = (key, value) => {
-    this.setState((prevState) => ({ [key]: value }));
-  }
+    this.setState(prevState => ({ [key]: value }));
+  };
 
   toggleAddress = () => {
-    this.setState((prevState) => ({ isOpenAddress: !prevState.isOpenAddress }));
-  }
+    this.setState(prevState => ({ isOpenAddress: !prevState.isOpenAddress }));
+  };
 
-  handleAddress = (data) => {
+  handleAddress = data => {
     const { address } = this.state;
     const newAddress = Object.assign({}, address);
     newAddress.zipCode = data.zonecode;
     newAddress.firstAddress = data.address;
 
-    this.setState({ address: newAddress, isOpenAddress: false, });
-  }
+    this.setState({ address: newAddress, isOpenAddress: false });
+  };
 
-  handleDetailAddress = (value) => {
+  handleDetailAddress = value => {
     const { address } = this.state;
     const newAddress = Object.assign({}, address);
     newAddress.detailAddress = value;
 
     this.setState({ address: newAddress });
-  }
+  };
 
-  handleCategory = (value) => {
+  handleCategory = value => {
     this.setState({ category: value });
-  }
+  };
 
-  handleCheck = (index) => {
+  handleCheck = index => {
     const { possible } = this.state;
     const newPossible = Array.from(possible);
     newPossible[index].isChecked = !newPossible[index].isChecked;
 
     this.setState({ possible: newPossible });
-  }
+  };
 
-  onImageChange = (e) => {
+  onImageChange = e => {
     e.preventDefault();
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        this.setState((prevState) => ({
-          images: [...prevState.images, {
-            image: reader.result,
-            imageName:
-            files[i].name,
-            imageType: files[i].type
-          }]
+        this.setState(prevState => ({
+          images: [
+            ...prevState.images,
+            {
+              image: reader.result,
+              imageName: files[i].name,
+              imageType: files[i].type,
+            },
+          ],
         }));
       };
 
       reader.readAsDataURL(files[i]);
     }
-  }
+  };
 
-  validateClass = (name) => this.state.errors.includes(name) ? true : false
+  validateClass = name => (this.state.errors.includes(name) ? true : false);
 
   handleConfirm = () => {
     const {
@@ -113,18 +114,18 @@ class AddShop extends Component {
       if (possible[i].isChecked) newPossible.push(possible[i]);
     }
 
-    const validateText = (text) => text.trim().length > 0 ? true : false
+    const validateText = text => (text.trim().length > 0 ? true : false);
 
     const errors = [];
-    if (images.length === 0) errors.push('images')
-    if (!validateText(category)) errors.push('category')
-    if (!validateText(name)) errors.push('name')
-    if (!validateText(description)) errors.push('description')
-    if (!validateText(address.zipCode)) errors.push('address')
-    if (!validateText(contact)) errors.push('contact')
-    if (!validateText(openingHours)) errors.push('openingHours')
-    if (!validateText(closeDays)) errors.push('closeDays')
-    if (newPossible.length === 0) errors.push('possible')
+    if (images.length === 0) errors.push('images');
+    if (!validateText(category)) errors.push('category');
+    if (!validateText(name)) errors.push('name');
+    if (!validateText(description)) errors.push('description');
+    if (!validateText(address.zipCode)) errors.push('address');
+    if (!validateText(contact)) errors.push('contact');
+    if (!validateText(openingHours)) errors.push('openingHours');
+    if (!validateText(closeDays)) errors.push('closeDays');
+    if (newPossible.length === 0) errors.push('possible');
 
     this.setState({ errors: errors });
 
@@ -145,20 +146,12 @@ class AddShop extends Component {
     } else {
       console.log('validate');
     }
-  }
+  };
 
   render() {
     if (!isLogged()) return <Redirect to="/" />;
 
-    const {
-      images,
-      isOpenAddress,
-      address,
-      possible,
-      description,
-      category,
-      errors,
-    } = this.state;
+    const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
 
     return (
       <div className="container">
@@ -191,18 +184,18 @@ class AddShop extends Component {
       </div>
     );
   }
-};
+}
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     authentication: state.authentication,
     franchise: state.franchise,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    initAddShop: (shop) => dispatch(initAddShop(shop))
+    initAddShop: shop => dispatch(initAddShop(shop)),
   };
 };
 
