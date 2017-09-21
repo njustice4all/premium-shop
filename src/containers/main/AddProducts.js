@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { initAddProducts } from '../../actions';
 import isLogged from '../../utils';
 
-import { Product, Buttons, Loading } from '../../components';
+import { Product, Buttons, Loading, Popup } from '../../components';
 
 class AddProducts extends Component {
   state = { products: [] };
@@ -89,6 +89,10 @@ class AddProducts extends Component {
       .catch(e => console.error(e));
   };
 
+  onBackButtonPress = () => {
+    this.props.history.push('/franchise/addShop');
+  };
+
   renderProducts = () => {
     const { products } = this.state;
     if (products.length === 0) {
@@ -127,6 +131,7 @@ class AddProducts extends Component {
           </div>
         </div>
         <Buttons handleConfirm={this.handleConfirm} />
+        <Popup onBackButtonPress={this.onBackButtonPress} />
       </div>
     );
   }
