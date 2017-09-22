@@ -5,6 +5,8 @@ const initFranchise = {
   status: {
     isFetching: false,
     error: false,
+    addShop: false,
+    addProducts: false,
   },
   shop: {
     images: [],
@@ -29,14 +31,16 @@ export const franchise = (state = initFranchise, action) => {
         status: {
           isFetching: true,
           error: state.status.error,
-        }
+        },
       });
     case actionTypes.ADD_SHOP_SUCCESS:
       return assign({}, state, {
         seq: action.result.seq,
         status: {
+          ...state.status,
           isFetching: false,
           error: state.status.error,
+          addShop: true,
         },
         shop: {
           images: [...state.shop.images],
@@ -46,8 +50,10 @@ export const franchise = (state = initFranchise, action) => {
     case actionTypes.ADD_PRODUCTS_SUCCESS:
       return assign({}, state, {
         status: {
+          ...state.status,
           isFetching: false,
           error: state.status.error,
+          addProducts: true,
         },
         products: [...action.result.products],
       });

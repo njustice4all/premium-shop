@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import localforage from 'localforage';
 
 import { initSignin } from '../../actions';
 
@@ -10,27 +11,37 @@ class Signin extends Component {
     super(props);
 
     this.state = {
-      email: document.cookie.split('email=')[1] || '',
+      // email: document.cookie.split('email=')[1] || '',
+      email: '',
       password: '',
-      isRemember: document.cookie.split('email=')[1] ? true : false,
+      // isRemember: document.cookie.split('email=')[1] ? true : false,
+      isRemember: false,
     };
   }
 
-  setStateByKey = (key, value) => {
-    this.setState({ [key]: value });
+  componentDidMount = () => {
+    localforage.getItem('userInfo').then(userInfo => {
+      if (userInfo) {
+        this.setState({ ...userInfo });
+      }
+    });
   };
+
+  setStateByKey = (key, value) => this.setState({ [key]: value });
 
   handleSignin = () => {
     const { initSignin, history } = this.props;
     const { email, password, isRemember } = this.state;
     if (email.trim().length === 0 && password.trim().length === 0) return;
 
-    initSignin({ email, password }).then(value => {
-      // localStorage.setItem('email', email);
+    initSignin({ email, password }).then(result => {
       if (isRemember) {
-        document.cookie = `email=${email}`;
+        // document.cookie = `email=${email}`;
+        localforage.setItem('userInfo', { email: email, isRemember: true });
       }
-      return value ? history.push('franchise/addShop') : null;
+
+      localforage.clear();
+      return result ? history.push('franchise/addShop') : null;
     });
   };
 
@@ -65,7 +76,7 @@ class Signin extends Component {
               type="email"
               className="login-input"
               onChange={e => this.setStateByKey('email', e.target.value)}
-              defaultValue={email}
+              value={email}
             />
             <label className="login-label">비밀번호</label>
             <input

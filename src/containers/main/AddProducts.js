@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 import { Redirect } from 'react-router-dom';
 
 import { initAddProducts } from '../../actions';
-import isLogged from '../../utils';
+// import isLogged from '../../utils';
 
 import { Product, Buttons, Loading, Popup } from '../../components';
 
@@ -112,7 +112,10 @@ class AddProducts extends Component {
   };
 
   render() {
-    if (!isLogged()) return <Redirect to="/" />;
+    const { authentication, franchise } = this.props;
+    if (!authentication.isLogin) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div style={{ height: 'calc(100% - 66px)' }}>
@@ -131,7 +134,7 @@ class AddProducts extends Component {
           </div>
         </div>
         <Buttons handleConfirm={this.handleConfirm} />
-        <Popup onBackButtonPress={this.onBackButtonPress} />
+        {franchise.status.addShop ? null : <Popup onBackButtonPress={this.onBackButtonPress} />}
       </div>
     );
   }
@@ -140,6 +143,7 @@ class AddProducts extends Component {
 const mapStateToProps = state => {
   return {
     franchise: state.franchise,
+    authentication: state.authentication,
   };
 };
 

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+// import localforage from 'localforage';
 
 import { initAddShop } from '../../actions';
-import isLogged from '../../utils';
+// import isLogged from '../../utils';
 
 import { Images, Info, Buttons, Loading } from '../../components';
 import Address from './Address';
@@ -149,9 +150,12 @@ class AddShop extends Component {
   };
 
   render() {
-    if (!isLogged()) return <Redirect to="/" />;
-
+    const { isLogin } = this.props.authentication;
     const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
+
+    if (!isLogin) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div>

@@ -16,8 +16,8 @@ export const authentication = (state = initAuth, action) => {
       return assign({}, state, {
         status: {
           isFetching: true,
-          error: state.status.error
-        }
+          error: state.status.error,
+        },
       });
     case actionTypes.REQ_SIGNIN_SUCCESS:
       return assign({}, state, {
@@ -26,7 +26,7 @@ export const authentication = (state = initAuth, action) => {
         status: {
           isFetching: false,
           error: state.status.error,
-        }
+        },
       });
     case actionTypes.REQ_SIGNUP_SUCCESS:
       return assign({}, state, {
@@ -35,7 +35,7 @@ export const authentication = (state = initAuth, action) => {
         status: {
           isFetching: false,
           error: state.status.error,
-        }
+        },
       });
     case actionTypes.REQ_SIGNIN_FAILURE:
     case actionTypes.REQ_SIGNUP_FAILURE:
@@ -43,7 +43,7 @@ export const authentication = (state = initAuth, action) => {
         status: {
           isFetching: false,
           error: action.result.error,
-        }
+        },
       });
     default:
       return state;
