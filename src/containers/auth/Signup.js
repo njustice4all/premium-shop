@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+// import localforage from 'localforage';
 // import classNames from 'classnames';
 
 import { initSignup } from '../../actions';
@@ -43,7 +45,7 @@ class Signup extends Component {
     this.setState({ confirmPassword: e.target.value });
   };
 
-  onConfirm = () => {
+  handleSignup = () => {
     const { initSignup, history } = this.props;
     const { email, password, confirmPassword } = this.state;
 
@@ -51,8 +53,6 @@ class Signup extends Component {
     if (password.trim().length < 6) return;
     if (email.trim().length > 0 && password === confirmPassword) {
       initSignup({ email, password }).then(value => {
-        // localStorage.setItem('email', email);
-        document.cookie = `email=${email}`;
         return value ? history.push('/franchise/addShop') : null;
       });
     }
@@ -122,7 +122,7 @@ class Signup extends Component {
               className="login-input"
               onChange={e => this.handleConfirmPassword(e)}
             />
-            <button className="btn-login signup signup__page" onClick={() => this.onConfirm()}>
+            <button className="btn-login signup signup__page" onClick={this.handleSignup}>
               회원가입하기
             </button>
           </div>
@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(Signup);
+export default withRouter(connect(undefined, mapDispatchToProps)(Signup));

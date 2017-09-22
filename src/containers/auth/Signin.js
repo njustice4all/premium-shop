@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import localforage from 'localforage';
 
 import { initSignin } from '../../actions';
@@ -84,10 +85,10 @@ class Signin extends Component {
               className="login-input"
               onChange={e => this.setStateByKey('password', e.target.value)}
             />
-            <button className="btn-login" onClick={() => this.handleSignin()}>
+            <button className="btn-login" onClick={this.handleSignin}>
               로그인
             </button>
-            <button className="btn-login signup" onClick={() => this.handleSignup()}>
+            <button className="btn-login signup" onClick={this.handleSignup}>
               회원가입
             </button>
           </div>
@@ -109,4 +110,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signin));

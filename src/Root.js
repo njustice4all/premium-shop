@@ -6,7 +6,6 @@ import store from './store';
 import App from './containers/App';
 
 export default class Root extends Component {
-
   render() {
     return (
       <Provider store={store}>
@@ -16,4 +15,4 @@ export default class Root extends Component {
       </Provider>
     );
   }
-};
+}

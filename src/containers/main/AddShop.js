@@ -7,8 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { initAddShop } from '../../actions';
 // import isLogged from '../../utils';
 
-import { Images, Info, Buttons, Loading } from '../../components';
-import Address from './Address';
+import { Images, Info, Buttons, Loading, Address } from '../../components';
 
 class AddShop extends Component {
   state = {

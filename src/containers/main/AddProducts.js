@@ -121,7 +121,7 @@ class AddProducts extends Component {
       <div style={{ height: 'calc(100% - 66px)' }}>
         <div className="container" style={{ height: 'calc(100% - 62px)' }}>
           <div style={{ padding: '0 10px' }}>
-            <div className="btn__add-product" onClick={() => this.addProduct()}>
+            <div className="btn__add-product" onClick={this.addProduct}>
               <span id="icon-plus">+</span>판매상품 추가
             </div>
           </div>
