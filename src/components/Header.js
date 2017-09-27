@@ -13,7 +13,7 @@ const Header = () => {
         //   on: window.location.pathname === '/franchise/addShop' ? true : false,
         // })}
       >
-        1. 가맹점 등록
+        가맹점 정보
       </NavLink>
       <NavLink
         to="/franchise/addProducts"
@@ -23,7 +23,7 @@ const Header = () => {
         //   on: window.location.pathname === '/franchise/addProducts' ? true : false,
         // })}
       >
-        2. 판매 상품 등록
+        판매 상품 정보
       </NavLink>
       {/*<div className="header__nav__link" style={styles.textWrapper}>
         <span>{window.location.pathname === '/franchise/addShop' ? '가맹점 등록' : '판매 상품 등록'}</span>

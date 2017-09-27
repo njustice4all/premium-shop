@@ -152,9 +152,9 @@ class AddShop extends Component {
     const { isLogin } = this.props.authentication;
     const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
 
-    if (!isLogin) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // if (!isLogin) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div>
@@ -170,7 +170,7 @@ class AddShop extends Component {
             onImageChange={this.onImageChange}
             validateClass={this.validateClass}
           />
-          <div id="divider">
+          <div className="divider">
             <div />
           </div>
           <Info

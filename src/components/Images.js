@@ -33,12 +33,12 @@ export default class Images extends Component<Props> {
       <div className="items" style={{ marginBottom: '0px' }}>
         <h5 className={classNames('title__big', { wrong: validateClass('images') })}>가맹점 이미지</h5>
         <div className="image__wrapper">
+          {button}
           {images.map((value, i) => (
             <div className="images" key={`images-${i}`}>
               <img src={value.image} alt="" />
             </div>
           ))}
-          {button}
         </div>
       </div>
     );

@@ -113,9 +113,9 @@ class AddProducts extends Component {
 
   render() {
     const { authentication, franchise } = this.props;
-    if (!authentication.isLogin) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // if (!authentication.isLogin) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div style={{ height: 'calc(100% - 66px)' }}>

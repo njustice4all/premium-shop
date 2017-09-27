@@ -77,7 +77,7 @@ const Info = ({
           <div className="input__content">
             <textarea
               className="input__content__field"
-              style={{ border: '1px solid #c9c9c9', resize: 'none' }}
+              style={{ border: '1px solid #dfdfdf', resize: 'none' }}
               rows="4"
               value={description}
               placeholder="사장님 가맹점만의 특별한 매력을 소개해주세요"

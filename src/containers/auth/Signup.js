@@ -60,7 +60,7 @@ class Signup extends Component {
 
   onBackPress = () => {
     const { history } = this.props;
-    history.push('/');
+    history.push('/auth/signin');
   };
 
   render() {
