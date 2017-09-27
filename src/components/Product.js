@@ -23,11 +23,11 @@ class Product extends Component {
           </div>
           <div className="product__form__wrapper">
             <div className="row-wrapper">
-              <span>분류</span>
+              <span>상품명</span>
               <input
                 type="text"
                 value={title}
-                placeholder="상품명을 입력하세요 예)김치"
+                placeholder="상품명을 입력하세요."
                 onChange={e => setStateByKey(index, 'title', e.target.value)}
               />
             </div>

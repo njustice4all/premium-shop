@@ -122,10 +122,11 @@ class AddProducts extends Component {
         <div className="container" style={{ height: 'calc(100% - 62px)' }}>
           <div style={{ padding: '0 10px' }}>
             <div className="btn__add-product" onClick={this.addProduct}>
-              <span id="icon-plus">+</span>판매상품 추가
+              <span id="icon-plus">+</span>
+              <span>판매상품 추가</span>
             </div>
           </div>
-          <div id="divider" style={{ marginBottom: 0 }}>
+          <div className="divider">
             <div />
           </div>
           <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 83px)' }}>
@@ -134,7 +135,7 @@ class AddProducts extends Component {
           </div>
         </div>
         <Buttons handleConfirm={this.handleConfirm} />
-        {franchise.status.addShop ? null : <Popup onBackButtonPress={this.onBackButtonPress} />}
+        {/*franchise.status.addShop ? null : <Popup onBackButtonPress={this.onBackButtonPress} />*/}
       </div>
     );
   }

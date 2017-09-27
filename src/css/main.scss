@@ -27,6 +27,7 @@ $color-input-focus: tint($color-theme, 20);
 $color-border: #dfdfdf;
 $color-divider: #f0f0f0;
 $color-divier-lighter: #cecece;
+$color-font-normal: #5f5f5f;
 
 * {
   margin: 0;
@@ -120,10 +121,11 @@ input {
 
 .full-block.center {
   display: flex;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: lighter;
   justify-content: center;
   align-items: center;
+  color: $color-theme;
 }
 
 /**
@@ -255,18 +257,18 @@ input {
   text-align: center;
   justify-content: center;
   // border-bottom: 1px solid;
-  color: black;
+  font-size: 18px;
 
   .header__nav__link {
     width: 50%;
     padding: $space-15;
-    color: black;
     text-decoration: none;
     height: 65px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #cecece;
+    color: $color-font-normal;
   }
 
   .header__nav__link.on {
@@ -293,7 +295,7 @@ input {
 
 .items.products {
   margin: 0;
-  border-bottom: 5px solid $color-border;
+  border-bottom: 1px solid $color-border;
   padding-right: 30px;
 }
 
@@ -488,6 +490,11 @@ input {
     border-color: $color-theme;
     color: white;
   }
+
+  .buttons.update.errors {
+    border-color: #f3eee9;
+    background-color: #f3eee9;
+  }
 }
 
 /**
@@ -540,9 +547,14 @@ input {
 .btn__add-product {
   margin-top: 5px;
   margin-bottom: 15px;
-  padding: 15px 0;
+  padding: 10px 0;
   text-align: center;
-  border: 1px solid;
+  background-color: $color-theme;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .msg-alert {
@@ -558,15 +570,16 @@ input {
 
 #icon-plus {
   margin-right: 5px;
-  width: 20px;
-  height: 20px;
-  background-color: $color-theme;
-  color: white;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: $color-theme;
   display: inline-block;
-  vertical-align: baseline;
+  vertical-align: middle;
   justify-content: center;
-  line-height: 23px;
-  border-radius: 10px;
+  line-height: 33px;
+  border-radius: 20px;
+  font-size: 24px;
 }
 
 .row-wrapper {
@@ -576,7 +589,8 @@ input {
 
   span {
     margin-right: 5px;
-    width: 30px;
+    width: 39px;
+    font-size: 14px;
   }
 
   #currency {
