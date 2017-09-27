@@ -8,27 +8,36 @@ class Main extends Component {
   onListButtonPress = () => this.props.history.push('/franchise/list');
 
   render() {
-    const { authentication } = this.props;
-    if (!authentication.isLogin) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // const { authentication } = this.props;
+    // if (!authentication.isLogin) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div style={styles.container}>
-        <div
-          style={{ ...styles.columnWrapper, ...styles.columnFirst }}
-          onClick={this.onAddButtonPress}
-        >
-          <h1>
-            <i className="fa fa-plus" aria-hidden="true" />
-          </h1>
-          <h1 style={styles.title}>가맹점 등록</h1>
-          <p>새로운 가맹점을 등록합니다.</p>
+        <div style={styles.columnWrapper} onClick={this.onAddButtonPress}>
+          <div>
+            <div style={{ display: 'flex' }}>
+              <div style={styles.iconPlus}>+</div>
+              <h1 style={styles.title}>가맹점등록</h1>
+            </div>
+            <div style={{ marginTop: '15px' }}>
+              <p style={styles.description}>새로운 가맹점을 등록합니다.</p>
+            </div>
+          </div>
         </div>
-        <div style={styles.columnWrapper} onClick={this.onListButtonPress}>
-          <h1 style={styles.count}>121</h1>
-          <h1 style={styles.title}>가맹점 목록</h1>
-          <p>등록된 가맹점 정보를 수정합니다.</p>
+        <div style={{ ...styles.columnWrapper, ...styles.bottom }} onClick={this.onListButtonPress}>
+          <div>
+            <div>
+              <h1 style={styles.title}>가맹점목록</h1>
+            </div>
+            <div>
+              <h2 style={styles.franchiseCount}>876</h2>
+            </div>
+            <div>
+              <p style={styles.description}>등록된 가맹점 정보를 수정합니다.</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -51,28 +60,51 @@ const styles = {
     justifyContent: 'center',
     textAlign: 'center',
     height: '100%',
+    backgroundImage: 'url(/img/img01.png)',
+    backgroundSize: 'cover',
   },
   columnWrapper: {
-    flex: '1',
+    backgroundColor: '#fc7f1a',
+    height: '125px',
+    marginBottom: '15px',
+    width: '72%',
     display: 'flex',
+    alignSelf: 'center',
+    borderRadius: '10px',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: '#f2f2f2',
-  },
-  columnFirst: {
-    backgroundColor: '#222831',
     color: 'white',
   },
-  icon: {
-    fontSize: '40px',
+  bottom: {
+    backgroundColor: 'white',
+    margin: 0,
+    color: 'black',
   },
-  count: {
-    color: '#b02325',
-    fontSize: '40px',
+  iconPlus: {
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    fontSize: '30px',
+    fontWeight: '100',
+    backgroundColor: 'white',
+    color: '#fc7f1a',
+    borderRadius: '15px',
   },
   title: {
-    margin: '3% 0',
+    marginLeft: '10px',
+    fontSize: '24px',
+    fontWeight: '400',
+    lineHeight: '34px',
   },
-  description: {},
+  description: {
+    fontSize: '14px',
+    // fontWeight: '300',
+  },
+  franchiseCount: {
+    fontSize: '30px',
+    color: '#fc7f1a',
+    margin: '5px 0',
+  },
 };
