@@ -12,7 +12,7 @@ class Result extends Component {
   };
 
   render() {
-    if (!isLogged()) return <Redirect to="/" />;
+    if (!isLogged()) return <Redirect to="/auth/signin" />;
 
     return (
       <div style={styles.wrapper}>

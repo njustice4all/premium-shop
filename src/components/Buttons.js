@@ -1,7 +1,14 @@
+// @flow
+
 import React from 'react';
 import classNames from 'classnames';
 
-const Buttons = ({ handleConfirm, errors }) => {
+type Props = {
+  handleConfirm: Function,
+  errors: boolean,
+};
+
+const Buttons = ({ handleConfirm, errors }: Props) => {
   return (
     <div className="survay__btn__confirm__wrapper">
       <div className="survay__btn">취소하기</div>

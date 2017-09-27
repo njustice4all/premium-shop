@@ -8,17 +8,13 @@ import { initSignin } from '../../actions';
 import { Loading } from '../../components';
 
 class Signin extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // email: document.cookie.split('email=')[1] || '',
-      email: '',
-      password: '',
-      // isRemember: document.cookie.split('email=')[1] ? true : false,
-      isRemember: false,
-    };
-  }
+  state = {
+    // email: document.cookie.split('email=')[1] || '',
+    email: '',
+    password: '',
+    // isRemember: document.cookie.split('email=')[1] ? true : false,
+    isRemember: false,
+  };
 
   componentDidMount = () => {
     localforage.getItem('userInfo').then(userInfo => {
@@ -42,11 +38,11 @@ class Signin extends Component {
       }
 
       localforage.clear();
-      return result ? history.push('franchise/addShop') : null;
+      return result ? history.push('/') : null;
     });
   };
 
-  handleSignup = () => this.props.history.push('auth/signup');
+  handleSignup = () => this.props.history.push('/auth/signup');
 
   handleCheckBox = () => {
     this.setState(prevState => ({ isRemember: !prevState.isRemember }));

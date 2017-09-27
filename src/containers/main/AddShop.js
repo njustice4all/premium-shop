@@ -153,7 +153,7 @@ class AddShop extends Component {
     const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
 
     if (!isLogin) {
-      return <Redirect to="/" />;
+      return <Redirect to="/auth/signin" />;
     }
 
     return (

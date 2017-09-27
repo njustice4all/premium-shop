@@ -1,9 +1,17 @@
+// @flow
+
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-export default class Images extends Component {
+type Props = {
+  images: Array<Object>,
+  onImageChange: Function,
+  validateClass: Function,
+};
+
+export default class Images extends Component<Props> {
   render() {
-    const { images, onImageChange, validateClass } = this.props;
+    const { images, onImageChange, validateClass }: Props = this.props;
     const button = (
       <div className="images">
         <label htmlFor="upload-image">
