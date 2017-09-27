@@ -70,10 +70,7 @@ class Signup extends Component {
           <div id="btn-back" onClick={this.onBackPress}>
             <i className="fa fa-angle-left" aria-hidden="true" />
           </div>
-          <div style={{ width: '41px', height: '36px' }}>
-            <img src="/img/icon07.png" alt="" />
-          </div>
-          <div style={{ marginTop: '30px' }}>
+          <div>
             <h1 style={{ fontWeight: 'normal' }}>회원가입</h1>
           </div>
         </div>
@@ -125,6 +122,11 @@ class Signup extends Component {
             <button className="btn-login signup signup__page" onClick={this.handleSignup}>
               회원가입하기
             </button>
+          </div>
+          <div className="franchise-count-wrapper">
+            <p>
+              가맹점 등록수 <span>122222</span>개
+            </p>
           </div>
         </div>
       </div>

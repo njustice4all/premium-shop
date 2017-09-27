@@ -15,9 +15,10 @@ $theme-padding-default: 5px;
 $font-15: 15px;
 $font-20: 20px;
 $font-40: 40px;
+$font-greeting: 40px;
 
 /* color */
-$color-theme: #222831;
+$color-theme: #fc7f1a;
 $color-theme-blue: #4384e6;
 $color-theme-second: #393e46;
 $color-theme-third: #00adb5;
@@ -133,9 +134,12 @@ input {
 }
 
 .login-form {
-  height: 60%;
+  height: 65%;
   margin-bottom: -40px;
-  padding: 50px 40px 0;
+  padding: 0 50px;
+  color: white;
+  font-weight: 100;
+  font-size: 14px;
 
   h1 {
     text-align: center;
@@ -167,18 +171,20 @@ input {
   .login-input {
     display: block;
     width: 100%;
-    margin-bottom: 5%;
-    font-size: 20px;
+    // margin-bottom: 25px;
+    margin-bottom: 8%;
+    font-size: 18px;
     outline: none;
-    border-width: 0 0 2px;
-    border-color: #000000;
+    border-width: 0 0 1px;
+    border-color: white;
     padding: 5px 10px;
     background-color: transparent;
     transition: border-color 0.5s;
+    color: white;
   }
 
   .login-input.wrong {
-    border-color: red;
+    border-color: $color-theme;
   }
 
   // .login-input:focus {
@@ -187,28 +193,45 @@ input {
 
   .btn-login {
     display: block;
-    font-size: 16px;
-    margin-top: 50px;
+    font-size: 18px;
+    // margin-top: 70px;
+    margin-top: 20%;
     text-align: center;
     padding: 10px;
     border: 1px solid $color-theme;
     width: 100%;
-    background-color: white;
+    background-color: $color-theme;
+    color: white;
+    outline: none;
+    border-radius: 25px;
   }
 
   .btn-login.signup {
-    background-color: $color-theme;
-    color: white;
-    margin-top: 15px;
+    background-color: white;
+    color: black;
+    margin-top: 10px;
   }
 
   .btn-login.signup.signup__page {
-    margin-top: 50px;
+    // margin-top: 50px;
+    margin-top: 14%;
+    background-color: $color-theme;
+    color: white;
   }
 
   .btn-login:hover {
     background-color: $color-theme;
     color: #ffffff;
+  }
+
+  .franchise-count-wrapper {
+    // margin-top: 80px;
+    margin-top: 25%;
+    text-align: center;
+
+    span {
+      color: $color-theme;
+    }
   }
 }
 
@@ -277,7 +300,7 @@ input {
 }
 
 .title__big.wrong {
-  color: red;
+  color: $color-theme;
 }
 
 .image__wrapper {
@@ -335,7 +358,7 @@ input {
     }
 
     .input__title.wrong {
-      color: red;
+      color: $color-theme;
     }
 
     .input__content {
@@ -515,7 +538,7 @@ input {
 
 .msg-alert {
   margin-left: 5%;
-  color: red;
+  color: $color-theme;
   display: none;
   font-size: 14px;
 }
@@ -556,13 +579,12 @@ input {
 }
 
 .greeting-wrapper {
-  background-color: $color-theme;
-  height: 40%;
+  height: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
+  color: $color-theme;
   position: relative;
 
   #btn-back {
@@ -575,5 +597,16 @@ input {
     left: 1%;
     top: 3%;
     font-size: 40px;
+    color: white;
+  }
+
+  div h1 {
+    font-size: $font-greeting;
+  }
+}
+
+@media (max-width: 320px) {
+  .greeting-wrapper {
+    height: 30%;
   }
 }

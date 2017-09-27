@@ -55,11 +55,8 @@ class Signin extends Component {
       <div className="mobile-auth-wrapper">
         {this.props.authentication.status.isFetching ? <Loading /> : null}
         <div className="greeting-wrapper">
-          <div style={{ width: '41px', height: '36px' }}>
-            <img src="/img/icon06.png" alt="" />
-          </div>
-          <div style={{ marginTop: '30px' }}>
-            <h1 style={{ fontWeight: 'normal' }}>단골 프로젝트</h1>
+          <div>
+            <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
           </div>
         </div>
         <div className="login-form">
@@ -87,6 +84,11 @@ class Signin extends Component {
             <button className="btn-login signup" onClick={this.handleSignup}>
               회원가입
             </button>
+          </div>
+          <div className="franchise-count-wrapper">
+            <p>
+              가맹점 등록수 <span>122222</span>개
+            </p>
           </div>
         </div>
       </div>
