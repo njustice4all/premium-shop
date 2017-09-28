@@ -18,7 +18,9 @@ class Main extends Component {
         <div className="column-wrapper" onClick={this.onAddButtonPress}>
           <div>
             <div style={{ display: 'flex' }}>
-              <div className="icon-plus">+</div>
+              <div className="icon-plus">
+                <i className="fa fa-plus" aria-hidden="true" />
+              </div>
               <h1 className="title">가맹점등록</h1>
             </div>
             <div style={{ marginTop: '15px' }}>
