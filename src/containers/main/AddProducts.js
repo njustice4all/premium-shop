@@ -135,7 +135,7 @@ class AddProducts extends Component {
           </div>
         </div>
         <Buttons handleConfirm={this.handleConfirm} />
-        {/*franchise.status.addShop ? null : <Popup onBackButtonPress={this.onBackButtonPress} />*/}
+        {franchise.status.addShop ? null : <Popup onBackButtonPress={this.onBackButtonPress} />}
       </div>
     );
   }

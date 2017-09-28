@@ -90,8 +90,8 @@ input {
 
   .popup-wrapper {
     background-color: white;
-    width: 250px;
-    height: 140px;
+    width: 270px;
+    min-height: 180px;
     display: flex;
     flex-direction: column;
 
@@ -100,11 +100,22 @@ input {
       justify-content: center;
       align-items: center;
       display: flex;
+      flex-direction: column;
+      padding: 30px 40px;
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
     }
 
     .button-wrapper {
       height: 50px;
-      background-color: $color-theme-third;
+      background-color: $color-theme;
       display: flex;
       justify-content: center;
       align-items: center;
