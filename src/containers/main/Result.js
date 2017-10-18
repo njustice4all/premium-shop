@@ -17,7 +17,7 @@ class Result extends Component {
     return (
       <div style={styles.wrapper}>
         <h1>감사합니다</h1>
-        <h1 style={styles.text} onClick={() => this.onBack()}>
+        <h1 style={styles.text} onClick={this.onBack}>
           돌아가기
         </h1>
       </div>

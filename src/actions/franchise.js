@@ -3,25 +3,25 @@ import { apiAddShop, apiAddProducts } from '../constants/api';
 
 const addShop = () => {
   return {
-    type: actionTypes.ADD_SHOP
+    type: actionTypes.ADD_SHOP,
   };
 };
 
-const addShopSuccess = (result) => {
+const addShopSuccess = result => {
   return {
     type: actionTypes.ADD_SHOP_SUCCESS,
-    result
+    result,
   };
 };
 
-const addShopFailure = (result) => {
+const addShopFailure = result => {
   return {
     type: actionTypes.ADD_SHOP_FAILURE,
-    result
+    result,
   };
 };
 
-export const initAddShop = (shop) => async (dispatch) => {
+export const initAddShop = shop => async dispatch => {
   dispatch(addShop());
   const response = await apiAddShop(shop);
 
@@ -35,25 +35,25 @@ export const initAddShop = (shop) => async (dispatch) => {
 
 const addProducts = () => {
   return {
-    type: actionTypes.ADD_PRODUCTS
+    type: actionTypes.ADD_PRODUCTS,
   };
 };
 
-const addProductsSuccess = (result) => {
+const addProductsSuccess = result => {
   return {
     type: actionTypes.ADD_PRODUCTS_SUCCESS,
-    result
+    result,
   };
 };
 
-const addProductsFailure = (result) => {
+const addProductsFailure = result => {
   return {
     type: actionTypes.ADD_PRODUCTS_FAILURE,
-    result
+    result,
   };
 };
 
-export const initAddProducts = (products) => async (dispatch) => {
+export const initAddProducts = products => async dispatch => {
   dispatch(addProducts());
   const response = await apiAddProducts(products);
   const result = await response.json();

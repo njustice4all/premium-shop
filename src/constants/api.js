@@ -28,7 +28,7 @@ export const apiSignin = user => {
   });
 };
 
-export const apiAddShop = shop => {
+export const apiAddShop = (shop, seq) => {
   return fetch(`${API}/addShop`, {
     headers: new Headers({
       Accept: 'application/json',

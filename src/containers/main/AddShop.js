@@ -108,7 +108,7 @@ class AddShop extends Component {
       closeDays,
       possible,
     } = this.state;
-    const { initAddShop, history } = this.props;
+    const { initAddShop, history, authentication } = this.props;
     const newPossible = [];
     for (let i = 0; i < possible.length; i++) {
       if (possible[i].isChecked) newPossible.push(possible[i]);
@@ -129,8 +129,6 @@ class AddShop extends Component {
 
     this.setState({ errors: errors });
 
-    console.log(this.props.authentication);
-
     if (errors.length === 0) {
       initAddShop({
         images,
@@ -142,6 +140,7 @@ class AddShop extends Component {
         openingHours,
         closeDays,
         possible: newPossible,
+        member_seq: authentication.seq,
       }).then(value => history.push('/franchise/addProducts'));
     } else {
       console.log('validate');
@@ -150,7 +149,15 @@ class AddShop extends Component {
 
   render() {
     const { isLogin } = this.props.authentication;
-    const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
+    const {
+      images,
+      isOpenAddress,
+      address,
+      possible,
+      description,
+      category,
+      errors,
+    } = this.state;
 
     // if (!isLogin) {
     //   return <Redirect to="/auth/signin" />;
@@ -164,7 +171,9 @@ class AddShop extends Component {
             className={classNames('overlay', { active: isOpenAddress })}
             onClick={this.toggleAddress}
           />
-          {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
+          {isOpenAddress ? (
+            <Address handleAddress={this.handleAddress} />
+          ) : null}
           <Images
             images={images}
             onImageChange={this.onImageChange}
@@ -188,7 +197,10 @@ class AddShop extends Component {
             validateClass={this.validateClass}
           />
         </div>
-        <Buttons handleConfirm={this.handleConfirm} errors={errors.length > 0 ? true : false} />
+        <Buttons
+          handleConfirm={this.handleConfirm}
+          errors={errors.length > 0 ? true : false}
+        />
       </div>
     );
   }
