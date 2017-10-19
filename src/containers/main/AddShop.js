@@ -159,9 +159,9 @@ class AddShop extends Component {
       errors,
     } = this.state;
 
-    // if (!isLogin) {
-    //   return <Redirect to="/auth/signin" />;
-    // }
+    if (!isLogin) {
+      return <Redirect to="/auth/signin" />;
+    }
 
     return (
       <div>

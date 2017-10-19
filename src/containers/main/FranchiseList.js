@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-const cnt = [1, 2, 3, 4, 5, 6, 7, 8];
-const List = () => {
+const List = ({ ...franchise, index, onLoaded }) => {
   return (
     <div className="lists">
       <div className="content-wrapper">
@@ -11,20 +10,36 @@ const List = () => {
           <i className="fa fa-pencil-square-o" aria-hidden="true" />
         </div>
         <div className="image-wrapper">
-          <i className="fa fa-camera" aria-hidden="true" />
+          {franchise.isLoaded ? null : (
+            <i
+              className="fa fa-camera"
+              aria-hidden="true"
+              style={{ position: 'absolute' }}
+            />
+          )}
+          <img
+            src={`http://van.aty.kr/image/${franchise.imageName}`}
+            onLoad={onLoaded(index)}
+            className={
+              franchise.isLoaded
+                ? 'franchise-image show'
+                : 'franchise-image hide'
+            }
+            alt=""
+          />
         </div>
         <div className="describe-wrapper">
           <div className="franchise-name">
-            <h1>가맹점명</h1>
+            <h1>{franchise.name}</h1>
           </div>
           <div className="franchise-tag">
-            <p>아메리카노, 더치커피, 카페모카</p>
+            <p>{franchise.description}</p>
           </div>
           <div className="franchise-address">
-            <p>서울특별시 서초구 강남대로 3333-000</p>
+            <p>{`${franchise.firstAddress} ${franchise.detailAddress}`}</p>
           </div>
           <div className="franchise-contact">
-            <p>02-000-3232</p>
+            <p>{franchise.contact}</p>
           </div>
         </div>
       </div>
@@ -33,6 +48,35 @@ const List = () => {
 };
 
 class FranchiseList extends Component {
+  state = { franchiseLists: [] };
+
+  componentDidMount = () => {
+    const lists = this.props.franchiseLists.lists.map(list => {
+      return {
+        ...list,
+        isLoaded: false,
+      };
+    });
+
+    this.setState({
+      franchiseLists: lists
+      // franchiseLists: lists.sort((a, b) => b - a),
+    });
+  };
+
+  onLoaded = index => () => {
+    const { franchiseLists } = this.state;
+    this.setState({
+      franchiseLists: [
+        ...franchiseLists.slice(0, index),
+        Object.assign({}, franchiseLists[index], {
+          isLoaded: true,
+        }),
+        ...franchiseLists.slice(index + 1),
+      ],
+    });
+  };
+
   onBackPress = () => {
     const { history } = this.props;
     history.push('/');
@@ -40,9 +84,10 @@ class FranchiseList extends Component {
 
   render() {
     const { authentication } = this.props;
-    // if (!authentication.isLogin) {
-    //   return <Redirect to="/auth/signin" />;
-    // }
+    const { franchiseLists } = this.state;
+    if (!authentication.isLogin) {
+      return <Redirect to="/auth/signin" />;
+    }
 
     return (
       <div className="franchise-list">
@@ -50,7 +95,7 @@ class FranchiseList extends Component {
           <span onClick={this.onBackPress}>
             <i className="fa fa-angle-left" aria-hidden="true" />
           </span>
-          <h1>가맹점 목록 (000)</h1>
+          <h1>가맹점 목록 ({franchiseLists.length})</h1>
         </header>
         <div className="franchise-list__container">
           <div className="franchise-list__search">
@@ -63,7 +108,14 @@ class FranchiseList extends Component {
             <div />
           </div>
           <div className="franchise-list__list-wrapper">
-            {cnt.map((franchise, index) => <List key={`franchise-${index}`} />)}
+            {franchiseLists.map((franchise, index) => (
+              <List
+                key={`franchise-${index}`}
+                {...franchise}
+                index={index}
+                onLoaded={this.onLoaded}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -74,6 +126,7 @@ class FranchiseList extends Component {
 const mapStateToProps = state => {
   return {
     authentication: state.authentication,
+    franchiseLists: state.franchiseLists,
   };
 };
 

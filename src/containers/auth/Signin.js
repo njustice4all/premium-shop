@@ -35,9 +35,10 @@ class Signin extends Component {
       if (isRemember) {
         // document.cookie = `email=${email}`;
         localforage.setItem('userInfo', { email: email, isRemember: true });
+      } else if (!isRemember) {
+        localforage.clear();
       }
 
-      localforage.clear();
       return result ? history.push('/') : null;
     });
   };

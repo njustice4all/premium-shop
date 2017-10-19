@@ -54,3 +54,16 @@ export const apiAddProducts = products => {
     }),
   });
 };
+
+export const apiGetShopLists = seq => {
+  return fetch(`${API}/getShopList`, {
+    headers: new Headers({
+      Accept: 'application/json',
+    }),
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({
+      member_seq: seq
+    }),
+  });
+};

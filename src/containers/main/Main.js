@@ -2,19 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
+import { initGetShopLists } from '../../actions';
+import { Loading } from '../../components';
+
 class Main extends Component {
+  componentDidMount = () => {
+    const { authentication, initGetShopLists } = this.props;
+    if (authentication.isLogin) {
+      initGetShopLists(authentication.seq);
+    }
+  };
+
   onAddButtonPress = () => this.props.history.push('/franchise/addShop');
 
   onListButtonPress = () => this.props.history.push('/franchise/list');
 
   render() {
-    // const { authentication } = this.props;
-    // if (!authentication.isLogin) {
-    //   return <Redirect to="/auth/signin" />;
-    // }
+    const { authentication, franchiseLists } = this.props;
+    if (!authentication.isLogin) {
+      return <Redirect to="/auth/signin" />;
+    }
 
     return (
       <div className="main__container">
+        {this.props.franchiseLists.status.isFetching ? <Loading /> : null}
         <div className="column-wrapper" onClick={this.onAddButtonPress}>
           <div>
             <div style={{ display: 'flex' }}>
@@ -34,7 +45,9 @@ class Main extends Component {
               <h1 className="title">가맹점목록</h1>
             </div>
             <div>
-              <h2 className="franchise-count">876</h2>
+              <h2 className="franchise-count">
+                {franchiseLists.lists.length}
+              </h2>
             </div>
             <div>
               <p className="description">등록된 가맹점 정보를 수정합니다.</p>
@@ -49,7 +62,14 @@ class Main extends Component {
 const mapStateToProps = state => {
   return {
     authentication: state.authentication,
+    franchiseLists: state.franchiseLists,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Main));
+const mapDispatchToProps = dispatch => {
+  return {
+    initGetShopLists: seq => dispatch(initGetShopLists(seq)),
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

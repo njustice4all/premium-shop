@@ -6,11 +6,13 @@
 import { initSignin, initSignup } from './authentication';
 import { initUpload } from './upload';
 import { initAddShop, initAddProducts } from './franchise';
+import { initGetShopLists } from './franchiseLists';
 
 export {
   initSignin,
   initSignup,
   initUpload,
   initAddShop,
-  initAddProducts
+  initAddProducts,
+  initGetShopLists,
 };
