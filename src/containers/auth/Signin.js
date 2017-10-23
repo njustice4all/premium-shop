@@ -11,7 +11,8 @@ class Signin extends Component {
   state = {
     email: '',
     password: '',
-    isRemember: false,
+    autoLogin: false,
+    memberSequence: '',
   };
 
   componentDidMount = () => {
@@ -26,13 +27,17 @@ class Signin extends Component {
 
   handleSignin = () => {
     const { initSignin, history } = this.props;
-    const { email, password, isRemember } = this.state;
+    const { email, password, autoLogin } = this.state;
     if (email.trim().length === 0 && password.trim().length === 0) return;
 
     initSignin({ email, password }).then(result => {
-      if (isRemember) {
-        localforage.setItem('userInfo', { email: email, isRemember: true });
-      } else if (!isRemember) {
+      if (autoLogin) {
+        localforage.setItem('userInfo', {
+          email: email,
+          autoLogin: true,
+          memberSequence: result.memberSequence,
+        });
+      } else if (!autoLogin) {
         localforage.clear();
       }
 
@@ -43,15 +48,16 @@ class Signin extends Component {
   handleSignup = () => this.props.history.push('/auth/signup');
 
   handleCheckBox = () => {
-    this.setState(prevState => ({ isRemember: !prevState.isRemember }));
+    this.setState(prevState => ({ autoLogin: !prevState.autoLogin }));
   };
 
   render() {
-    const { email, isRemember } = this.state;
+    const { authentication } = this.props;
+    const { email, autoLogin } = this.state;
 
     return (
       <div className="mobile-auth-wrapper">
-        {this.props.isFetching ? <Loading /> : null}
+        {authentication.getIn(['status', 'isFetching']) ? <Loading /> : null}
         <div className="greeting-wrapper">
           <div>
             <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
@@ -61,8 +67,8 @@ class Signin extends Component {
           <div>
             <label className="login-label login-email">이메일</label>
             <label className="login-label remember-email">
-              <span>이메일 기억하기</span>
-              <input type="checkbox" checked={isRemember} onChange={this.handleCheckBox} />
+              <span>자동로그인</span>
+              <input type="checkbox" checked={autoLogin} onChange={this.handleCheckBox} />
             </label>
             <input
               type="email"
@@ -95,7 +101,7 @@ class Signin extends Component {
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.getIn(['authentication', 'status', 'isFetching']),
+  authentication: state.get('authentication'),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Map } from 'immutable';
 
-const Item = ({ franchise, index, onLoaded }) => {
+const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
   return (
     <div className="lists">
-      <div className="content-wrapper">
+      <div
+        className="content-wrapper"
+        onClick={onModifyBtnPress(franchise.get('seq'), franchise.get('member_seq'))}
+      >
         <div className="icon">
           <i className="fa fa-pencil-square-o" aria-hidden="true" />
         </div>
@@ -15,7 +18,11 @@ const Item = ({ franchise, index, onLoaded }) => {
             <i className="fa fa-camera" aria-hidden="true" style={{ position: 'absolute' }} />
           )}
           <img
-            src={`http://van.aty.kr/image/${franchise.get('imageName')}`}
+            src={
+              franchise.get('image')[0]
+                ? `http://van.aty.kr/image/${franchise.get('image')[0].imageName}`
+                : null
+            }
             onLoad={onLoaded(index)}
             className={franchise.get('isLoaded') ? 'franchise-image show' : 'franchise-image hide'}
             alt=""
@@ -64,6 +71,10 @@ class FranchiseList extends Component {
     history.push('/');
   };
 
+  onModifyBtnPress = (shopSequence, memberSequence) => () => {
+    this.props.history.push(`/franchise/modifyShop/${shopSequence}`);
+  };
+
   render() {
     const { authentication } = this.props;
     const { franchiseLists } = this.state;
@@ -96,6 +107,7 @@ class FranchiseList extends Component {
                 franchise={franchise}
                 index={index}
                 onLoaded={this.onLoaded}
+                onModifyBtnPress={this.onModifyBtnPress}
               />
             ))}
           </div>

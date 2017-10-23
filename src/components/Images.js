@@ -7,11 +7,19 @@ type Props = {
   images: Array<Object>,
   onImageChange: Function,
   validateClass: Function,
+  deleteImageByIndex: Function,
+  editMode: Boolean,
 };
 
 export default class Images extends Component<Props> {
   render() {
-    const { images, onImageChange, validateClass }: Props = this.props;
+    const {
+      images,
+      editMode,
+      onImageChange,
+      validateClass,
+      deleteImageByIndex,
+    }: Props = this.props;
     const button = (
       <div className="images">
         <label htmlFor="upload-image">
@@ -34,9 +42,9 @@ export default class Images extends Component<Props> {
         <h5 className={classNames('title__big', { wrong: validateClass('images') })}>가맹점 이미지</h5>
         <div className="image__wrapper">
           {button}
-          {images.map((value, i) => (
-            <div className="images" key={`images-${i}`}>
-              <img src={value.get('image')} alt="" />
+          {images.map((image, index) => (
+            <div className="images" key={`images-${index}`} onClick={deleteImageByIndex(index)}>
+              <img src={image.get('image')} alt="" />
             </div>
           ))}
         </div>

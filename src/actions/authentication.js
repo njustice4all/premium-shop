@@ -31,18 +31,11 @@ export const initSignin = user => async dispatch => {
 
   if (!result.msg) {
     dispatch(reqSigninFailure({ error: true }));
+    return { memberSequence: '' };
   } else {
     dispatch(reqSigninSuccess(result));
-    return true;
+    return { memberSequence: result.seq };
   }
-
-  // if (response.status >= 400) {
-  //   dispatch(reqSigninFailure('failure'));
-  // } else {
-  //   const result = await response.json();
-  //   dispatch(reqSigninSuccess(result));
-  //   return true;
-  // }
 };
 
 const reqSignup = () => {
@@ -79,4 +72,8 @@ export const initSignup = user => async dispatch => {
     dispatch(reqSignupSuccess(result));
     return true;
   }
+};
+
+export const autoLogin = userInfo => async dispatch => {
+  dispatch({ type: actionTypes.AUTOLOGIN, userInfo });
 };

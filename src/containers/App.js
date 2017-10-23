@@ -13,12 +13,13 @@ class App extends Component {
 
   _renderHeader = () => {
     switch (window.location.pathname) {
-      case '/franchise':
-      case '/franchise/addShop':
-      case '/franchise/addProducts':
-        return <Header />;
-      default:
+      case '/auth/signin':
+      case '/auth/signup':
+      case '/franchise/list':
+      case '/':
         return null;
+      default:
+        return <Header />;
     }
   };
 
@@ -31,6 +32,11 @@ class App extends Component {
         <Route exact path="/auth/signup" component={Signup} />
         <Route exact path="/franchise/list" component={FranchiseList} />
         <Route exact path="/franchise/addShop" component={AddShop} />
+        <Route
+          exact
+          path="/franchise/modifyShop/:shopSequence"
+          render={props => <AddShop editMode {...props} />}
+        />
         <Route exact path="/franchise/addProducts" component={AddProducts} />
         <Route exact path="/result" component={Result} />
       </div>
@@ -38,10 +44,8 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeRoute: location => dispatch({ type: 'LOCATION_CHANGE', location }),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  changeRoute: location => dispatch({ type: 'LOCATION_CHANGE', location }),
+});
 
 export default withRouter(connect(undefined, mapDispatchToProps)(App));

@@ -5,6 +5,10 @@ const Info = ({
   toggleAddress,
   address,
   possible,
+  name,
+  contact,
+  openingHours,
+  closeDays,
   description,
   category,
   handleCheck,
@@ -60,7 +64,8 @@ const Info = ({
               type="text"
               style={{ height: '100%' }}
               className="input__content__field"
-              placeholder="가게 이름을 입력하세요"
+              // placeholder="가게 이름을 입력하세요"
+              value={name}
               onChange={e => setStateByKey('name', e.target.value)}
             />
           </div>
@@ -111,6 +116,7 @@ const Info = ({
               type="text"
               className="default__form"
               placeholder="나머지주소"
+              value={address.get('detailAddress')}
               onChange={e => handleDetailAddress(e.target.value)}
             />
           </div>
@@ -130,6 +136,7 @@ const Info = ({
               placeholder=" - 제외하고 입력"
               className="default__form"
               onChange={e => setStateByKey('contact', e.target.value)}
+              value={contact}
             />
           </div>
         </div>
@@ -148,6 +155,7 @@ const Info = ({
               placeholder="평일 11:00 ~ 22:00 / 일요일 11:30 ~ 22:30"
               className="default__form"
               onChange={e => setStateByKey('openingHours', e.target.value)}
+              value={openingHours}
             />
           </div>
         </div>
@@ -166,6 +174,7 @@ const Info = ({
               placeholder="연중무휴 / 일요일휴무"
               className="default__form"
               onChange={e => setStateByKey('closeDays', e.target.value)}
+              value={closeDays}
             />
           </div>
         </div>

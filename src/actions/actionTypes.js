@@ -6,6 +6,11 @@ export const REQ_SIGNIN_SUCCESS = 'REQ_SIGNIN_SUCCESS';
 export const REQ_SIGNIN_FAILURE = 'REQ_SIGNIN_FAILURE';
 
 /**
+ * 자동로그인
+ */
+export const AUTOLOGIN = 'AUTOLOGIN';
+
+/**
  * 회원가입
  */
 export const REQ_SIGNUP = 'REQ_SIGNUP';

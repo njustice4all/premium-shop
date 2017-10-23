@@ -13,6 +13,8 @@ const initialState = Map({
 
 export const authentication = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.AUTOLOGIN:
+      return state.merge({ isLogin: true, seq: action.userInfo.memberSequence });
     case actionTypes.REQ_SIGNIN:
     case actionTypes.REQ_SIGNUP:
       return state.setIn(['status', 'isFetching'], true);

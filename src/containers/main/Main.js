@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
+import localforage from 'localforage';
 
-import { initGetShopLists } from '../../actions';
+import { initGetShopLists, autoLogin } from '../../actions';
 import { Loading } from '../../components';
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    localforage.getItem('userInfo').then(userInfo => {
+      if (userInfo) {
+        props.autoLogin(userInfo);
+      }
+    });
+  }
+
   componentDidMount = () => {
     const { authentication, initGetShopLists } = this.props;
     if (authentication.get('isLogin')) {
@@ -57,17 +67,14 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authentication: state.get('authentication'),
-    franchiseLists: state.get('franchiseLists'),
-  };
-};
+const mapStateToProps = state => ({
+  authentication: state.get('authentication'),
+  franchiseLists: state.get('franchiseLists'),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    initGetShopLists: seq => dispatch(initGetShopLists(seq)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  initGetShopLists: seq => dispatch(initGetShopLists(seq)),
+  autoLogin: userInfo => dispatch(autoLogin(userInfo)),
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
