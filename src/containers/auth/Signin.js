@@ -18,7 +18,8 @@ class Signin extends Component {
   componentDidMount = () => {
     localforage.getItem('userInfo').then(userInfo => {
       if (userInfo) {
-        this.setState({ ...userInfo });
+        // this.setState({ ...userInfo });
+        this.props.history.push('/');
       }
     });
   };

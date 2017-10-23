@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
-import localforage from 'localforage';
 
-import { initGetShopLists, autoLogin } from '../../actions';
+import { initGetShopLists } from '../../actions';
+
 import { Loading } from '../../components';
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-    localforage.getItem('userInfo').then(userInfo => {
-      if (userInfo) {
-        props.autoLogin(userInfo);
-      }
-    });
-  }
-
   componentDidMount = () => {
     const { authentication, initGetShopLists } = this.props;
     if (authentication.get('isLogin')) {
@@ -74,7 +65,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initGetShopLists: seq => dispatch(initGetShopLists(seq)),
-  autoLogin: userInfo => dispatch(autoLogin(userInfo)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

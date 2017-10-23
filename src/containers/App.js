@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import localforage from 'localforage';
+
+import { Signin, Signup } from './auth';
+import { autoLogin } from '../actions';
 
 import { Header } from '../components';
-import { Signin, Signup } from './auth';
 import { AddShop, AddProducts, Result, FranchiseList, Main } from './main';
 
 class App extends Component {
+  componentDidMount = () => {
+    localforage.getItem('userInfo').then(userInfo => {
+      if (userInfo) {
+        this.props.autoLogin(userInfo);
+      }
+    });
+  };
+
   componentWillReceiveProps = () => {
     this.props.changeRoute(this.props.history.location);
   };
@@ -46,6 +57,7 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => ({
   changeRoute: location => dispatch({ type: 'LOCATION_CHANGE', location }),
+  autoLogin: userInfo => dispatch(autoLogin(userInfo)),
 });
 
 export default withRouter(connect(undefined, mapDispatchToProps)(App));
