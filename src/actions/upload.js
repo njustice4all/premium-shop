@@ -2,25 +2,25 @@ import * as actionTypes from './actionTypes';
 
 const reqUpload = () => {
   return {
-    type: actionTypes.REQ_UPLOAD
+    type: actionTypes.REQ_UPLOAD,
   };
 };
 
-const reqUploadSuccess = (result) => {
+const reqUploadSuccess = result => {
   return {
     type: actionTypes.REQ_UPLOAD_SUCCESS,
-    result
+    result,
   };
 };
 
-const reqUploadFailure = (result) => {
+const reqUploadFailure = result => {
   return {
     type: actionTypes.REQ_UPLOAD_FAILURE,
-    result
+    result,
   };
 };
 
-export const initUpload = () => async (dispatch) => {
+export const initUpload = () => async dispatch => {
   dispatch(reqUpload());
   // api request here
 

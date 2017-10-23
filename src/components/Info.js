@@ -96,14 +96,14 @@ const Info = ({
           </div>
           <div className="input__content">
             <div>
-              <input className="address__zipcode" value={address.zipCode} disabled />
+              <input className="address__zipcode" value={address.get('zipCode')} disabled />
               <span className="address__zipcode zipcode__btn" onClick={toggleAddress}>
                 우편번호검색
               </span>
             </div>
             <input
               className="default__form"
-              value={address.firstAddress}
+              value={address.get('firstAddress')}
               placeholder="기본주소"
               disabled
             />
@@ -185,15 +185,20 @@ const Info = ({
                   <div
                     key={`icon-${i}`}
                     className={classNames('possible__icon', {
-                      active: value.isChecked,
+                      active: value.get('isChecked'),
                     })}
-                    onClick={() => handleCheck(value.index)}
+                    onClick={() => handleCheck(value.get('index'))}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <img src={`${value.src}${value.isChecked ? '_on' : ''}.png`} alt="" />
-                      <p style={{ textAlign: 'center', fontSize: '12px' }}>{value.title}</p>
+                      <img
+                        src={`${value.get('src')}${value.get('isChecked') ? '_on' : ''}.png`}
+                        alt=""
+                      />
+                      <p style={{ textAlign: 'center', fontSize: '12px' }}>{value.get('title')}</p>
                     </div>
-                    <span className={classNames('selected-circle', { on: value.isChecked })} />
+                    <span
+                      className={classNames('selected-circle', { on: value.get('isChecked') })}
+                    />
                   </div>
                 );
               })}

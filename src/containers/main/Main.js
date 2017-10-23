@@ -8,8 +8,8 @@ import { Loading } from '../../components';
 class Main extends Component {
   componentDidMount = () => {
     const { authentication, initGetShopLists } = this.props;
-    if (authentication.isLogin) {
-      initGetShopLists(authentication.seq);
+    if (authentication.get('isLogin')) {
+      initGetShopLists(authentication.get('seq'));
     }
   };
 
@@ -19,13 +19,13 @@ class Main extends Component {
 
   render() {
     const { authentication, franchiseLists } = this.props;
-    if (!authentication.isLogin) {
+    if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
 
     return (
       <div className="main__container">
-        {this.props.franchiseLists.status.isFetching ? <Loading /> : null}
+        {franchiseLists.getIn(['status', 'isFetching']) ? <Loading /> : null}
         <div className="column-wrapper" onClick={this.onAddButtonPress}>
           <div>
             <div style={{ display: 'flex' }}>
@@ -45,9 +45,7 @@ class Main extends Component {
               <h1 className="title">가맹점목록</h1>
             </div>
             <div>
-              <h2 className="franchise-count">
-                {franchiseLists.lists.length}
-              </h2>
+              <h2 className="franchise-count">{franchiseLists.get('lists').size}</h2>
             </div>
             <div>
               <p className="description">등록된 가맹점 정보를 수정합니다.</p>
@@ -61,8 +59,8 @@ class Main extends Component {
 
 const mapStateToProps = state => {
   return {
-    authentication: state.authentication,
-    franchiseLists: state.franchiseLists,
+    authentication: state.get('authentication'),
+    franchiseLists: state.get('franchiseLists'),
   };
 };
 

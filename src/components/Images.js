@@ -36,7 +36,7 @@ export default class Images extends Component<Props> {
           {button}
           {images.map((value, i) => (
             <div className="images" key={`images-${i}`}>
-              <img src={value.image} alt="" />
+              <img src={value.get('image')} alt="" />
             </div>
           ))}
         </div>

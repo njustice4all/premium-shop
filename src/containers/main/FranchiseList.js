@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
+import { Map } from 'immutable';
 
-const List = ({ ...franchise, index, onLoaded }) => {
+const Item = ({ franchise, index, onLoaded }) => {
   return (
     <div className="lists">
       <div className="content-wrapper">
@@ -10,36 +11,28 @@ const List = ({ ...franchise, index, onLoaded }) => {
           <i className="fa fa-pencil-square-o" aria-hidden="true" />
         </div>
         <div className="image-wrapper">
-          {franchise.isLoaded ? null : (
-            <i
-              className="fa fa-camera"
-              aria-hidden="true"
-              style={{ position: 'absolute' }}
-            />
+          {franchise.get('isLoaded') ? null : (
+            <i className="fa fa-camera" aria-hidden="true" style={{ position: 'absolute' }} />
           )}
           <img
-            src={`http://van.aty.kr/image/${franchise.imageName}`}
+            src={`http://van.aty.kr/image/${franchise.get('imageName')}`}
             onLoad={onLoaded(index)}
-            className={
-              franchise.isLoaded
-                ? 'franchise-image show'
-                : 'franchise-image hide'
-            }
+            className={franchise.get('isLoaded') ? 'franchise-image show' : 'franchise-image hide'}
             alt=""
           />
         </div>
         <div className="describe-wrapper">
           <div className="franchise-name">
-            <h1>{franchise.name}</h1>
+            <h1>{franchise.get('name')}</h1>
           </div>
           <div className="franchise-tag">
-            <p>{franchise.description}</p>
+            <p>{franchise.get('description')}</p>
           </div>
           <div className="franchise-address">
-            <p>{`${franchise.firstAddress} ${franchise.detailAddress}`}</p>
+            <p>{`${franchise.get('firstAddress')} ${franchise.get('detailAddress')}`}</p>
           </div>
           <div className="franchise-contact">
-            <p>{franchise.contact}</p>
+            <p>{franchise.get('contact')}</p>
           </div>
         </div>
       </div>
@@ -51,29 +44,18 @@ class FranchiseList extends Component {
   state = { franchiseLists: [] };
 
   componentDidMount = () => {
-    const lists = this.props.franchiseLists.lists.map(list => {
-      return {
-        ...list,
-        isLoaded: false,
-      };
+    const { franchiseLists } = this.props;
+    const lists = franchiseLists.get('lists').map(list => {
+      return Map({ ...list, isLoaded: false });
     });
 
-    this.setState({
-      franchiseLists: lists
-      // franchiseLists: lists.sort((a, b) => b - a),
-    });
+    this.setState({ franchiseLists: lists.reverse() });
   };
 
   onLoaded = index => () => {
     const { franchiseLists } = this.state;
     this.setState({
-      franchiseLists: [
-        ...franchiseLists.slice(0, index),
-        Object.assign({}, franchiseLists[index], {
-          isLoaded: true,
-        }),
-        ...franchiseLists.slice(index + 1),
-      ],
+      franchiseLists: franchiseLists.update(index, franchise => franchise.set('isLoaded', true)),
     });
   };
 
@@ -85,7 +67,7 @@ class FranchiseList extends Component {
   render() {
     const { authentication } = this.props;
     const { franchiseLists } = this.state;
-    if (!authentication.isLogin) {
+    if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
 
@@ -95,7 +77,7 @@ class FranchiseList extends Component {
           <span onClick={this.onBackPress}>
             <i className="fa fa-angle-left" aria-hidden="true" />
           </span>
-          <h1>가맹점 목록 ({franchiseLists.length})</h1>
+          <h1>가맹점 목록 ({franchiseLists.size})</h1>
         </header>
         <div className="franchise-list__container">
           <div className="franchise-list__search">
@@ -109,9 +91,9 @@ class FranchiseList extends Component {
           </div>
           <div className="franchise-list__list-wrapper">
             {franchiseLists.map((franchise, index) => (
-              <List
+              <Item
                 key={`franchise-${index}`}
-                {...franchise}
+                franchise={franchise}
                 index={index}
                 onLoaded={this.onLoaded}
               />
@@ -125,8 +107,8 @@ class FranchiseList extends Component {
 
 const mapStateToProps = state => {
   return {
-    authentication: state.authentication,
-    franchiseLists: state.franchiseLists,
+    authentication: state.get('authentication'),
+    franchiseLists: state.get('franchiseLists'),
   };
 };
 

@@ -9,10 +9,8 @@ import { Loading } from '../../components';
 
 class Signin extends Component {
   state = {
-    // email: document.cookie.split('email=')[1] || '',
     email: '',
     password: '',
-    // isRemember: document.cookie.split('email=')[1] ? true : false,
     isRemember: false,
   };
 
@@ -33,7 +31,6 @@ class Signin extends Component {
 
     initSignin({ email, password }).then(result => {
       if (isRemember) {
-        // document.cookie = `email=${email}`;
         localforage.setItem('userInfo', { email: email, isRemember: true });
       } else if (!isRemember) {
         localforage.clear();
@@ -54,7 +51,7 @@ class Signin extends Component {
 
     return (
       <div className="mobile-auth-wrapper">
-        {this.props.authentication.status.isFetching ? <Loading /> : null}
+        {this.props.isFetching ? <Loading /> : null}
         <div className="greeting-wrapper">
           <div>
             <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
@@ -97,16 +94,12 @@ class Signin extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authentication: state.authentication,
-  };
-};
+const mapStateToProps = state => ({
+  isFetching: state.getIn(['authentication', 'status', 'isFetching']),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    initSignin: user => dispatch(initSignin(user)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  initSignin: user => dispatch(initSignin(user)),
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signin));

@@ -1,50 +1,29 @@
-import assign from 'lodash/assign';
+import { Map } from 'immutable';
+
 import * as actionTypes from '../actions/actionTypes';
 
-const initAuth = {
+const initialState = Map({
   isLogin: false,
-  status: {
+  seq: '',
+  status: Map({
     isFetching: false,
     error: false,
-  },
-};
+  }),
+});
 
-export const authentication = (state = initAuth, action) => {
+export const authentication = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.REQ_SIGNIN:
     case actionTypes.REQ_SIGNUP:
-      return assign({}, state, {
-        status: {
-          isFetching: true,
-          error: state.status.error,
-        },
-      });
+      return state.setIn(['status', 'isFetching'], true);
     case actionTypes.REQ_SIGNIN_SUCCESS:
-      return assign({}, state, {
-        isLogin: true,
-        seq: action.result.seq,
-        status: {
-          isFetching: false,
-          error: state.status.error,
-        },
-      });
     case actionTypes.REQ_SIGNUP_SUCCESS:
-      return assign({}, state, {
-        isLogin: true,
-        seq: action.result.seq,
-        status: {
-          isFetching: false,
-          error: state.status.error,
-        },
-      });
+      return state
+        .merge({ isLogin: true, seq: action.result.seq })
+        .setIn(['status', 'isFetching'], false);
     case actionTypes.REQ_SIGNIN_FAILURE:
     case actionTypes.REQ_SIGNUP_FAILURE:
-      return assign({}, state, {
-        status: {
-          isFetching: false,
-          error: action.result.error,
-        },
-      });
+      return state.set('status', Map({ isFetching: false, error: action.result.error }));
     default:
       return state;
   }

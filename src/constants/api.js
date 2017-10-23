@@ -63,7 +63,7 @@ export const apiGetShopLists = seq => {
     mode: 'cors',
     method: 'POST',
     body: JSON.stringify({
-      member_seq: seq
+      member_seq: seq,
     }),
   });
 };

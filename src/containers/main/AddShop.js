@@ -2,35 +2,34 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-// import localforage from 'localforage';
+import { Map, List } from 'immutable';
 
 import { initAddShop } from '../../actions';
-// import isLogged from '../../utils';
 
 import { Images, Info, Buttons, Loading, Address } from '../../components';
 
 class AddShop extends Component {
   state = {
-    images: [],
+    images: List([]),
     isOpenAddress: false,
     category: '',
     name: '',
     description: '',
-    address: {
+    address: Map({
       zipCode: '',
       firstAddress: '',
       detailAddress: '',
-    },
+    }),
     contact: '',
     openingHours: '',
     closeDays: '',
-    possible: [
-      { index: 0, title: '홀', isChecked: false, src: '/img/icon01' },
-      { index: 1, title: '배달', isChecked: false, src: '/img/icon02' },
-      { index: 2, title: '포장', isChecked: false, src: '/img/icon03' },
-      { index: 3, title: '예약', isChecked: false, src: '/img/icon04' },
-      { index: 4, title: '주차', isChecked: false, src: '/img/icon05' },
-    ],
+    possible: List([
+      Map({ index: 0, title: '홀', isChecked: false, src: '/img/icon01' }),
+      Map({ index: 1, title: '배달', isChecked: false, src: '/img/icon02' }),
+      Map({ index: 2, title: '포장', isChecked: false, src: '/img/icon03' }),
+      Map({ index: 3, title: '예약', isChecked: false, src: '/img/icon04' }),
+      Map({ index: 4, title: '주차', isChecked: false, src: '/img/icon05' }),
+    ]),
     errors: [],
   };
 
@@ -44,19 +43,15 @@ class AddShop extends Component {
 
   handleAddress = data => {
     const { address } = this.state;
-    const newAddress = Object.assign({}, address);
-    newAddress.zipCode = data.zonecode;
-    newAddress.firstAddress = data.address;
-
-    this.setState({ address: newAddress, isOpenAddress: false });
+    this.setState({
+      address: address.merge({ zipCode: data.zonecode, firstAddress: data.address }),
+      isOpenAddress: false,
+    });
   };
 
   handleDetailAddress = value => {
     const { address } = this.state;
-    const newAddress = Object.assign({}, address);
-    newAddress.detailAddress = value;
-
-    this.setState({ address: newAddress });
+    this.setState({ address: address.set('detailAddress', value) });
   };
 
   handleCategory = value => {
@@ -65,10 +60,9 @@ class AddShop extends Component {
 
   handleCheck = index => {
     const { possible } = this.state;
-    const newPossible = Array.from(possible);
-    newPossible[index].isChecked = !newPossible[index].isChecked;
-
-    this.setState({ possible: newPossible });
+    this.setState({
+      possible: possible.update(index, item => item.set('isChecked', !item.get('isChecked'))),
+    });
   };
 
   onImageChange = e => {
@@ -78,16 +72,15 @@ class AddShop extends Component {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        this.setState(prevState => ({
-          images: [
-            ...prevState.images,
-            {
+        this.setState({
+          images: this.state.images.push(
+            Map({
               image: reader.result,
               imageName: files[i].name,
               imageType: files[i].type,
-            },
-          ],
-        }));
+            })
+          ),
+        });
       };
 
       reader.readAsDataURL(files[i]);
@@ -109,38 +102,40 @@ class AddShop extends Component {
       possible,
     } = this.state;
     const { initAddShop, history, authentication } = this.props;
-    const newPossible = [];
-    for (let i = 0; i < possible.length; i++) {
-      if (possible[i].isChecked) newPossible.push(possible[i]);
+    let newPossible = List([]);
+    for (let i = 0; i < possible.size; i++) {
+      if (possible.get(i).get('isChecked')) {
+        newPossible = newPossible.push(possible.get(i));
+      }
     }
 
     const validateText = text => (text.trim().length > 0 ? true : false);
 
     const errors = [];
-    if (images.length === 0) errors.push('images');
+    if (images.size === 0) errors.push('images');
     if (!validateText(category)) errors.push('category');
     if (!validateText(name)) errors.push('name');
     if (!validateText(description)) errors.push('description');
-    if (!validateText(address.zipCode)) errors.push('address');
+    if (!validateText(address.get('zipCode'))) errors.push('address');
     if (!validateText(contact)) errors.push('contact');
     if (!validateText(openingHours)) errors.push('openingHours');
     if (!validateText(closeDays)) errors.push('closeDays');
-    if (newPossible.length === 0) errors.push('possible');
+    if (newPossible.size === 0) errors.push('possible');
 
     this.setState({ errors: errors });
 
     if (errors.length === 0) {
       initAddShop({
-        images,
+        images: images.toJS(),
         category,
         name,
         description,
-        address,
+        address: address.toJS(),
         contact,
         openingHours,
         closeDays,
-        possible: newPossible,
-        member_seq: authentication.seq,
+        possible: newPossible.toJS(),
+        member_seq: authentication.get('seq'),
       }).then(value => history.push('/franchise/addProducts'));
     } else {
       console.log('validate');
@@ -148,32 +143,22 @@ class AddShop extends Component {
   };
 
   render() {
-    const { isLogin } = this.props.authentication;
-    const {
-      images,
-      isOpenAddress,
-      address,
-      possible,
-      description,
-      category,
-      errors,
-    } = this.state;
+    const { authentication, franchise } = this.props;
+    const { images, isOpenAddress, address, possible, description, category, errors } = this.state;
 
-    if (!isLogin) {
+    if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
 
     return (
       <div>
         <div className="container">
-          {this.props.franchise.status.isFetching ? <Loading /> : null}
+          {franchise.getIn(['status', 'isFetching']) ? <Loading /> : null}
           <div
             className={classNames('overlay', { active: isOpenAddress })}
             onClick={this.toggleAddress}
           />
-          {isOpenAddress ? (
-            <Address handleAddress={this.handleAddress} />
-          ) : null}
+          {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
           <Images
             images={images}
             onImageChange={this.onImageChange}
@@ -197,26 +182,19 @@ class AddShop extends Component {
             validateClass={this.validateClass}
           />
         </div>
-        <Buttons
-          handleConfirm={this.handleConfirm}
-          errors={errors.length > 0 ? true : false}
-        />
+        <Buttons handleConfirm={this.handleConfirm} errors={errors.length > 0 ? true : false} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authentication: state.authentication,
-    franchise: state.franchise,
-  };
-};
+const mapStateToProps = state => ({
+  authentication: state.get('authentication'),
+  franchise: state.get('franchise'),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    initAddShop: shop => dispatch(initAddShop(shop)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  initAddShop: shop => dispatch(initAddShop(shop)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddShop);

@@ -1,35 +1,23 @@
-import assign from 'lodash/assign';
+import { Map, List } from 'immutable';
+
 import * as actionTypes from '../actions/actionTypes';
 
-const initFranchiseLists = {
-  status: {
+const initialState = Map({
+  status: Map({
     isFetching: false,
     error: false,
-  },
-  lists: [],
-};
+  }),
+  lists: List([]),
+});
 
-export const franchiseLists = (state = initFranchiseLists, action) => {
+export const franchiseLists = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_SHOP_LISTS:
-      return assign({}, state, {
-        status: {
-          isFetching: true,
-          error: state.status.error,
-        },
-      });
+      return state.setIn(['status', 'isFetching'], true);
     case actionTypes.GET_SHOP_LISTS_SUCCESS:
-      return {
-        ...initFranchiseLists,
-        lists: action.result.data
-      }
+      return state.setIn(['status', 'isFetching'], false).set('lists', List(action.result.data));
     case actionTypes.GET_SHOP_LISTS_FAILURE:
-      return assign({}, state, {
-        status: {
-          isFetching: false,
-          error: action.result.error,
-        },
-      });
+      return state.mergeIn(['status', { isFetching: false, error: action.result.error }]);
     default:
       return state;
   }

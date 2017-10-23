@@ -3,28 +3,28 @@ import { apiSignin, apiSignup } from '../constants/api';
 
 const reqSignin = () => {
   return {
-    type: actionTypes.REQ_SIGNIN
+    type: actionTypes.REQ_SIGNIN,
   };
 };
 
-const reqSigninSuccess = (result) => {
+const reqSigninSuccess = result => {
   return {
     type: actionTypes.REQ_SIGNIN_SUCCESS,
-    result
+    result,
   };
 };
 
-const reqSigninFailure = (result) => {
+const reqSigninFailure = result => {
   return {
     type: actionTypes.REQ_SIGNIN_FAILURE,
-    result
+    result,
   };
 };
 
 /**
  * user: { id, password }
  */
-export const initSignin = (user) => async (dispatch) => {
+export const initSignin = user => async dispatch => {
   dispatch(reqSignin());
   const response = await apiSignin(user);
   const result = await response.json();
@@ -47,28 +47,28 @@ export const initSignin = (user) => async (dispatch) => {
 
 const reqSignup = () => {
   return {
-    type: actionTypes.REQ_SIGNUP
+    type: actionTypes.REQ_SIGNUP,
   };
 };
 
-const reqSignupSuccess = (result) => {
+const reqSignupSuccess = result => {
   return {
     type: actionTypes.REQ_SIGNUP_SUCCESS,
-    result
+    result,
   };
 };
 
-const reqSignupFailure = (result) => {
+const reqSignupFailure = result => {
   return {
     type: actionTypes.REQ_SIGNUP_FAILURE,
-    result
+    result,
   };
 };
 
 /**
  * user: { id, password }
  */
-export const initSignup = (user) => async (dispatch) => {
+export const initSignup = user => async dispatch => {
   dispatch(reqSignup());
   const response = await apiSignup(user);
 

@@ -7,10 +7,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducers from '../reducers';
 
+// logger option
+const logger = createLogger({ collapsed: true });
+
 const middlewares = [thunk];
 
 if (window.__REDUX_DEVTOOLS_EXTENSION__) {
-  middlewares.push(createLogger());
+  middlewares.push(logger);
 }
 
 export default createStore(

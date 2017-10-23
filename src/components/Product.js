@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Product extends Component {
   render() {
-    const { image, title, price, index, setStateByKey, removeProduct, onImageChange } = this.props;
+    const { product, index, setStateByKey, removeProduct, onImageChange } = this.props;
 
     return (
       <div className="items products">
@@ -10,7 +10,11 @@ class Product extends Component {
           <div className="product__image__wrapper">
             <div className="full-block">
               <label className="full-block center">
-                {image ? <img className="img-cover" src={image} alt="" /> : '+'}
+                {product.get('image') ? (
+                  <img className="img-cover" src={product.get('image')} alt="" />
+                ) : (
+                  '+'
+                )}
                 <form
                   onChange={e => onImageChange(e, index, this.form)}
                   encType="multipart/form-data"
@@ -26,7 +30,7 @@ class Product extends Component {
               <span>상품명</span>
               <input
                 type="text"
-                value={title}
+                value={product.get('title')}
                 placeholder="상품명을 입력하세요."
                 onChange={e => setStateByKey(index, 'title', e.target.value)}
               />
@@ -38,7 +42,7 @@ class Product extends Component {
               <span>가격</span>
               <input
                 type="number"
-                value={price}
+                value={product.get('price')}
                 onChange={e => setStateByKey(index, 'price', e.target.value)}
               />
               <span id="currency">원</span>

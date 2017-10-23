@@ -8,11 +8,4 @@ import { initUpload } from './upload';
 import { initAddShop, initAddProducts } from './franchise';
 import { initGetShopLists } from './franchiseLists';
 
-export {
-  initSignin,
-  initSignup,
-  initUpload,
-  initAddShop,
-  initAddProducts,
-  initGetShopLists,
-};
+export { initSignin, initSignup, initUpload, initAddShop, initAddProducts, initGetShopLists };

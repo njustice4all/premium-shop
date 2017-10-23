@@ -1,78 +1,52 @@
-import assign from 'lodash/assign';
+import { Map, List } from 'immutable';
+
 import * as actionTypes from '../actions/actionTypes';
 
-const initFranchise = {
-  status: {
+const initialState = Map({
+  seq: '',
+  status: Map({
     isFetching: false,
     error: false,
     addShop: false,
     addProducts: false,
-  },
-  shop: {
-    images: [],
+  }),
+  shop: Map({
+    images: List([]),
     category: '',
     name: '',
     description: '',
-    address: {},
+    address: Map({
+      zipCode: '',
+      firstAddress: '',
+      detailAddress: '',
+    }),
     contact: '',
     openingHours: '',
     closedDays: '',
-    possible: [], // 홀, 배달, 포장, 예약, 주차
-  },
-  products: [], // { image: '', title: '', price: 0 }
-};
+    possible: List([]),
+  }),
+  products: List([]),
+});
 
-export const franchise = (state = initFranchise, action) => {
+export const franchise = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_SHOP:
     case actionTypes.ADD_PRODUCTS:
     case actionTypes.REQ_UPLOAD:
-      return assign({}, state, {
-        status: {
-          isFetching: true,
-          error: state.status.error,
-        },
-      });
+      return state.setIn(['status', 'isFetching'], true);
     case actionTypes.ADD_SHOP_SUCCESS:
-      return assign({}, state, {
-        seq: action.result.seq,
-        status: {
-          ...state.status,
-          isFetching: false,
-          error: state.status.error,
-          addShop: true,
-        },
-        shop: {
-          images: [...state.shop.images],
-          ...action.shop,
-        },
-      });
+      return state
+        .set('seq', action.result.seq)
+        .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
+        .set('shop', List(action.shop));
     case actionTypes.ADD_PRODUCTS_SUCCESS:
-      return assign({}, state, {
-        status: {
-          ...state.status,
-          isFetching: false,
-          error: state.status.error,
-          addProducts: true,
-        },
-        products: [...action.result.products],
-      });
-    // case actionTypes.REQ_UPLOAD_SUCCESS:
-    //   return assign({}, state, {
-    //     status: {
-    //       isFetching: false,
-    //       error: state.status.error,
-    //     },
-    //   });
+      return state
+        .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
+        .set('products', List(action.result.products));
     case actionTypes.ADD_SHOP_FAILURE:
     case actionTypes.ADD_PRODUCTS_FAILURE:
     case actionTypes.REQ_UPLOAD_FAILURE:
-      return assign({}, state, {
-        status: {
-          isFetching: false,
-          error: action.result.error,
-        },
-      });
+      return state.mergeIn(['status'], { isFetching: false, error: action.result.error });
     default:
       return state;
   }
