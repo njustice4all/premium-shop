@@ -286,6 +286,7 @@ input {
   .header__nav__link.on {
     color: $color-theme;
     border-bottom: 4px solid;
+    padding-bottom: 11px;
   }
 }
 
@@ -740,6 +741,7 @@ input {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        width: calc(100% - 95px);
 
         .franchise-name h1 {
           font-size: 22px;
@@ -748,6 +750,12 @@ input {
 
         .franchise-tag p {
           color: $color-theme;
+        }
+
+        .ellipsis {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
         }
       }
     }

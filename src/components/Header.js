@@ -1,48 +1,91 @@
-import React from 'react';
-// import classNames from 'classnames';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
+import classNames from 'classnames';
+import { Link, withRouter } from 'react-router-dom';
 
-const Header = () => {
-  return (
-    <header className="header__nav">
-      <NavLink
-        to="/franchise/addShop"
-        className="header__nav__link"
-        activeClassName="on"
-        // className={classNames('header__nav__link', {
-        //   on: window.location.pathname === '/franchise/addShop' ? true : false,
-        // })}
-      >
-        가맹점 정보
-      </NavLink>
-      <NavLink
-        to="/franchise/addProducts"
-        className="header__nav__link"
-        activeClassName="on"
-        // className={classNames('header__nav__link', {
-        //   on: window.location.pathname === '/franchise/addProducts' ? true : false,
-        // })}
-      >
-        판매 상품 정보
-      </NavLink>
-      {/*<div className="header__nav__link" style={styles.textWrapper}>
-        <span>{window.location.pathname === '/franchise/addShop' ? '가맹점 등록' : '판매 상품 등록'}</span>
-    </div>*/}
-    </header>
-  );
-};
+class Header extends Component {
+  constructor(props) {
+    super(props);
 
-export default Header;
+    this.shop = ['addShop', 'setShop'];
+    this.product = ['addProducts', 'setProducts'];
+    this.addTypes = ['addShop', 'addProducts'];
+    this.setTypes = ['setShop', 'setProducts'];
+  }
+  getClassNameByType = type => {
+    const { location } = this.props;
+    const locationArr = location.pathname.split('/');
+    let result = null;
 
-// const styles = {
-//   textWrapper: {
-//     flex: 1,
-//     backgroundColor: '#222831',
-//     color: '#ffffff',
-//     height: '65px',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     display: 'flex',
-//     fontSize: '20px',
-//   },
-// };
+    if (type === 'shop') {
+      locationArr.forEach(item => {
+        if (this.shop.includes(item)) {
+          result = true;
+        }
+      });
+    } else {
+      locationArr.forEach(item => {
+        if (this.product.includes(item)) {
+          result = true;
+        }
+      });
+    }
+
+    return result;
+  };
+
+  getHeaderContentsObject = () => {
+    const locationArr = this.props.location.pathname.split('/');
+    let result = null;
+
+    locationArr.forEach(item => {
+      if (this.addTypes.includes(item)) {
+        result = {
+          shop: { link: '/franchise/addShop', title: '가맹점 정보' },
+          product: { link: '/franchise/addProducts', title: '판매 상품 정보' },
+        };
+      }
+    });
+
+    locationArr.forEach(item => {
+      if (this.setTypes.includes(item)) {
+        result = {
+          shop: { link: '/franchise/setShop/2', title: '가맹점 정보 수정' },
+          product: { link: '/franchise/setProducts', title: '판매 상품 정보 수정' },
+        };
+      }
+    });
+
+    return result;
+  };
+
+  render() {
+    return (
+      <header className="header__nav">
+        <Link
+          to={this.getHeaderContentsObject().shop.link}
+          // className="header__nav__link"
+          // activeClassName="on"
+          className={classNames('header__nav__link', {
+            on: this.getClassNameByType('shop'),
+            // on: location.pathname === '/franchise/addShop' ? true : false,
+          })}
+        >
+          {this.getHeaderContentsObject().shop.title}
+        </Link>
+        <Link
+          to={this.getHeaderContentsObject().product.link}
+          // className="header__nav__link"
+          // activeClassName="on"
+          className={classNames('header__nav__link', {
+            on: this.getClassNameByType('product'),
+            // on: location.pathname === '/franchise/addProducts' ? true : false,
+          })}
+        >
+          {this.getHeaderContentsObject().product.title}
+        </Link>
+      </header>
+    );
+  }
+}
+
+export default withRouter(Header);

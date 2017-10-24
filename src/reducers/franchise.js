@@ -33,17 +33,25 @@ export const franchise = (state = initialState, action) => {
     case actionTypes.ADD_SHOP:
     case actionTypes.ADD_PRODUCTS:
     case actionTypes.REQ_UPLOAD:
+    case actionTypes.SET_SHOP:
       return state.setIn(['status', 'isFetching'], true);
+    case actionTypes.SET_SHOP_SUCCESS:
+      return state.mergeIn(['status'], { isFetching: false, error: false });
     case actionTypes.ADD_SHOP_SUCCESS:
-      return state
-        .set('seq', action.result.seq)
-        .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
-        .set('shop', List(action.shop));
+      return state.withMutations(mutator =>
+        mutator
+          .set('seq', action.result.seq)
+          .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
+          .set('shop', List(action.shop))
+      );
     case actionTypes.ADD_PRODUCTS_SUCCESS:
-      return state
-        .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
-        .set('products', List(action.result.products));
+      return state.withMutations(mutator =>
+        mutator
+          .mergeIn(['status'], { isFetching: false, error: false, addShop: true })
+          .set('products', List(action.result.products))
+      );
     case actionTypes.ADD_SHOP_FAILURE:
+    case actionTypes.SET_SHOP_FAILURE:
     case actionTypes.ADD_PRODUCTS_FAILURE:
     case actionTypes.REQ_UPLOAD_FAILURE:
       return state.mergeIn(['status'], { isFetching: false, error: action.result.error });

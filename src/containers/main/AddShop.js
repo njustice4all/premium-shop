@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
 import { validateState, createUniqueId, convertUrlToBase64 } from '../../utils';
-import { initAddShop } from '../../actions';
+import { initAddShop, initSetShop } from '../../actions';
 
 import { Images, Info, Buttons, Loading, Address } from '../../components';
 
@@ -99,7 +99,7 @@ class AddShop extends Component {
         images: this.state.images.push(
           Map({
             image: onResult.base64,
-            imageName: '제목없음',
+            imageName: onResult.imageName,
             imageType: 'image/png',
             seq: onResult.seq,
           })
@@ -229,13 +229,13 @@ class AddShop extends Component {
       openingHours,
       closeDays,
     } = this.state;
-    const { initAddShop, history, authentication } = this.props;
+    const { initSetShop, history, authentication } = this.props;
     const { errors, possible } = validateState(this.state);
 
     const result = {
       addImages: addImages.toJS(),
       deleteImages: deleteImages.toJS(),
-      seq: this.props.match.params.shopSequence,
+      shop_seq: this.props.match.params.shopSequence,
       address: address.toJS(),
       possible: possible.toJS(),
       category,
@@ -247,6 +247,7 @@ class AddShop extends Component {
     };
 
     console.log(result);
+    initSetShop(result);
   };
 
   handleCancel = () => this.props.history.push('/');
@@ -310,6 +311,7 @@ class AddShop extends Component {
           />
         </div>
         <Buttons
+          editMode={editMode ? true : false}
           handleConfirm={this.handleConfirm}
           handleCancel={this.handleCancel}
           errors={errors.length > 0 ? true : false}
@@ -327,6 +329,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initAddShop: shop => dispatch(initAddShop(shop)),
+  initSetShop: shop => dispatch(initSetShop(shop)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddShop);

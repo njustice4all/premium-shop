@@ -30,13 +30,15 @@ const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
         </div>
         <div className="describe-wrapper">
           <div className="franchise-name">
-            <h1>{franchise.get('name')}</h1>
+            <h1 className="ellipsis">{franchise.get('name')}</h1>
           </div>
           <div className="franchise-tag">
-            <p>{franchise.get('description')}</p>
+            <p className="ellipsis">{franchise.get('description')}</p>
           </div>
           <div className="franchise-address">
-            <p>{`${franchise.get('firstAddress')} ${franchise.get('detailAddress')}`}</p>
+            <p className="ellipsis">{`${franchise.get('firstAddress')} ${franchise.get(
+              'detailAddress'
+            )}`}</p>
           </div>
           <div className="franchise-contact">
             <p>{franchise.get('contact')}</p>
@@ -72,7 +74,8 @@ class FranchiseList extends Component {
   };
 
   onModifyBtnPress = (shopSequence, memberSequence) => () => {
-    this.props.history.push(`/franchise/modifyShop/${shopSequence}`);
+    // TODO: shopSequence 저장 action
+    this.props.history.push(`/franchise/setShop/${shopSequence}`);
   };
 
   render() {

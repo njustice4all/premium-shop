@@ -67,3 +67,16 @@ export const apiGetShopLists = seq => {
     }),
   });
 };
+
+export const apiSetShop = shop => {
+  return fetch(`${API}/setShop`, {
+    headers: new Headers({
+      Accept: 'application/json',
+    }),
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({
+      shop: shop,
+    }),
+  });
+};

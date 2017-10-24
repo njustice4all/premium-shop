@@ -27,6 +27,7 @@ class App extends Component {
       case '/auth/signin':
       case '/auth/signup':
       case '/franchise/list':
+      case '/result':
       case '/':
         return null;
       default:
@@ -45,7 +46,7 @@ class App extends Component {
         <Route exact path="/franchise/addShop" component={AddShop} />
         <Route
           exact
-          path="/franchise/modifyShop/:shopSequence"
+          path="/franchise/setShop/:shopSequence"
           render={props => <AddShop editMode {...props} />}
         />
         <Route exact path="/franchise/addProducts" component={AddProducts} />

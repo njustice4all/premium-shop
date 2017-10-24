@@ -25,12 +25,15 @@ export const REQ_UPLOAD_SUCCESS = 'REQ_UPLOAD_SUCCESS';
 export const REQ_UPLOAD_FAILURE = 'REQ_UPLOAD_FAILURE';
 
 /**
- * 가맹점 등록
+ * 가맹점 등록, 수정
  * 가맹점과 판매상품 등록을 나눌것인가?
  */
 export const ADD_SHOP = 'ADD_SHOP';
 export const ADD_SHOP_SUCCESS = 'ADD_SHOP_SUCCESS';
 export const ADD_SHOP_FAILURE = 'ADD_SHOP_FAILURE';
+export const SET_SHOP = 'SET_SHOP';
+export const SET_SHOP_SUCCESS = 'SET_SHOP_SUCCESS';
+export const SET_SHOP_FAILURE = 'SET_SHOP_FAILURE';
 
 /**
  * 판매상품 등록

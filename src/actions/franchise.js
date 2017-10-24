@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { apiAddShop, apiAddProducts } from '../constants/api';
+import { apiAddShop, apiAddProducts, apiSetShop } from '../constants/api';
 
 const addShop = () => {
   return {
@@ -65,13 +65,34 @@ export const initAddProducts = products => async dispatch => {
     dispatch(addProductsSuccess(products));
     return { error: false };
   }
+};
 
-  // if (response.status >= 400) {
-  //   dispatch(addProductsFailure({ error: true }));
-  //   return { error: true };
-  // } else {
-  //   // const result = await response.json();
-  //   dispatch(addProductsSuccess(products));
-  //   return true;
-  // }
+const setShop = () => ({
+  type: actionTypes.SET_SHOP,
+});
+
+const setShopSuccess = result => ({
+  type: actionTypes.SET_SHOP_SUCCESS,
+  result,
+});
+
+const setShopFailure = result => ({
+  type: actionTypes.SET_SHOP_FAILURE,
+  result,
+});
+
+export const initSetShop = shop => async dispatch => {
+  dispatch(setShop());
+  try {
+    const response = await apiSetShop(shop);
+    const result = await response.json();
+
+    if (!result.msg) {
+      dispatch(setShopFailure({ error: true }));
+    } else {
+      dispatch(setShopSuccess(result));
+    }
+  } catch (error) {
+    console.error('initSetShop error');
+  }
 };

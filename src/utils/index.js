@@ -30,7 +30,8 @@ export const convertUrlToBase64 = (images, onResult) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
       const reader = new FileReader();
-      reader.onloadend = () => onResult({ base64: reader.result, seq: images[i].seq });
+      reader.onloadend = () =>
+        onResult({ base64: reader.result, seq: images[i].seq, imageName: images[i].imageName });
       reader.readAsDataURL(xhr.response);
     };
 
