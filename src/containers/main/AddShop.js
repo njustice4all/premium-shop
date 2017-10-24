@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
+import { validateState, createUniqueId, convertUrlToBase64 } from '../../utils';
 import { initAddShop } from '../../actions';
 
 import { Images, Info, Buttons, Loading, Address } from '../../components';
@@ -18,7 +19,7 @@ class AddShop extends Component {
     address: Map({
       zipCode: '419328',
       firstAddress: '서울특별시 강남구 대치동',
-      detailAddress: 'Adra빌딩 401호',
+      detailAddress: 'ATY빌딩 401호',
     }),
     contact: '025551234',
     openingHours: '평일 11:00 ~ 22:00 / 일요일 11:30 ~ 22:30',
@@ -31,6 +32,8 @@ class AddShop extends Component {
       Map({ index: 4, title: '주차', isChecked: false, src: '/img/icon05' }),
     ]),
     errors: [],
+    deleteImages: List([]),
+    addImages: List([]),
   };
 
   componentDidMount = () => {
@@ -43,7 +46,7 @@ class AddShop extends Component {
     const lists = franchiseLists.get('lists');
     const result = lists.filter(shop => shop.seq === shopSequence).get(0);
 
-    console.log(lists);
+    if (lists.size === 0) return;
 
     this.setState({
       category: result.category,
@@ -91,17 +94,18 @@ class AddShop extends Component {
       ]),
     });
 
-    this.convertBase64(`http://van.aty.kr/image/${result.imageName}`, base64 =>
+    convertUrlToBase64(result.image, onResult => {
       this.setState({
         images: this.state.images.push(
           Map({
-            image: base64,
+            image: onResult.base64,
             imageName: '제목없음',
             imageType: 'image/png',
+            seq: onResult.seq,
           })
         ),
-      })
-    );
+      });
+    });
   };
 
   setStateByKey = (key, value) => this.setState(prevState => ({ [key]: value }));
@@ -139,14 +143,16 @@ class AddShop extends Component {
       const reader = new FileReader();
 
       reader.onloadend = () => {
+        const image = Map({
+          image: reader.result,
+          imageName: files[i].name,
+          imageType: files[i].type,
+          added: true,
+          uniqueId: createUniqueId(),
+        });
         this.setState({
-          images: this.state.images.push(
-            Map({
-              image: reader.result,
-              imageName: files[i].name,
-              imageType: files[i].type,
-            })
-          ),
+          images: this.state.images.push(image),
+          addImages: this.state.addImages.push(image),
         });
       };
 
@@ -154,24 +160,30 @@ class AddShop extends Component {
     }
   };
 
-  deleteImageByIndex = index => () => this.setState({ images: this.state.images.delete(index) });
+  deleteImageByIndex = index => () => {
+    const deleteImage = this.state.images.get(index);
+    let deleteIndexFromAddImages = null;
 
-  convertBase64 = (url, callback) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-      var reader = new FileReader();
-      reader.onloadend = () => callback(reader.result);
-      reader.readAsDataURL(xhr.response);
-    };
+    if (deleteImage.get('added')) {
+      this.state.addImages.forEach((image, index) => {
+        if (image.get('uniqueId') === deleteImage.get('uniqueId')) {
+          deleteIndexFromAddImages = index;
+        }
+      });
+    }
 
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
+    this.setState({
+      images: this.state.images.delete(index),
+      deleteImages: this.state.deleteImages.push(deleteImage.get('seq')),
+      addImages: this.state.addImages.delete(deleteIndexFromAddImages),
+    });
   };
 
   validateClass = name => (this.state.errors.includes(name) ? true : false);
 
-  handleConfirm = () => {
+  handleConfirm = () => (this.props.editMode ? this.onModifyShop() : this.onAddShop());
+
+  onAddShop = () => {
     const {
       images,
       category,
@@ -181,47 +193,60 @@ class AddShop extends Component {
       contact,
       openingHours,
       closeDays,
-      possible,
     } = this.state;
     const { initAddShop, history, authentication } = this.props;
-    let newPossible = List([]);
-    for (let i = 0; i < possible.size; i++) {
-      if (possible.getIn([i, 'isChecked'])) {
-        newPossible = newPossible.push(possible.get(i));
-      }
-    }
-
-    const validateText = text => (text.trim().length > 0 ? true : false);
-
-    const errors = [];
-    if (images.size === 0) errors.push('images');
-    if (!validateText(category)) errors.push('category');
-    if (!validateText(name)) errors.push('name');
-    if (!validateText(description)) errors.push('description');
-    if (!validateText(address.get('zipCode'))) errors.push('address');
-    if (!validateText(contact)) errors.push('contact');
-    if (!validateText(openingHours)) errors.push('openingHours');
-    if (!validateText(closeDays)) errors.push('closeDays');
-    if (newPossible.size === 0) errors.push('possible');
+    const { errors, possible } = validateState(this.state);
 
     this.setState({ errors: errors });
 
     if (errors.length === 0) {
       initAddShop({
         images: images.toJS(),
+        address: address.toJS(),
+        possible: possible.toJS(),
+        member_seq: authentication.get('seq'),
         category,
         name,
         description,
-        address: address.toJS(),
         contact,
         openingHours,
         closeDays,
-        possible: newPossible.toJS(),
-        member_seq: authentication.get('seq'),
       }).then(value => history.push('/franchise/addProducts'));
     } else {
       console.log('validate');
     }
+  };
+
+  onModifyShop = () => {
+    const {
+      addImages,
+      deleteImages,
+      category,
+      name,
+      description,
+      address,
+      contact,
+      openingHours,
+      closeDays,
+    } = this.state;
+    const { initAddShop, history, authentication } = this.props;
+    const { errors, possible } = validateState(this.state);
+
+    const result = {
+      addImages: addImages.toJS(),
+      deleteImages: deleteImages.toJS(),
+      seq: this.props.match.params.shopSequence,
+      address: address.toJS(),
+      possible: possible.toJS(),
+      category,
+      name,
+      description,
+      contact,
+      openingHours,
+      closeDays,
+    };
+
+    console.log(result);
   };
 
   handleCancel = () => this.props.history.push('/');

@@ -8,18 +8,11 @@ type Props = {
   onImageChange: Function,
   validateClass: Function,
   deleteImageByIndex: Function,
-  editMode: Boolean,
 };
 
 export default class Images extends Component<Props> {
   render() {
-    const {
-      images,
-      editMode,
-      onImageChange,
-      validateClass,
-      deleteImageByIndex,
-    }: Props = this.props;
+    const { images, onImageChange, validateClass, deleteImageByIndex }: Props = this.props;
     const button = (
       <div className="images">
         <label htmlFor="upload-image">
