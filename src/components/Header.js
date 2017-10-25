@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class Header extends Component {
   constructor(props) {
@@ -34,7 +35,9 @@ class Header extends Component {
   };
 
   getHeaderContentsObject = () => {
-    const locationArr = this.props.location.pathname.split('/');
+    const { franchise, location } = this.props;
+    const locationArr = location.pathname.split('/');
+    const shopSequence = franchise.get('seq');
     let result = null;
 
     locationArr.forEach(item => {
@@ -49,7 +52,7 @@ class Header extends Component {
     locationArr.forEach(item => {
       if (this.setTypes.includes(item)) {
         result = {
-          shop: { link: '/franchise/setShop/2', title: '가맹점 정보 수정' },
+          shop: { link: `/franchise/setShop/${shopSequence}`, title: '가맹점 정보 수정' },
           product: { link: '/franchise/setProducts', title: '판매 상품 정보 수정' },
         };
       }
@@ -88,4 +91,8 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+export default withRouter(
+  connect(state => ({
+    franchise: state.get('franchise'),
+  }))(Header)
+);

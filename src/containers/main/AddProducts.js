@@ -83,8 +83,7 @@ class AddProducts extends Component {
         return;
     }
 
-    initAddProducts({ products: products.toJS(), seq: '22' })
-      // initAddProducts({ products, seq: franchise.get('seq') })
+    initAddProducts({ products, seq: franchise.get('seq') })
       .then(result => {
         if (result.error) {
           console.error('add products error');

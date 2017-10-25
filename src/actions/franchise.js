@@ -96,3 +96,8 @@ export const initSetShop = shop => async dispatch => {
     console.error('initSetShop error');
   }
 };
+
+export const addShopSequence = shopSequence => ({
+  type: actionTypes.ADD_SHOP_SEQUENCE,
+  shopSequence,
+});

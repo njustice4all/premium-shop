@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Map } from 'immutable';
 
+import { addShopSequence } from '../../actions';
+
 const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
   return (
     <div className="lists">
@@ -74,8 +76,9 @@ class FranchiseList extends Component {
   };
 
   onModifyBtnPress = (shopSequence, memberSequence) => () => {
-    // TODO: shopSequence 저장 action
-    this.props.history.push(`/franchise/setShop/${shopSequence}`);
+    const { addShopSequence, history } = this.props;
+    addShopSequence(shopSequence);
+    history.push(`/franchise/setShop/${shopSequence}`);
   };
 
   render() {
@@ -120,11 +123,23 @@ class FranchiseList extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authentication: state.get('authentication'),
-    franchiseLists: state.get('franchiseLists'),
-  };
-};
+// const mapStateToProps = state => ({
+//   authentication: state.get('authentication'),
+//   franchiseLists: state.get('franchiseLists'),
+// });
 
-export default withRouter(connect(mapStateToProps)(FranchiseList));
+// const mapDispatchToProps = dispatch => ({
+//   addShopSequence: shopSequence => dispatch(addShopSequence(shopSequence)),
+// });
+
+export default withRouter(
+  connect(
+    state => ({
+      authentication: state.get('authentication'),
+      franchiseLists: state.get('franchiseLists'),
+    }),
+    dispatch => ({
+      addShopSequence: shopSequence => dispatch(addShopSequence(shopSequence)),
+    })
+  )(FranchiseList)
+);

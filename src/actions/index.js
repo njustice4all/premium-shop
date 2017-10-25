@@ -5,7 +5,7 @@
 // export { default as initAddProducts } from './franchise';
 import { initSignin, initSignup, autoLogin } from './authentication';
 import { initUpload } from './upload';
-import { initAddShop, initAddProducts, initSetShop } from './franchise';
+import { initAddShop, initAddProducts, initSetShop, addShopSequence } from './franchise';
 import { initGetShopLists } from './franchiseLists';
 
 export {
@@ -17,4 +17,5 @@ export {
   initAddProducts,
   initGetShopLists,
   autoLogin,
+  addShopSequence,
 };

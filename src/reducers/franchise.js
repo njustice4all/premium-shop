@@ -35,6 +35,8 @@ export const franchise = (state = initialState, action) => {
     case actionTypes.REQ_UPLOAD:
     case actionTypes.SET_SHOP:
       return state.setIn(['status', 'isFetching'], true);
+    case actionTypes.ADD_SHOP_SEQUENCE:
+      return state.set('seq', action.shopSequence);
     case actionTypes.SET_SHOP_SUCCESS:
       return state.mergeIn(['status'], { isFetching: false, error: false });
     case actionTypes.ADD_SHOP_SUCCESS:

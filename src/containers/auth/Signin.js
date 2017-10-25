@@ -18,6 +18,7 @@ class Signin extends Component {
   componentDidMount = () => {
     localforage.getItem('userInfo').then(userInfo => {
       if (userInfo) {
+        // 자동로그인
         // this.setState({ ...userInfo });
         this.props.history.push('/');
       }
