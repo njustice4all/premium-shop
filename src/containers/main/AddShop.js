@@ -45,8 +45,7 @@ class AddShop extends Component {
     const { shopSequence } = match.params;
     const lists = franchiseLists.get('lists');
     const result = lists.filter(shop => shop.seq === shopSequence).get(0);
-    // TODO: franchise state 관련 action 생성해야함
-    console.log(result);
+
     if (lists.size === 0) return;
 
     this.setState({

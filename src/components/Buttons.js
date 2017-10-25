@@ -7,9 +7,10 @@ type Props = {
   handleConfirm: Function,
   handleCancel: Function,
   errors: boolean,
+  editMode: boolean,
 };
 
-const Buttons = ({ handleConfirm, handleCancel, errors }: Props) => {
+const Buttons = ({ handleConfirm, handleCancel, errors, editMode }: Props) => {
   return (
     <div style={{ padding: '0 10px' }}>
       <div className="divider">
@@ -20,7 +21,7 @@ const Buttons = ({ handleConfirm, handleCancel, errors }: Props) => {
           취소하기
         </div>
         <div className={classNames('buttons update')} onClick={handleConfirm}>
-          등록하기
+          {editMode ? '수정하기' : '등록하기'}
         </div>
       </div>
     </div>
