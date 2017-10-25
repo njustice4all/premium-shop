@@ -10,8 +10,8 @@ class Product extends Component {
           <div className="product__image__wrapper">
             <div className="full-block">
               <label className="full-block center">
-                {product.get('image') ? (
-                  <img className="img-cover" src={product.get('image')} alt="" />
+                {product.getIn(['images', 0]) ? (
+                  <img className="img-cover" src={product.getIn(['images', 0, 'image'])} alt="" />
                 ) : (
                   '+'
                 )}

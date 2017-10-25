@@ -14,11 +14,11 @@ class AddProducts extends Component {
     this.setState({
       products: this.state.products.push(
         Map({
-          image: '',
-          imageName: '',
-          imageType: '',
+          images: List([]),
           title: '',
           price: 0,
+          option: List([]),
+          contents: '',
         })
       ),
     });
@@ -37,10 +37,15 @@ class AddProducts extends Component {
 
     reader.onloadend = upload => {
       this.setState({
-        products: this.state.products
-          .setIn([index, 'image'], reader.result)
-          .setIn([index, 'imageName'], file.name)
-          .setIn([index, 'imageType'], file.type),
+        products: this.state.products.updateIn([index, 'images'], list =>
+          list.push(
+            Map({
+              image: reader.result,
+              imageName: file.name,
+              imageType: file.type,
+            })
+          )
+        ),
       });
     };
 
@@ -60,27 +65,9 @@ class AddProducts extends Component {
 
     if (products.size === 0) return;
     for (let i = 0; i < products.size; i++) {
-      if (
-        products
-          .get(i)
-          .get('image')
-          .trim().length === 0
-      )
-        return;
-      if (
-        products
-          .get(i)
-          .get('title')
-          .trim().length === 0
-      )
-        return;
-      if (
-        products
-          .get(i)
-          .get('price')
-          .trim().length === 0
-      )
-        return;
+      if (products.getIn([i, 'images']).size === 0) return;
+      if (products.getIn([i, 'title']).trim().length === 0) return;
+      if (products.getIn([i, 'price']).trim().length === 0) return;
     }
 
     initAddProducts({ products, seq: franchise.get('seq') })
