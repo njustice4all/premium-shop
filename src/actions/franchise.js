@@ -1,25 +1,17 @@
 import * as actionTypes from './actionTypes';
-import { apiAddShop, apiAddProducts, apiSetShop } from '../constants/api';
+import {
+  apiAddShop,
+  apiAddProducts,
+  apiSetShop,
+  apiSetProducts,
+  apiGetProducts,
+} from '../constants/api';
 
-const addShop = () => {
-  return {
-    type: actionTypes.ADD_SHOP,
-  };
-};
+const addShop = () => ({ type: actionTypes.ADD_SHOP });
 
-const addShopSuccess = result => {
-  return {
-    type: actionTypes.ADD_SHOP_SUCCESS,
-    result,
-  };
-};
+const addShopSuccess = result => ({ type: actionTypes.ADD_SHOP_SUCCESS, result });
 
-const addShopFailure = result => {
-  return {
-    type: actionTypes.ADD_SHOP_FAILURE,
-    result,
-  };
-};
+const addShopFailure = result => ({ type: actionTypes.ADD_SHOP_FAILURE, result });
 
 export const initAddShop = shop => async dispatch => {
   dispatch(addShop());
@@ -33,25 +25,11 @@ export const initAddShop = shop => async dispatch => {
   }
 };
 
-const addProducts = () => {
-  return {
-    type: actionTypes.ADD_PRODUCTS,
-  };
-};
+const addProducts = () => ({ type: actionTypes.ADD_PRODUCTS });
 
-const addProductsSuccess = result => {
-  return {
-    type: actionTypes.ADD_PRODUCTS_SUCCESS,
-    result,
-  };
-};
+const addProductsSuccess = result => ({ type: actionTypes.ADD_PRODUCTS_SUCCESS, result });
 
-const addProductsFailure = result => {
-  return {
-    type: actionTypes.ADD_PRODUCTS_FAILURE,
-    result,
-  };
-};
+const addProductsFailure = result => ({ type: actionTypes.ADD_PRODUCTS_FAILURE, result });
 
 export const initAddProducts = products => async dispatch => {
   dispatch(addProducts());
@@ -67,19 +45,11 @@ export const initAddProducts = products => async dispatch => {
   }
 };
 
-const setShop = () => ({
-  type: actionTypes.SET_SHOP,
-});
+const setShop = () => ({ type: actionTypes.SET_SHOP });
 
-const setShopSuccess = result => ({
-  type: actionTypes.SET_SHOP_SUCCESS,
-  result,
-});
+const setShopSuccess = result => ({ type: actionTypes.SET_SHOP_SUCCESS, result });
 
-const setShopFailure = result => ({
-  type: actionTypes.SET_SHOP_FAILURE,
-  result,
-});
+const setShopFailure = result => ({ type: actionTypes.SET_SHOP_FAILURE, result });
 
 export const initSetShop = shop => async dispatch => {
   dispatch(setShop());
@@ -101,3 +71,50 @@ export const addShopSequence = shopSequence => ({
   type: actionTypes.ADD_SHOP_SEQUENCE,
   shopSequence,
 });
+
+const getProducts = () => ({ type: actionTypes.GET_PRODUCTS });
+
+const getProductsSuccess = result => ({ type: actionTypes.GET_PRODUCTS_SUCCESS, result });
+
+const getProductsFailure = result => ({ type: actionTypes.GET_PRODUCTS_FAILURE, result });
+
+export const initGetProducts = shopSequence => async dispatch => {
+  dispatch(getProducts());
+  try {
+    const response = await apiGetProducts(shopSequence);
+    const result = await response.json();
+
+    if (!result.msg) {
+      dispatch(getProductsFailure({ error: true }));
+    } else {
+      dispatch(getProductsSuccess(result));
+      return { data: result.data };
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const setProducts = () => ({ type: actionTypes.SET_PRODUCTS });
+
+const setProductsSuccess = result => ({ type: actionTypes.SET_PRODUCTS_SUCCESS, result });
+
+const setProductsFailure = result => ({ type: actionTypes.SET_PRODUCTS_FAILURE, result });
+
+export const initSetProducts = products => async dispatch => {
+  dispatch(setProducts());
+  try {
+    const response = await apiSetProducts(products);
+    const result = await response.json();
+
+    if (!result.msg) {
+      dispatch(setProductsFailure({ error: true }));
+    } else {
+      dispatch(setProductsSuccess(result));
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

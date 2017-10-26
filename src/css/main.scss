@@ -329,6 +329,7 @@ input {
   overflow: auto;
   white-space: nowrap;
   margin-top: 15px;
+  padding-top: 5px;
 }
 
 .images {
@@ -338,6 +339,18 @@ input {
   width: 65px;
   height: 65px;
   border: 1px solid $color-border;
+
+  .btn-delete {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    // background: #f96916;
+    // border: 1px solid #f96916;
+    display: flex;
+    padding: 1px;
+    color: $color-theme;
+    border-radius: 4px;
+  }
 
   label {
     width: 100%;

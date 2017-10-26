@@ -80,3 +80,29 @@ export const apiSetShop = shop => {
     }),
   });
 };
+
+export const apiGetProducts = shopSequence => {
+  return fetch(`${API}/getProductList`, {
+    headers: new Headers({
+      Accept: 'application/json',
+    }),
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({
+      shop_seq: shopSequence,
+    }),
+  });
+};
+
+export const apiSetProducts = products => {
+  return fetch(`${API}/setProducts`, {
+    headers: new Headers({
+      Accept: 'application/json',
+    }),
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({
+      products: products,
+    }),
+  });
+};

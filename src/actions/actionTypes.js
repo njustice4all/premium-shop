@@ -36,11 +36,17 @@ export const SET_SHOP_SUCCESS = 'SET_SHOP_SUCCESS';
 export const SET_SHOP_FAILURE = 'SET_SHOP_FAILURE';
 
 /**
- * 판매상품 등록
+ * 판매상품 등록, 수정, 조회
  */
 export const ADD_PRODUCTS = 'ADD_PRODUCTS';
 export const ADD_PRODUCTS_SUCCESS = 'ADD_PRODUCTS_SUCCESS';
 export const ADD_PRODUCTS_FAILURE = 'ADD_PRODUCTS_FAILURE';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_PRODUCTS_SUCCESS = 'SET_PRODUCTS_SUCCESS';
+export const SET_PRODUCTS_FAILURE = 'SET_PRODUCTS_FAILURE';
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCTS_SUCCESS = 'GET_PRODUCTS_SUCCESS';
+export const GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE';
 
 /**
  * 상점 리스트 가져오기

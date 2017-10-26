@@ -50,6 +50,11 @@ class App extends Component {
           render={props => <AddShop editMode {...props} />}
         />
         <Route exact path="/franchise/addProducts" component={AddProducts} />
+        <Route
+          exact
+          path="/franchise/setProducts/:shopSequence"
+          render={props => <AddProducts editMode {...props} />}
+        />
         <Route exact path="/result" component={Result} />
       </div>
     );

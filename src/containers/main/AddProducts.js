@@ -3,65 +3,123 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
-import { initAddProducts } from '../../actions';
+import { initAddProducts, initGetProducts } from '../../actions';
+import { convertoDataToState, createUniqueId, getModifyProducts } from '../../utils';
 
 import { Product, Buttons, Loading, Popup } from '../../components';
 
 class AddProducts extends Component {
-  state = { products: List([]) };
+  state = {
+    products: List([]),
+    deletedProducts: List([]),
+    addedProducts: List([]),
+  };
 
-  addProduct = () => {
-    this.setState({
-      products: this.state.products.push(
-        Map({
-          images: List([]),
-          title: '',
-          price: 0,
-          option: List([]),
-          contents: '',
-        })
-      ),
+  componentDidMount = () => {
+    if (this.props.editMode) this.onEditMode();
+  };
+
+  onEditMode = () => {
+    const { initGetProducts, franchise } = this.props;
+    if (!franchise.get('seq')) return;
+    initGetProducts(franchise.get('seq')).then(result => {
+      this.setState({ products: convertoDataToState(result.data) });
     });
   };
 
-  setStateByKey = (index, key, value) => {
-    this.setState({ products: this.state.products.setIn([index, key], value) });
+  addProduct = () => {
+    const newProduct = Map({
+      images: List([]),
+      title: '',
+      price: 0,
+      option: List([]),
+      contents: '',
+      uniqueId: createUniqueId(),
+    });
+
+    this.setState({
+      products: this.state.products.push(newProduct),
+      addedProducts: this.state.addedProducts.push(newProduct),
+    });
   };
 
-  removeProduct = index => this.setState({ products: this.state.products.delete(index) });
+  setStateByKey = (index, key, value, uniqueId) => {
+    const { products, addedProducts } = this.state;
+    if (uniqueId) {
+      this.setState({
+        products: products.setIn([index, key], value),
+        addedProducts: addedProducts.updateIn(
+          [addedProducts.findIndex(product => product.get('uniqueId') === uniqueId), key],
+          () => value
+        ),
+      });
+    } else {
+      this.setState({ products: products.setIn([index, key], value) });
+    }
+  };
 
-  onImageChange = (e, index, form) => {
+  deleteImageByIndex = index => () => {
+    const { products } = this.state;
+    this.setState({
+      products: products.updateIn([index, 'images'], images => List([])),
+    });
+  };
+
+  removeProductByIndex = index => {
+    const { products, deletedProducts, addedProducts } = this.state;
+    const removeProduct = products.get(index);
+    const uniqueIdFromRemoveProduct = removeProduct.get('uniqueId');
+    const removeIndexOfAddedProducts = addedProducts.findIndex(
+      product => product.get('uniqueId') === uniqueIdFromRemoveProduct
+    );
+
+    if (removeProduct.get('productSequence')) {
+      this.setState({
+        products: products.delete(index),
+        deletedProducts: deletedProducts.push(removeProduct.get('productSequence')),
+        addedProducts: addedProducts.delete(removeIndexOfAddedProducts),
+      });
+    } else {
+      this.setState({ products: products.delete(index) });
+    }
+  };
+
+  onImageChange = (e, index, form, uniqueId) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
 
     reader.onloadend = upload => {
-      this.setState({
-        products: this.state.products.updateIn([index, 'images'], list =>
-          list.push(
-            Map({
-              image: reader.result,
-              imageName: file.name,
-              imageType: file.type,
-            })
-          )
-        ),
+      const imageObject = Map({
+        image: reader.result,
+        imageName: file.name,
+        imageType: file.type,
+        modified: true,
       });
+      const { products, addedProducts } = this.state;
+
+      if (uniqueId) {
+        this.setState({
+          products: products.updateIn([index, 'images'], list => list.push(imageObject)),
+          addedProducts: addedProducts.updateIn(
+            [addedProducts.findIndex(product => product.get('uniqueId') === uniqueId), 'images'],
+            images => images.push(imageObject)
+          ),
+        });
+      } else {
+        this.setState({
+          products: products.updateIn([index, 'images'], images => images.push(imageObject)),
+        });
+      }
     };
 
     reader.readAsDataURL(file);
   };
 
-  isEmptyProduct = product => {
-    if (product.image && product.title && product.price) {
-      return false;
-    }
-    return true;
-  };
-
   handleConfirm = () => {
-    const { products } = this.state;
-    const { initAddProducts, history, franchise } = this.props;
+    const { products, deletedProducts } = this.state;
+    const { initAddProducts, history, franchise, editMode } = this.props;
+    const franchiseSequence = franchise.get('seq');
 
     if (products.size === 0) return;
     for (let i = 0; i < products.size; i++) {
@@ -70,16 +128,28 @@ class AddProducts extends Component {
       if (products.getIn([i, 'price']).trim().length === 0) return;
     }
 
-    initAddProducts({ products, seq: franchise.get('seq') })
-      .then(result => {
-        if (result.error) {
-          console.error('add products error');
-          return;
-        }
-        history.push('/result');
-      })
-      .catch(e => console.error(e));
+    const result = {
+      shop_seq: franchiseSequence,
+      deleteProducts: deletedProducts.toJS(),
+      products: getModifyProducts(products).toJS(),
+    };
+
+    if (editMode) {
+      console.log(result);
+    } else {
+      initAddProducts({ products, seq: franchiseSequence })
+        .then(result => {
+          if (result.error) {
+            console.error('add products error');
+            return;
+          }
+          history.push('/result');
+        })
+        .catch(e => console.error(e));
+    }
   };
+
+  handleCancel = () => this.props.history.push('/');
 
   onBackButtonPress = () => {
     this.props.history.push('/franchise/addShop');
@@ -87,6 +157,7 @@ class AddProducts extends Component {
 
   renderProducts = () => {
     const { products } = this.state;
+    const { editMode } = this.props;
     if (products.size === 0) {
       return null;
     }
@@ -96,15 +167,17 @@ class AddProducts extends Component {
         product={product}
         index={i}
         key={`product-${i}`}
+        editMode={editMode ? true : false}
         setStateByKey={this.setStateByKey}
-        removeProduct={this.removeProduct}
+        removeProductByIndex={this.removeProductByIndex}
+        deleteImageByIndex={this.deleteImageByIndex}
         onImageChange={this.onImageChange}
       />
     ));
   };
 
   render() {
-    const { authentication, franchise } = this.props;
+    const { authentication, franchise, editMode } = this.props;
     // if (!authentication.get('isLogin')) {
     //   return <Redirect to="/auth/signin" />;
     // }
@@ -126,7 +199,11 @@ class AddProducts extends Component {
             {this.renderProducts()}
           </div>
         </div>
-        <Buttons handleConfirm={this.handleConfirm} />
+        <Buttons
+          handleConfirm={this.handleConfirm}
+          handleCancel={this.handleCancel}
+          editMode={editMode ? true : false}
+        />
         {/*franchise.getIn(['status', 'addShop']) ? null : (
           <Popup onBackButtonPress={this.onBackButtonPress} />
         )*/}
@@ -142,6 +219,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initAddProducts: products => dispatch(initAddProducts(products)),
+  initGetProducts: shopSequence => dispatch(initGetProducts(shopSequence)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProducts);

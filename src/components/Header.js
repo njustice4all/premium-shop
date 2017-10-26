@@ -53,7 +53,7 @@ class Header extends Component {
       if (this.setTypes.includes(item)) {
         result = {
           shop: { link: `/franchise/setShop/${shopSequence}`, title: '가맹점 정보 수정' },
-          product: { link: '/franchise/setProducts', title: '판매 상품 정보 수정' },
+          product: { link: `/franchise/setProducts/${shopSequence}`, title: '판매 상품 정보 수정' },
         };
       }
     });

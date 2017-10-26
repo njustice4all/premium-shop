@@ -36,7 +36,10 @@ export default class Images extends Component<Props> {
         <div className="image__wrapper">
           {button}
           {images.map((image, index) => (
-            <div className="images" key={`images-${index}`} onClick={deleteImageByIndex(index)}>
+            <div className="images" key={`images-${index}`}>
+              <span className="btn-delete" onClick={deleteImageByIndex(index)}>
+                <i className="fa fa-minus-square-o" aria-hidden="true" />
+              </span>
               <img src={image.get('image')} alt="" />
             </div>
           ))}
