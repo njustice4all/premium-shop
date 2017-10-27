@@ -8,11 +8,18 @@ type Props = {
   onImageChange: Function,
   validateClass: Function,
   deleteImageByIndex: Function,
+  shopSequence: any,
 };
 
 export default class Images extends Component<Props> {
   render() {
-    const { images, onImageChange, validateClass, deleteImageByIndex }: Props = this.props;
+    const {
+      images,
+      onImageChange,
+      validateClass,
+      deleteImageByIndex,
+      shopSequence,
+    }: Props = this.props;
     const button = (
       <div className="images">
         <label htmlFor="upload-image">
@@ -40,7 +47,14 @@ export default class Images extends Component<Props> {
               <span className="btn-delete" onClick={deleteImageByIndex(index)}>
                 <i className="fa fa-minus-square-o" aria-hidden="true" />
               </span>
-              <img src={image.get('image')} alt="" />
+              <img
+                src={
+                  image.get('uniqueId')
+                    ? image.get('image')
+                    : `http://van.aty.kr/image/${shopSequence}/${image.get('imageName')}`
+                }
+                alt=""
+              />
             </div>
           ))}
         </div>

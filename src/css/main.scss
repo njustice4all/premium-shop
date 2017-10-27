@@ -339,6 +339,7 @@ input {
   width: 65px;
   height: 65px;
   border: 1px solid $color-border;
+  vertical-align: middle;
 
   .btn-delete {
     position: absolute;

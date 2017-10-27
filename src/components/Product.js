@@ -18,7 +18,7 @@ const ButtonAddImage = ({ onImageChange, productIndex }) => {
   );
 };
 
-const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex }) => {
+const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex, shopSequence }) => {
   return (
     <div className="images" style={{ verticalAlign: 'middle' }} key={`productImage-${imageIndex}`}>
       <span className="btn-delete" onClick={deleteImageByIndex(productIndex, imageIndex)}>
@@ -29,7 +29,7 @@ const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex }) =
         src={
           image.get('imageId')
             ? image.get('image')
-            : `http://van.aty.kr/image/${image.get('imageName')}`
+            : `http://van.aty.kr/image/${shopSequence}/${image.get('imageName')}`
         }
         alt=""
       />
@@ -46,6 +46,7 @@ class Product extends Component {
       removeProductByIndex,
       deleteImageByIndex,
       onImageChange,
+      shopSequence,
     } = this.props;
     const uniqueId = product.get('uniqueId');
 
@@ -62,6 +63,7 @@ class Product extends Component {
                   imageIndex={imageIndex}
                   deleteImageByIndex={deleteImageByIndex}
                   productIndex={productIndex}
+                  shopSequence={shopSequence}
                   key={`productImage-${imageIndex}`}
                 />
               ))}

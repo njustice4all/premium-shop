@@ -129,15 +129,6 @@ class FranchiseList extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   authentication: state.get('authentication'),
-//   franchiseLists: state.get('franchiseLists'),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   addShopSequence: shopSequence => dispatch(addShopSequence(shopSequence)),
-// });
-
 export default withRouter(
   connect(
     state => ({

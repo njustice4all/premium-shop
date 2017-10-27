@@ -179,7 +179,7 @@ class AddProducts extends Component {
 
   renderProducts = () => {
     const { products } = this.state;
-    const { editMode } = this.props;
+    const { editMode, franchise } = this.props;
     if (products.size === 0) {
       return null;
     }
@@ -194,6 +194,7 @@ class AddProducts extends Component {
         removeProductByIndex={this.removeProductByIndex}
         deleteImageByIndex={this.deleteImageByIndex}
         onImageChange={this.onImageChange}
+        shopSequence={franchise.get('seq')}
       />
     ));
   };

@@ -289,6 +289,7 @@ class AddShop extends Component {
             onImageChange={this.onImageChange}
             validateClass={this.validateClass}
             deleteImageByIndex={this.deleteImageByIndex}
+            shopSequence={franchise.get('seq')}
           />
           <div className="divider">
             <div />
