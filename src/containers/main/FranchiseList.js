@@ -6,6 +6,12 @@ import { Map } from 'immutable';
 import { addShopSequence } from '../../actions';
 
 const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
+  const images = franchise.get('image');
+  let shopSequence = null;
+  if (images.length > 0) {
+    shopSequence = images[0].shop_seq;
+  }
+
   return (
     <div className="lists">
       <div
@@ -22,7 +28,7 @@ const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
           <img
             src={
               franchise.get('image')[0]
-                ? `http://van.aty.kr/image/${franchise.get('image')[0].imageName}`
+                ? `http://van.aty.kr/image/${shopSequence}/${franchise.get('image')[0].imageName}`
                 : null
             }
             onLoad={onLoaded(index)}
@@ -31,7 +37,7 @@ const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
           />
         </div>
         <div className="describe-wrapper">
-          <div className="franchise-name">
+          <div className="franchise-name" style={{ paddingRight: '10px' }}>
             <h1 className="ellipsis">{franchise.get('name')}</h1>
           </div>
           <div className="franchise-tag">

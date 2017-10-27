@@ -58,6 +58,9 @@ export const convertoDataToState = products => {
         contents: product.contents,
         productSequence: product.seq,
         images: fromJS(product.image),
+        deleteImages: List([]),
+        addImages: List([]),
+        options: List([]),
       })
     );
   });
@@ -91,24 +94,12 @@ export const getModifyProducts = products => {
         title: product.get('title'),
         price: product.get('price'),
         contents: product.get('contents'),
-        option: products.get('option'),
-        modifyImages: getModifyImages(product.get('images')),
+        option: product.get('options'),
+        addImages: product.get('addImages'),
+        deleteImages: product.get('deleteImages'),
       })
     );
   });
 
   return modifyProducts;
 };
-
-// let images = List([]);
-// convertUrlToBase64(product.image, onResult => {
-//   images = images.push(
-//     Map({
-//       image: onResult.base64,
-//       imageName: onResult.imageName,
-//       imageSequence: onResult.seq,
-//       imageType: 'image/png',
-//     })
-//   );
-//   result = result.update(index, list => list.merge(Map({ images: images })));
-// });

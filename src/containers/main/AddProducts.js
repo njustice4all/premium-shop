@@ -12,7 +12,6 @@ class AddProducts extends Component {
   state = {
     products: List([]),
     deletedProducts: List([]),
-    addedProducts: List([]),
   };
 
   componentDidMount = () => {
@@ -23,97 +22,120 @@ class AddProducts extends Component {
     const { initGetProducts, franchise } = this.props;
     if (!franchise.get('seq')) return;
     initGetProducts(franchise.get('seq')).then(result => {
-      this.setState({ products: convertoDataToState(result.data) });
+      this.setState({
+        products: convertoDataToState(result.data),
+        shopSequence: franchise.get('seq'),
+      });
     });
   };
 
   addProduct = () => {
     const newProduct = Map({
       images: List([]),
+      deleteImages: List([]),
+      addImages: List([]),
       title: '',
       price: 0,
-      option: List([]),
-      contents: '',
+      option: List([
+        Map({ text: 'this is dummy option - 1' }),
+        Map({ text: 'this is dummy option - 2' }),
+      ]),
+      contents: 'this is dummy contents',
       uniqueId: createUniqueId(),
     });
 
     this.setState({
       products: this.state.products.push(newProduct),
-      addedProducts: this.state.addedProducts.push(newProduct),
     });
   };
 
   setStateByKey = (index, key, value, uniqueId) => {
-    const { products, addedProducts } = this.state;
+    const { products } = this.state;
     if (uniqueId) {
       this.setState({
         products: products.setIn([index, key], value),
-        addedProducts: addedProducts.updateIn(
-          [addedProducts.findIndex(product => product.get('uniqueId') === uniqueId), key],
-          () => value
-        ),
       });
     } else {
       this.setState({ products: products.setIn([index, key], value) });
     }
   };
 
-  deleteImageByIndex = index => () => {
+  deleteImageByIndex = (productIndex, imageIndex, uniqueId) => () => {
     const { products } = this.state;
-    this.setState({
-      products: products.updateIn([index, 'images'], images => List([])),
-    });
+    const product = products.get(productIndex);
+    const imageIdFromProductImage = product.getIn(['images', imageIndex, 'imageId']);
+
+    if (product.get('uniqueId')) {
+      this.setState({
+        products: products.withMutations(mutator =>
+          mutator
+            .deleteIn([productIndex, 'images', imageIndex])
+            .deleteIn([productIndex, 'addImages', imageIndex])
+        ),
+      });
+    } else {
+      this.setState({
+        products: products.withMutations(mutator =>
+          mutator
+            .deleteIn([productIndex, 'images', imageIndex])
+            .updateIn(
+              [productIndex, 'deleteImages'],
+              deleteImages =>
+                product.getIn(['images', imageIndex, 'seq'])
+                  ? deleteImages.push(product.getIn(['images', imageIndex, 'seq']))
+                  : List([])
+            )
+            .deleteIn([
+              productIndex,
+              'addImages',
+              products
+                .getIn([productIndex, 'addImages'])
+                .findIndex(images => images.get('imageId') === imageIdFromProductImage),
+            ])
+        ),
+      });
+    }
   };
 
   removeProductByIndex = index => {
-    const { products, deletedProducts, addedProducts } = this.state;
+    const { products, deletedProducts } = this.state;
     const removeProduct = products.get(index);
-    const uniqueIdFromRemoveProduct = removeProduct.get('uniqueId');
-    const removeIndexOfAddedProducts = addedProducts.findIndex(
-      product => product.get('uniqueId') === uniqueIdFromRemoveProduct
-    );
 
     if (removeProduct.get('productSequence')) {
       this.setState({
         products: products.delete(index),
         deletedProducts: deletedProducts.push(removeProduct.get('productSequence')),
-        addedProducts: addedProducts.delete(removeIndexOfAddedProducts),
       });
     } else {
       this.setState({ products: products.delete(index) });
     }
   };
 
-  onImageChange = (e, index, form, uniqueId) => {
+  onImageChange = productIndex => e => {
     e.preventDefault();
-    const reader = new FileReader();
-    const file = e.target.files[0];
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
 
-    reader.onloadend = upload => {
-      const imageObject = Map({
-        image: reader.result,
-        imageName: file.name,
-        imageType: file.type,
-        modified: true,
-      });
-      const { products, addedProducts } = this.state;
+      reader.onloadend = () => {
+        const image = Map({
+          image: reader.result,
+          imageName: files[i].name,
+          imageType: files[i].type,
+          imageId: createUniqueId(),
+        });
 
-      if (uniqueId) {
-        this.setState({
-          products: products.updateIn([index, 'images'], list => list.push(imageObject)),
-          addedProducts: addedProducts.updateIn(
-            [addedProducts.findIndex(product => product.get('uniqueId') === uniqueId), 'images'],
-            images => images.push(imageObject)
+        this.setState(prevState => ({
+          products: prevState.products.withMutations(mutator =>
+            mutator
+              .updateIn([productIndex, 'images'], images => images.push(image))
+              .updateIn([productIndex, 'addImages'], addImages => addImages.push(image))
           ),
-        });
-      } else {
-        this.setState({
-          products: products.updateIn([index, 'images'], images => images.push(imageObject)),
-        });
-      }
-    };
+        }));
+      };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(files[i]);
+    }
   };
 
   handleConfirm = () => {
@@ -128,13 +150,13 @@ class AddProducts extends Component {
       if (products.getIn([i, 'price']).trim().length === 0) return;
     }
 
-    const result = {
-      shop_seq: franchiseSequence,
-      deleteProducts: deletedProducts.toJS(),
-      products: getModifyProducts(products).toJS(),
-    };
-
     if (editMode) {
+      const result = {
+        shop_seq: franchiseSequence,
+        deleteProducts: deletedProducts.toJS(),
+        products: getModifyProducts(products).toJS(),
+      };
+
       console.log(result);
     } else {
       initAddProducts({ products, seq: franchiseSequence })
@@ -165,7 +187,7 @@ class AddProducts extends Component {
     return products.map((product, i) => (
       <Product
         product={product}
-        index={i}
+        productIndex={i}
         key={`product-${i}`}
         editMode={editMode ? true : false}
         setStateByKey={this.setStateByKey}

@@ -1,10 +1,47 @@
 import React, { Component } from 'react';
 
+const ButtonAddImage = ({ onImageChange, productIndex }) => {
+  return (
+    <div className="images" style={{ verticalAlign: 'middle' }}>
+      <label>
+        <h1>+</h1>
+        <input
+          style={{ display: 'none' }}
+          multiple
+          accept="image/*"
+          name="photo"
+          type="file"
+          onChange={onImageChange(productIndex)}
+        />
+      </label>
+    </div>
+  );
+};
+
+const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex }) => {
+  return (
+    <div className="images" style={{ verticalAlign: 'middle' }} key={`productImage-${imageIndex}`}>
+      <span className="btn-delete" onClick={deleteImageByIndex(productIndex, imageIndex)}>
+        <i className="fa fa-minus-square-o" aria-hidden="true" />
+      </span>
+      <img
+        className="img-cover"
+        src={
+          image.get('imageId')
+            ? image.get('image')
+            : `http://van.aty.kr/image/${image.get('imageName')}`
+        }
+        alt=""
+      />
+    </div>
+  );
+};
+
 class Product extends Component {
   render() {
     const {
       product,
-      index,
+      productIndex,
       setStateByKey,
       removeProductByIndex,
       deleteImageByIndex,
@@ -15,36 +52,19 @@ class Product extends Component {
     return (
       <div className="items products">
         <div className="product__wrapper">
-          <div className="product__image__wrapper">
-            <div className="full-block">
-              <label className="full-block center">
-                {product.getIn(['images', 0]) ? (
-                  <img
-                    onClick={deleteImageByIndex(index)}
-                    className="img-cover"
-                    src={
-                      uniqueId
-                        ? product.getIn(['images', 0, 'image'])
-                        : product.getIn(['images', 0, 'modified'])
-                          ? product.getIn(['images', 0, 'image'])
-                          : `http://van.aty.kr/image/${product.getIn(['images', 0, 'imageName'])}`
-                    }
-                    alt=""
-                  />
-                ) : (
-                  '+'
-                )}
-                {product.get('images').size === 0 ? (
-                  <form
-                    onChange={e => onImageChange(e, index, this.form, uniqueId)}
-                    encType="multipart/form-data"
-                    ref={form => (this.form = form)}
-                  >
-                    <input style={{ display: 'none' }} accept="image/*" name="photo" type="file" />
-                  </form>
-                ) : null}
-              </label>
-            </div>
+          <div className="image__wrapper">
+            <ButtonAddImage onImageChange={onImageChange} productIndex={productIndex} />
+            {product
+              .get('images')
+              .map((image, imageIndex) => (
+                <ProductImage
+                  image={image}
+                  imageIndex={imageIndex}
+                  deleteImageByIndex={deleteImageByIndex}
+                  productIndex={productIndex}
+                  key={`productImage-${imageIndex}`}
+                />
+              ))}
           </div>
           <div className="product__form__wrapper">
             <div className="row-wrapper">
@@ -53,10 +73,14 @@ class Product extends Component {
                 type="text"
                 value={product.get('title')}
                 placeholder="상품명을 입력하세요."
-                onChange={e => setStateByKey(index, 'title', e.target.value, uniqueId)}
+                onChange={e => setStateByKey(productIndex, 'title', e.target.value, uniqueId)}
               />
             </div>
-            <div className="product__btn__remove" onClick={() => removeProductByIndex(index)}>
+            <div
+              className="product__btn__remove"
+              onClick={() => removeProductByIndex(productIndex)}
+              style={{ position: 'absolute' }}
+            >
               <i className="fa fa-times" aria-hidden="true" />
             </div>
             <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
@@ -64,9 +88,26 @@ class Product extends Component {
               <input
                 type="number"
                 value={product.get('price')}
-                onChange={e => setStateByKey(index, 'price', e.target.value, uniqueId)}
+                onChange={e => setStateByKey(productIndex, 'price', e.target.value, uniqueId)}
               />
               <span id="currency">원</span>
+            </div>
+            <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
+              <span>옵션</span>
+              <input
+                type="text"
+                // value={product.getIn(['option', 0, 'text'])}
+                defaultValue={product.getIn(['option', 0, 'text'])}
+                onChange={e => setStateByKey(productIndex, 'option', e.target.value, uniqueId)}
+              />
+            </div>
+            <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
+              <span>설명</span>
+              <input
+                type="text"
+                value={product.get('contents')}
+                onChange={e => setStateByKey(productIndex, 'contents', e.target.value, uniqueId)}
+              />
             </div>
           </div>
         </div>
