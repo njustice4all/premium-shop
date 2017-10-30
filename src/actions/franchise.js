@@ -47,7 +47,7 @@ export const initAddProducts = products => async dispatch => {
 
 const setShop = () => ({ type: actionTypes.SET_SHOP });
 
-const setShopSuccess = result => ({ type: actionTypes.SET_SHOP_SUCCESS, result });
+const setShopSuccess = (result, shop) => ({ type: actionTypes.SET_SHOP_SUCCESS, result, shop });
 
 const setShopFailure = result => ({ type: actionTypes.SET_SHOP_FAILURE, result });
 
@@ -60,16 +60,16 @@ export const initSetShop = shop => async dispatch => {
     if (!result.msg) {
       dispatch(setShopFailure({ error: true }));
     } else {
-      dispatch(setShopSuccess(result));
+      dispatch(setShopSuccess(result, shop));
     }
   } catch (error) {
     console.error('initSetShop error');
   }
 };
 
-export const addShopSequence = shopSequence => ({
-  type: actionTypes.ADD_SHOP_SEQUENCE,
-  shopSequence,
+export const addFranchise = franchise => ({
+  type: actionTypes.ADD_FRANCHISE,
+  franchise,
 });
 
 const getProducts = () => ({ type: actionTypes.GET_PRODUCTS });

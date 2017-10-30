@@ -37,10 +37,18 @@ export const franchise = (state = initialState, action) => {
     case actionTypes.SET_PRODUCTS:
     case actionTypes.GET_PRODUCTS:
       return state.setIn(['status', 'isFetching'], true);
-    case actionTypes.ADD_SHOP_SEQUENCE:
-      return state.set('seq', action.shopSequence);
+    case actionTypes.ADD_FRANCHISE:
+      return state.withMutations(mutator =>
+        mutator.set('shop', action.franchise).set('seq', action.franchise.get('seq'))
+      );
     case actionTypes.SET_SHOP_SUCCESS:
-      return state.mergeIn(['status'], { isFetching: false, error: false });
+      return state.withMutations(mutator =>
+        mutator
+          .mergeIn(['status'], { isFetching: false, error: false })
+          .set('shop', Map(action.shop))
+      );
+    case actionTypes.SET_PRODUCTS_SUCCESS:
+      return state.setIn(['status', 'isFetching'], false);
     case actionTypes.ADD_SHOP_SUCCESS:
       return state.withMutations(mutator =>
         mutator

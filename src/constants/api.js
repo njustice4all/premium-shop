@@ -95,14 +95,12 @@ export const apiGetProducts = shopSequence => {
 };
 
 export const apiSetProducts = products => {
-  return fetch(`${API}/setProducts`, {
+  return fetch(`${API}/setProduct`, {
     headers: new Headers({
       Accept: 'application/json',
     }),
     mode: 'cors',
     method: 'POST',
-    body: JSON.stringify({
-      products: products,
-    }),
+    body: JSON.stringify({ ...products }),
   });
 };

@@ -48,7 +48,7 @@ export const convertUrlToBase64 = (images, onResult) => {
   }
 };
 
-export const convertoDataToState = products => {
+export const convertDataToState = products => {
   let result = List([]);
   products.forEach((product, index) => {
     result = result.push(
@@ -68,33 +68,33 @@ export const convertoDataToState = products => {
   return result;
 };
 
-const getModifyImages = images => {
-  let modifyImages = List([]);
-  images.forEach(image => {
-    if (image.get('modified')) {
-      modifyImages = modifyImages.push(
-        Map({
-          image: image.get('image'),
-          imageName: image.get('imageName'),
-          imageType: image.get('imageType'),
-        })
-      );
-    }
-  });
+// const getModifyImages = images => {
+//   let modifyImages = List([]);
+//   images.forEach(image => {
+//     if (image.get('modified')) {
+//       modifyImages = modifyImages.push(
+//         Map({
+//           image: image.get('image'),
+//           imageName: image.get('imageName'),
+//           imageType: image.get('imageType'),
+//         })
+//       );
+//     }
+//   });
 
-  return modifyImages;
-};
+//   return modifyImages;
+// };
 
 export const getModifyProducts = products => {
   let modifyProducts = List([]);
   products.forEach(product => {
     modifyProducts = modifyProducts.push(
       Map({
-        seq: product.get('productSequence'),
+        product_seq: product.get('productSequence'),
         title: product.get('title'),
         price: product.get('price'),
         contents: product.get('contents'),
-        option: product.get('options'),
+        options: product.get('options'),
         addImages: product.get('addImages'),
         deleteImages: product.get('deleteImages'),
       })
@@ -102,4 +102,19 @@ export const getModifyProducts = products => {
   });
 
   return modifyProducts;
+};
+
+export const convertProducts = products => {
+  let result = [];
+  products.forEach(product => {
+    result.push({
+      images: product.get('images').toJS(),
+      contents: product.get('contents'),
+      options: [],
+      price: product.get('price'),
+      title: product.get('title'),
+    });
+  });
+
+  return result;
 };

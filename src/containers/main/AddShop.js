@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
 import { validateState, createUniqueId, convertUrlToBase64 } from '../../utils';
-import { initAddShop, initSetShop } from '../../actions';
+import { initAddShop, initSetShop, initGetShopLists } from '../../actions';
 
 import { Images, Info, Buttons, Loading, Address } from '../../components';
 
@@ -47,6 +47,8 @@ class AddShop extends Component {
     const result = lists.filter(shop => shop.seq === shopSequence).get(0);
 
     if (lists.size === 0) return;
+
+    // const info = franchise.get('shop');
 
     this.setState({
       category: result.category,
@@ -95,8 +97,8 @@ class AddShop extends Component {
     });
 
     convertUrlToBase64(result.image, onResult => {
-      this.setState({
-        images: this.state.images.push(
+      this.setState(prevState => ({
+        images: prevState.images.push(
           Map({
             image: onResult.base64,
             imageName: onResult.imageName,
@@ -104,7 +106,7 @@ class AddShop extends Component {
             seq: onResult.seq,
           })
         ),
-      });
+      }));
     });
   };
 
@@ -229,8 +231,8 @@ class AddShop extends Component {
       openingHours,
       closeDays,
     } = this.state;
-    const { initSetShop, history, authentication } = this.props;
-    const { errors, possible } = validateState(this.state);
+    const { initSetShop, history, authentication, franchise, initGetShopLists } = this.props;
+    const { possible } = validateState(this.state);
 
     const result = {
       addImages: addImages.toJS(),
@@ -246,10 +248,10 @@ class AddShop extends Component {
       closeDays,
     };
 
-    console.log('======================================');
-    console.log(result);
-    console.log('======================================');
-    initSetShop(result);
+    initSetShop(result).then(() => {
+      initGetShopLists(authentication.get('seq'));
+      history.push(`/franchise/setProducts/${franchise.get('seq')}`);
+    });
   };
 
   handleCancel = () => this.props.history.push('/');
@@ -333,6 +335,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initAddShop: shop => dispatch(initAddShop(shop)),
   initSetShop: shop => dispatch(initSetShop(shop)),
+  initGetShopLists: seq => dispatch(initGetShopLists(seq)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddShop);

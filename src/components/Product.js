@@ -99,8 +99,8 @@ class Product extends Component {
               <input
                 type="text"
                 // value={product.getIn(['option', 0, 'text'])}
-                defaultValue={product.getIn(['option', 0, 'text'])}
-                onChange={e => setStateByKey(productIndex, 'option', e.target.value, uniqueId)}
+                defaultValue={product.getIn(['options', 0, 'text'])}
+                onChange={e => setStateByKey(productIndex, 'options', e.target.value, uniqueId)}
               />
             </div>
             <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>

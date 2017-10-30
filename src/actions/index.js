@@ -9,7 +9,7 @@ import {
   initAddShop,
   initAddProducts,
   initSetShop,
-  addShopSequence,
+  addFranchise,
   initGetProducts,
   initSetProducts,
 } from './franchise';
@@ -26,5 +26,5 @@ export {
   initAddProducts,
   initGetShopLists,
   autoLogin,
-  addShopSequence,
+  addFranchise,
 };

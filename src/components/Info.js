@@ -22,13 +22,7 @@ const Info = ({
       <h5 className="title__big">가맹점 정보</h5>
       <div className="info__wrapper">
         <div className="input__box">
-          <div
-            className={classNames('input__title', {
-              wrong: validateClass('category'),
-            })}
-          >
-            분류
-          </div>
+          <div className={classNames('input__title', { wrong: validateClass('category') })}>분류</div>
           <div className="input__content" style={{ height: '35px' }}>
             <select
               value={category}
@@ -52,13 +46,7 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div
-            className={classNames('input__title', {
-              wrong: validateClass('name'),
-            })}
-          >
-            가맹점명
-          </div>
+          <div className={classNames('input__title', { wrong: validateClass('name') })}>가맹점명</div>
           <div className="input__content" style={{ height: '35px' }}>
             <input
               type="text"
@@ -72,9 +60,7 @@ const Info = ({
         </div>
         <div className="input__box">
           <div
-            className={classNames('input__title', {
-              wrong: validateClass('description'),
-            })}
+            className={classNames('input__title', { wrong: validateClass('description') })}
             style={{ verticalAlign: 'top' }}
           >
             가맹점소개
@@ -92,9 +78,7 @@ const Info = ({
         </div>
         <div className="input__box" style={{ paddingTop: '0px' }}>
           <div
-            className={classNames('input__title', {
-              wrong: validateClass('address'),
-            })}
+            className={classNames('input__title', { wrong: validateClass('address') })}
             style={{ verticalAlign: 'top', paddingTop: '5px' }}
           >
             주소
@@ -122,11 +106,7 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div
-            className={classNames('input__title', {
-              wrong: validateClass('contact'),
-            })}
-          >
+          <div className={classNames('input__title', { wrong: validateClass('contact') })}>
             전화번호
           </div>
           <div className="input__content">
@@ -141,11 +121,7 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div
-            className={classNames('input__title', {
-              wrong: validateClass('openingHours'),
-            })}
-          >
+          <div className={classNames('input__title', { wrong: validateClass('openingHours') })}>
             영업시간
           </div>
           <div className="input__content">
@@ -160,11 +136,7 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div
-            className={classNames('input__title', {
-              wrong: validateClass('closeDays'),
-            })}
-          >
+          <div className={classNames('input__title', { wrong: validateClass('closeDays') })}>
             휴무일
           </div>
           <div className="input__content">
@@ -180,9 +152,7 @@ const Info = ({
         </div>
         <div className="input__box">
           <div
-            className={classNames('input__title', {
-              wrong: validateClass('possible'),
-            })}
+            className={classNames('input__title', { wrong: validateClass('possible') })}
             style={{ verticalAlign: 'top' }}
           >
             가능여부

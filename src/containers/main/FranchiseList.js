@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
-import { addShopSequence } from '../../actions';
+import { addFranchise } from '../../actions';
 
 const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
   const images = franchise.get('image');
@@ -82,8 +82,13 @@ class FranchiseList extends Component {
   };
 
   onModifyBtnPress = (shopSequence, memberSequence) => () => {
-    const { addShopSequence, history } = this.props;
-    addShopSequence(shopSequence);
+    const { addFranchise, history, franchiseLists } = this.props;
+    const selectFranchiseIndex = franchiseLists
+      .get('lists')
+      .findIndex(franchise => franchise.seq === shopSequence);
+    const franchise = fromJS(franchiseLists.getIn(['lists', selectFranchiseIndex]));
+
+    addFranchise(franchise);
     history.push(`/franchise/setShop/${shopSequence}`);
   };
 
@@ -136,7 +141,7 @@ export default withRouter(
       franchiseLists: state.get('franchiseLists'),
     }),
     dispatch => ({
-      addShopSequence: shopSequence => dispatch(addShopSequence(shopSequence)),
+      addFranchise: franchise => dispatch(addFranchise(franchise)),
     })
   )(FranchiseList)
 );

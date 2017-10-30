@@ -3,8 +3,13 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
-import { initAddProducts, initGetProducts } from '../../actions';
-import { convertoDataToState, createUniqueId, getModifyProducts } from '../../utils';
+import { initAddProducts, initGetProducts, initSetProducts } from '../../actions';
+import {
+  convertDataToState,
+  createUniqueId,
+  getModifyProducts,
+  convertProducts,
+} from '../../utils';
 
 import { Product, Buttons, Loading, Popup } from '../../components';
 
@@ -23,7 +28,7 @@ class AddProducts extends Component {
     if (!franchise.get('seq')) return;
     initGetProducts(franchise.get('seq')).then(result => {
       this.setState({
-        products: convertoDataToState(result.data),
+        products: convertDataToState(result.data),
         shopSequence: franchise.get('seq'),
       });
     });
@@ -36,7 +41,7 @@ class AddProducts extends Component {
       addImages: List([]),
       title: '',
       price: 0,
-      option: List([
+      options: List([
         Map({ text: 'this is dummy option - 1' }),
         Map({ text: 'this is dummy option - 2' }),
       ]),
@@ -140,14 +145,14 @@ class AddProducts extends Component {
 
   handleConfirm = () => {
     const { products, deletedProducts } = this.state;
-    const { initAddProducts, history, franchise, editMode } = this.props;
+    const { initAddProducts, initSetProducts, history, franchise, editMode } = this.props;
     const franchiseSequence = franchise.get('seq');
 
     if (products.size === 0) return;
     for (let i = 0; i < products.size; i++) {
       if (products.getIn([i, 'images']).size === 0) return;
       if (products.getIn([i, 'title']).trim().length === 0) return;
-      if (products.getIn([i, 'price']).trim().length === 0) return;
+      // if (products.getIn([i, 'price']).trim().length === 0) return;
     }
 
     if (editMode) {
@@ -157,9 +162,10 @@ class AddProducts extends Component {
         products: getModifyProducts(products).toJS(),
       };
 
-      console.log(result);
+      initSetProducts(result);
     } else {
-      initAddProducts({ products, seq: franchiseSequence })
+      const result = convertProducts(products);
+      initAddProducts({ products: result, seq: franchiseSequence })
         .then(result => {
           if (result.error) {
             console.error('add products error');
@@ -243,6 +249,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initAddProducts: products => dispatch(initAddProducts(products)),
   initGetProducts: shopSequence => dispatch(initGetProducts(shopSequence)),
+  initSetProducts: products => dispatch(initSetProducts(products)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProducts);
