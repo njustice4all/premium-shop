@@ -45,7 +45,7 @@ export default class Images extends Component<Props> {
           {images.map((image, index) => (
             <div className="images" key={`images-${index}`}>
               <span className="btn-delete" onClick={deleteImageByIndex(index)}>
-                <i className="fa fa-minus-square-o" aria-hidden="true" />
+                <img src="/img/icon06.png" alt="" />
               </span>
               <img
                 src={

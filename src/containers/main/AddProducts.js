@@ -41,11 +41,8 @@ class AddProducts extends Component {
       addImages: List([]),
       title: '',
       price: 0,
-      options: List([
-        Map({ text: 'this is dummy option - 1' }),
-        Map({ text: 'this is dummy option - 2' }),
-      ]),
-      contents: 'this is dummy contents',
+      options: List([]),
+      contents: '',
       uniqueId: createUniqueId(),
     });
 
@@ -201,8 +198,43 @@ class AddProducts extends Component {
         deleteImageByIndex={this.deleteImageByIndex}
         onImageChange={this.onImageChange}
         shopSequence={franchise.get('seq')}
+        onAddOptionButtonPress={this.onAddOptionButtonPress}
+        deleteOptionByIndex={this.deleteOptionByIndex}
+        onOptionChange={this.onOptionChange}
       />
     ));
+  };
+
+  onOptionChange = (productIndex, optionIndex) => e => {
+    e.persist();
+    this.setState(prevState => ({
+      products: prevState.products.setIn(
+        [productIndex, 'options', optionIndex, 'text'],
+        e.target.value
+      ),
+    }));
+  };
+
+  onAddOptionButtonPress = productIndex => () => {
+    if (this.state.products.getIn([productIndex, 'options']).size > 4) {
+      return;
+    }
+
+    this.setState(prevState => ({
+      products: prevState.products.updateIn([productIndex, 'options'], options =>
+        options.push(
+          Map({
+            text: '',
+          })
+        )
+      ),
+    }));
+  };
+
+  deleteOptionByIndex = (productIndex, optionIndex) => () => {
+    this.setState(prevState => ({
+      products: prevState.products.deleteIn([productIndex, 'options', optionIndex]),
+    }));
   };
 
   render() {

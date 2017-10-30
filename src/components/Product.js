@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const ButtonAddImage = ({ onImageChange, productIndex }) => {
   return (
-    <div className="images" style={{ verticalAlign: 'middle' }}>
+    <div className="images products" style={{ verticalAlign: 'middle' }}>
       <label>
         <h1>+</h1>
         <input
@@ -20,9 +20,13 @@ const ButtonAddImage = ({ onImageChange, productIndex }) => {
 
 const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex, shopSequence }) => {
   return (
-    <div className="images" style={{ verticalAlign: 'middle' }} key={`productImage-${imageIndex}`}>
+    <div
+      className="images products"
+      style={{ verticalAlign: 'middle' }}
+      key={`productImage-${imageIndex}`}
+    >
       <span className="btn-delete" onClick={deleteImageByIndex(productIndex, imageIndex)}>
-        <i className="fa fa-minus-square-o" aria-hidden="true" />
+        <img src="/img/icon06.png" alt="" />
       </span>
       <img
         className="img-cover"
@@ -37,6 +41,24 @@ const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex, sho
   );
 };
 
+const Options = ({
+  value,
+  onOptionChange,
+  productIndex,
+  uniqueId,
+  optionIndex,
+  deleteOptionByIndex,
+}) => {
+  return (
+    <div>
+      <input type="text" value={value} onChange={onOptionChange(productIndex, optionIndex)} />
+      <span>
+        <button onClick={deleteOptionByIndex(productIndex, optionIndex)}>삭제</button>
+      </span>
+    </div>
+  );
+};
+
 class Product extends Component {
   render() {
     const {
@@ -47,6 +69,9 @@ class Product extends Component {
       deleteImageByIndex,
       onImageChange,
       shopSequence,
+      onAddOptionButtonPress,
+      deleteOptionByIndex,
+      onOptionChange,
     } = this.props;
     const uniqueId = product.get('uniqueId');
 
@@ -78,13 +103,13 @@ class Product extends Component {
                 onChange={e => setStateByKey(productIndex, 'title', e.target.value, uniqueId)}
               />
             </div>
-            <div
+            {/*<div
               className="product__btn__remove"
               onClick={() => removeProductByIndex(productIndex)}
               style={{ position: 'absolute' }}
             >
               <i className="fa fa-times" aria-hidden="true" />
-            </div>
+            </div>*/}
             <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
               <span>가격</span>
               <input
@@ -95,21 +120,29 @@ class Product extends Component {
               <span id="currency">원</span>
             </div>
             <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
-              <span>옵션</span>
-              <input
-                type="text"
-                // value={product.getIn(['option', 0, 'text'])}
-                defaultValue={product.getIn(['options', 0, 'text'])}
-                onChange={e => setStateByKey(productIndex, 'options', e.target.value, uniqueId)}
-              />
-            </div>
-            <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
               <span>설명</span>
               <input
                 type="text"
                 value={product.get('contents')}
                 onChange={e => setStateByKey(productIndex, 'contents', e.target.value, uniqueId)}
               />
+            </div>
+            <button onClick={onAddOptionButtonPress(productIndex)}>Add Option</button>
+            <div className="row-wrapper options" style={{ marginTop: '8px', position: 'relative' }}>
+              <h1>옵션</h1>
+              {product
+                .get('options')
+                .map((option, index) => (
+                  <Options
+                    key={`option-${index}`}
+                    value={product.getIn(['options', index, 'text'])}
+                    onOptionChange={onOptionChange}
+                    deleteOptionByIndex={deleteOptionByIndex}
+                    productIndex={productIndex}
+                    uniqueId={uniqueId}
+                    optionIndex={index}
+                  />
+                ))}
             </div>
           </div>
         </div>

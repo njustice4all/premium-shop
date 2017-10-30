@@ -110,6 +110,7 @@ export const convertProducts = products => {
     result.push({
       images: product.get('images').toJS(),
       contents: product.get('contents'),
+      // FIXME:
       options: [],
       price: product.get('price'),
       title: product.get('title'),
