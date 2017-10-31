@@ -41,9 +41,11 @@ class AddProducts extends Component {
       addImages: List([]),
       title: '',
       price: 0,
+      // options: List([Map({ name: '', price: 0 })]),
       options: List([]),
       contents: '',
       uniqueId: createUniqueId(),
+      detailMode: true,
     });
 
     this.setState({
@@ -174,6 +176,15 @@ class AddProducts extends Component {
     }
   };
 
+  toggleDetailMode = productIndex => () => {
+    this.setState({
+      products: this.state.products.updateIn(
+        [productIndex, 'detailMode'],
+        detailMode => !detailMode
+      ),
+    });
+  };
+
   handleCancel = () => this.props.history.push('/');
 
   onBackButtonPress = () => {
@@ -201,15 +212,16 @@ class AddProducts extends Component {
         onAddOptionButtonPress={this.onAddOptionButtonPress}
         deleteOptionByIndex={this.deleteOptionByIndex}
         onOptionChange={this.onOptionChange}
+        toggleDetailMode={this.toggleDetailMode}
       />
     ));
   };
 
-  onOptionChange = (productIndex, optionIndex) => e => {
+  onOptionChange = (productIndex, optionIndex, type) => e => {
     e.persist();
     this.setState(prevState => ({
       products: prevState.products.setIn(
-        [productIndex, 'options', optionIndex, 'text'],
+        [productIndex, 'options', optionIndex, type],
         e.target.value
       ),
     }));
@@ -222,11 +234,7 @@ class AddProducts extends Component {
 
     this.setState(prevState => ({
       products: prevState.products.updateIn([productIndex, 'options'], options =>
-        options.push(
-          Map({
-            text: '',
-          })
-        )
+        options.push(Map({ name: '', price: 0 }))
       ),
     }));
   };
@@ -244,8 +252,8 @@ class AddProducts extends Component {
     // }
 
     return (
-      <div style={{ height: 'calc(100% - 66px)' }}>
-        <div className="container" style={{ height: 'calc(100% - 62px)' }}>
+      <div style={{ height: 'calc(100% - 75px)' }}>
+        <div className="container" style={{ height: 'calc(100% - 66px)' }}>
           <div style={{ padding: '0 10px' }}>
             <div className="btn__add-product" onClick={this.addProduct}>
               <span id="icon-plus">+</span>

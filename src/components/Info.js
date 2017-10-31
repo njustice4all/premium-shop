@@ -18,7 +18,7 @@ const Info = ({
   validateClass,
 }) => {
   return (
-    <div className="items">
+    <div className="items" style={{ padding: '5px 8px' }}>
       <h5 className="title__big">가맹점 정보</h5>
       <div className="info__wrapper">
         <div className="input__box">

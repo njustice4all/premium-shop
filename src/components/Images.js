@@ -38,9 +38,9 @@ export default class Images extends Component<Props> {
     );
 
     return (
-      <div className="items" style={{ marginBottom: '0px' }}>
+      <div className="items" style={{ marginBottom: '0px', padding: '5px 8px' }}>
         <h5 className={classNames('title__big', { wrong: validateClass('images') })}>가맹점 이미지</h5>
-        <div className="image__wrapper">
+        <div className="image__wrapper" style={{ marginTop: '10px' }}>
           {button}
           {images.map((image, index) => (
             <div className="images" key={`images-${index}`}>

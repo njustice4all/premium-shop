@@ -33,7 +33,9 @@ class Main extends Component {
               <div className="icon-plus">
                 <i className="fa fa-plus" aria-hidden="true" />
               </div>
-              <h1 className="title">가맹점등록</h1>
+              <h1 className="title" style={{ color: 'white' }}>
+                가맹점등록
+              </h1>
             </div>
             <div style={{ marginTop: '15px' }}>
               <p className="description">새로운 가맹점을 등록합니다.</p>

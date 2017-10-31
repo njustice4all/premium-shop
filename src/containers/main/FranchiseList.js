@@ -76,10 +76,7 @@ class FranchiseList extends Component {
     });
   };
 
-  onBackPress = () => {
-    const { history } = this.props;
-    history.push('/');
-  };
+  onBackPress = () => this.props.history.push('/');
 
   onModifyBtnPress = (shopSequence, memberSequence) => () => {
     const { addFranchise, history, franchiseLists } = this.props;
@@ -117,7 +114,7 @@ class FranchiseList extends Component {
           <div className="divider">
             <div />
           </div>
-          <div className="franchise-list__list-wrapper">
+          <div className="franchise-list__list-wrapper" ref={c => (this.shopLists = c)}>
             {franchiseLists.map((franchise, index) => (
               <Item
                 key={`franchise-${index}`}
