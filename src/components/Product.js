@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 
 import ProductExpand from './ProductExpand';
 
+const ProductImage = ({ product, shopSequence }) => {
+  const imageName = product.getIn(['images', 0, 'imageName']);
+  if (product.get('uniqueId')) {
+    return <img src={product.getIn(['images', 0, 'image'])} alt="" />;
+  }
+
+  return <img src={`http://van.aty.kr/image/${shopSequence}/${imageName}`} alt="" />;
+};
+
 export default class Product extends Component {
-  getOneImage = () => {
-    const { shopSequence, product } = this.props;
-    const imageName = product.getIn(['images', 0, 'imageName']);
-
-    return `http://van.aty.kr/image/${shopSequence}/${imageName}`;
-  };
-
   render() {
-    const { product, productIndex, toggleDetailMode } = this.props;
+    const { product, productIndex, toggleDetailMode, shopSequence } = this.props;
 
     if (product.get('detailMode')) {
       return <ProductExpand {...this.props} />;
@@ -22,7 +24,7 @@ export default class Product extends Component {
         <div className="product__wrapper-normal">
           <div className="image__wrapper">
             <i className="fa fa-camera" aria-hidden="true" />
-            <img src={this.getOneImage()} alt="" />
+            <ProductImage product={product} shopSequence={shopSequence} />
           </div>
           <div className="product__form__wrapper">
             <div className="contents-row">

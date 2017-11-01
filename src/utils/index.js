@@ -68,23 +68,6 @@ export const convertDataToState = products => {
   return result;
 };
 
-// const getModifyImages = images => {
-//   let modifyImages = List([]);
-//   images.forEach(image => {
-//     if (image.get('modified')) {
-//       modifyImages = modifyImages.push(
-//         Map({
-//           image: image.get('image'),
-//           imageName: image.get('imageName'),
-//           imageType: image.get('imageType'),
-//         })
-//       );
-//     }
-//   });
-
-//   return modifyImages;
-// };
-
 export const getModifyProducts = products => {
   let modifyProducts = List([]);
   products.forEach(product => {

@@ -46,6 +46,7 @@ class AddProducts extends Component {
       contents: '',
       uniqueId: createUniqueId(),
       detailMode: true,
+      productSequence: 'add',
     });
 
     this.setState({
@@ -249,9 +250,9 @@ class AddProducts extends Component {
 
   render() {
     const { authentication, franchise, editMode } = this.props;
-    // if (!authentication.get('isLogin')) {
-    //   return <Redirect to="/auth/signin" />;
-    // }
+    if (!authentication.get('isLogin')) {
+      return <Redirect to="/auth/signin" />;
+    }
 
     return (
       <div style={{ height: 'calc(100% - 75px)' }}>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+// TODO: implements logout
 class Result extends Component {
   onBack = () => {
     const { history } = this.props;
