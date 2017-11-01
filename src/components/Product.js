@@ -31,15 +31,16 @@ export default class Product extends Component {
               <p>{product.get('title')}</p>
             </div>
             <div className="contents-row">
-              <p>
+              <p className="price">
                 {product.get('price')}
                 <span style={{ marginLeft: '5px' }}>원</span>
               </p>
-            </div>
-            <div className="contents-row">
               <span className="button-detail" onClick={toggleDetailMode(productIndex)}>
                 상세보기
               </span>
+            </div>
+            <div className="contents-row">
+              <p className="description">{product.get('contents')}</p>
             </div>
           </div>
         </div>

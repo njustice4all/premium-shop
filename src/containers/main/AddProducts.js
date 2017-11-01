@@ -41,7 +41,6 @@ class AddProducts extends Component {
       addImages: List([]),
       title: '',
       price: 0,
-      // options: List([Map({ name: '', price: 0 })]),
       options: List([]),
       contents: '',
       uniqueId: createUniqueId(),
@@ -50,7 +49,7 @@ class AddProducts extends Component {
     });
 
     this.setState({
-      products: this.state.products.push(newProduct),
+      products: this.state.products.unshift(newProduct),
     });
   };
 
@@ -107,13 +106,13 @@ class AddProducts extends Component {
     const { products, deletedProducts } = this.state;
     const removeProduct = products.get(index);
 
-    if (removeProduct.get('productSequence')) {
+    if (removeProduct.get('uniqueId')) {
+      this.setState({ products: products.delete(index) });
+    } else {
       this.setState({
         products: products.delete(index),
         deletedProducts: deletedProducts.push(removeProduct.get('productSequence')),
       });
-    } else {
-      this.setState({ products: products.delete(index) });
     }
   };
 
@@ -256,17 +255,17 @@ class AddProducts extends Component {
 
     return (
       <div style={{ height: 'calc(100% - 75px)' }}>
-        <div className="container" style={{ height: 'calc(100% - 66px)' }}>
-          <div style={{ padding: '0 10px' }}>
-            <div className="btn__add-product" onClick={this.addProduct}>
-              <span id="icon-plus">+</span>
-              <span>판매상품 추가</span>
+        <div className="container" style={{ minHeight: 'calc(100% - 66px)', padding: 0 }}>
+          <div style={{ overflowY: 'auto', maxHeight: 'calc(100%)' }}>
+            <div style={{ padding: '0 10px' }}>
+              <div className="btn__add-product" onClick={this.addProduct}>
+                <span id="icon-plus">+</span>
+                <span>판매상품 추가</span>
+              </div>
             </div>
-          </div>
-          <div className="divider">
-            <div />
-          </div>
-          <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 83px)' }}>
+            <div className="divider">
+              <div />
+            </div>
             {franchise.getIn(['status', 'isFetching']) ? <Loading /> : null}
             {this.renderProducts()}
           </div>

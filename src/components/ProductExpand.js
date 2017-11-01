@@ -155,13 +155,6 @@ const ProductExpand = ({
                 onChange={e => setStateByKey(productIndex, 'title', e.target.value, uniqueId)}
               />
             </div>
-            {/*<div
-              className="product__btn__remove"
-              onClick={removeProductByIndex(productIndex)}
-              style={{ position: 'absolute' }}
-            >
-              <i className="fa fa-times" aria-hidden="true" />
-            </div>*/}
             <div className="row-wrapper" style={{ marginTop: '8px', position: 'relative' }}>
               <span className="row-title">가격</span>
               <input
@@ -190,7 +183,12 @@ const ProductExpand = ({
             uniqueId={uniqueId}
           />
           <div className="button-normal">
-            <span onClick={toggleDetailMode(productIndex)}>요약보기</span>
+            <span className="button button-left" onClick={toggleDetailMode(productIndex)}>
+              요약보기
+            </span>
+            <span className="button button-right" onClick={removeProductByIndex(productIndex)}>
+              삭제하기
+            </span>
           </div>
         </div>
       </div>
