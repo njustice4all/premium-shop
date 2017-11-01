@@ -107,7 +107,7 @@ class FranchiseList extends Component {
         <div className="franchise-list__container">
           <div className="franchise-list__search">
             <span className="icon-wrapper">
-              <i className="fa fa-search" aria-hidden="true" />
+              <img src="/img/icon-zoom.png" alt="" style={{ width: '19px' }} />
             </span>
             <input className="search-input-wrapper" type="text" />
           </div>

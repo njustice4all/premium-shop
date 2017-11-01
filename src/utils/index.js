@@ -60,7 +60,7 @@ export const convertDataToState = products => {
         images: fromJS(product.image),
         deleteImages: List([]),
         addImages: List([]),
-        options: List([]),
+        options: fromJS(product.options),
       })
     );
   });
@@ -110,8 +110,7 @@ export const convertProducts = products => {
     result.push({
       images: product.get('images').toJS(),
       contents: product.get('contents'),
-      // FIXME:
-      options: [],
+      options: product.get('options').toJS(),
       price: product.get('price'),
       title: product.get('title'),
     });

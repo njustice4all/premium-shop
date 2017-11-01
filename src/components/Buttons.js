@@ -12,7 +12,7 @@ type Props = {
 
 const Buttons = ({ handleConfirm, handleCancel, errors, editMode }: Props) => {
   return (
-    <div style={{ padding: '0 10px' }}>
+    <div>
       <div className="divider">
         <div />
       </div>

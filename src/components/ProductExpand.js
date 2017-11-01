@@ -49,7 +49,7 @@ const Options = ({
   return (
     <div className="options">
       <div className="option-name">
-        <span>옵션명</span>
+        <span>{`옵션 ${optionIndex + 1}`}</span>
       </div>
       <div className="option-input-name">
         <input
@@ -71,6 +71,39 @@ const Options = ({
       </div>
       <div className="button-delete" onClick={deleteOptionByIndex(productIndex, optionIndex)}>
         <img src="/img/icon-close.png" alt="" />
+      </div>
+    </div>
+  );
+};
+
+const OptionWrapper = ({
+  onAddOptionButtonPress,
+  productIndex,
+  product,
+  onOptionChange,
+  deleteOptionByIndex,
+  uniqueId,
+}) => {
+  return (
+    <div className="row-wrapper options" style={{ position: 'relative' }}>
+      <div className="option-wrapper">
+        {product
+          .get('options')
+          .map((option, index) => (
+            <Options
+              key={`option-${index}`}
+              value={product.getIn(['options', index])}
+              onOptionChange={onOptionChange}
+              deleteOptionByIndex={deleteOptionByIndex}
+              productIndex={productIndex}
+              uniqueId={uniqueId}
+              optionIndex={index}
+              onAddOptionButtonPress={onAddOptionButtonPress}
+            />
+          ))}
+        <div className="btn-add-option">
+          <span onClick={onAddOptionButtonPress(productIndex)}>+ 옵션 추가</span>
+        </div>
       </div>
     </div>
   );
@@ -124,7 +157,7 @@ const ProductExpand = ({
             </div>
             {/*<div
               className="product__btn__remove"
-              onClick={() => removeProductByIndex(productIndex)}
+              onClick={removeProductByIndex(productIndex)}
               style={{ position: 'absolute' }}
             >
               <i className="fa fa-times" aria-hidden="true" />
@@ -147,30 +180,15 @@ const ProductExpand = ({
                 onChange={e => setStateByKey(productIndex, 'contents', e.target.value, uniqueId)}
               />
             </div>
-            <div className="btn-add-option">
-              <span onClick={onAddOptionButtonPress(productIndex)}>+ 옵션 추가</span>
-            </div>
           </div>
-          {product.get('options').size === 0 ? null : (
-            <div className="row-wrapper options" style={{ position: 'relative' }}>
-              <div className="option-wrapper">
-                {product
-                  .get('options')
-                  .map((option, index) => (
-                    <Options
-                      key={`option-${index}`}
-                      value={product.getIn(['options', index])}
-                      onOptionChange={onOptionChange}
-                      deleteOptionByIndex={deleteOptionByIndex}
-                      productIndex={productIndex}
-                      uniqueId={uniqueId}
-                      optionIndex={index}
-                      onAddOptionButtonPress={onAddOptionButtonPress}
-                    />
-                  ))}
-              </div>
-            </div>
-          )}
+          <OptionWrapper
+            product={product}
+            onAddOptionButtonPress={onAddOptionButtonPress}
+            productIndex={productIndex}
+            onOptionChange={onOptionChange}
+            deleteOptionByIndex={deleteOptionByIndex}
+            uniqueId={uniqueId}
+          />
           <div className="button-normal">
             <span onClick={toggleDetailMode(productIndex)}>요약보기</span>
           </div>

@@ -101,7 +101,8 @@ class AddProducts extends Component {
     }
   };
 
-  removeProductByIndex = index => {
+  // TODO: 실제 삭제되도록 구현해야함
+  removeProductByIndex = index => () => {
     const { products, deletedProducts } = this.state;
     const removeProduct = products.get(index);
 
@@ -162,6 +163,7 @@ class AddProducts extends Component {
       };
 
       initSetProducts(result);
+      history.push('/result');
     } else {
       const result = convertProducts(products);
       initAddProducts({ products: result, seq: franchiseSequence })

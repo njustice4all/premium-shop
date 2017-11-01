@@ -17,8 +17,6 @@ export default class Product extends Component {
       return <ProductExpand {...this.props} />;
     }
 
-    console.log(product.toJS());
-
     return (
       <div className="items products">
         <div className="product__wrapper-normal">
@@ -38,7 +36,7 @@ export default class Product extends Component {
             </div>
             <div className="contents-row">
               <span className="button-detail" onClick={toggleDetailMode(productIndex)}>
-                상세보기 & 수정하기
+                상세보기
               </span>
             </div>
           </div>

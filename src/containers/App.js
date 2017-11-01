@@ -42,7 +42,12 @@ class App extends Component {
         <Route exact path="/" component={Main} />
         <Route exact path="/auth/signin" component={Signin} />
         <Route exact path="/auth/signup" component={Signup} />
-        <Route exact path="/franchise/list" component={FranchiseList} />
+        <Route
+          exact
+          path="/franchise/list"
+          component={FranchiseList}
+          onEnter={() => console.log('hi')}
+        />
         <Route exact path="/franchise/addShop" component={AddShop} />
         <Route
           exact

@@ -30,6 +30,7 @@ $color-divier-lighter: #d7d7d7;
 $color-font-normal: #5f5f5f;
 $color-icon-edit: #9998a2;
 $color-btn-detail: #935656;
+$color-font-default: #323743;
 
 * {
   margin: 0;
@@ -203,10 +204,6 @@ input {
   .login-input.wrong {
     border-color: $color-theme;
   }
-
-  // .login-input:focus {
-  //   border-color: $color-input-focus;
-  // }
 
   .btn-login {
     display: block;
@@ -399,7 +396,7 @@ input {
       width: 18%;
       margin-right: 2%;
       font-size: 13px;
-      color: #323743;
+      color: $color-font-default;
     }
 
     .input__title.wrong {
@@ -565,7 +562,9 @@ input {
       border: 1px solid $color-border;
       width: calc(100% - 30px);
       padding: 5px;
-      font-size: 14px;
+      font-size: 13px;
+      color: $color-font-default;
+      font-weight: normal;
     }
   }
 
@@ -623,10 +622,13 @@ input {
         font-size: 22px;
       }
       .button-detail {
-        font-size: 16px;
-        padding: 8px;
-        border: 1px solid $color-btn-detail;
-        color: $color-btn-detail;
+        padding: 10px;
+        width: 85px;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid #fe931f;
+        font-size: 14px;
+        color: #fe931f;
       }
     }
   }
@@ -679,7 +681,8 @@ input {
   .row-title {
     margin-right: 5px;
     width: 39px;
-    font-size: 14px;
+    font-size: 13px;
+    color: $color-font-default;
   }
 
   #currency {
@@ -687,13 +690,13 @@ input {
     margin: 0;
     width: 15px;
     right: 10px;
+    font-size: 12px;
   }
 }
 
 .btn-add-option {
   display: flex;
   justify-content: flex-end;
-  margin-top: 8px;
   span {
     width: 78px;
     display: inline-block;
@@ -713,18 +716,23 @@ input {
   }
   .option-wrapper {
     background-color: #f3f3f3;
-    padding: 8px 0;
+    padding: 8px;
+    color: $color-font-default;
     .options {
       display: flex;
       margin: 5px 0;
       align-items: center;
       font-size: 13px;
       .option-name {
-        width: 50px;
-        padding-left: 8px;
+        width: 41px;
       }
       .option-input-name {
         flex: 1;
+        input {
+          font-size: 13px;
+          font-weight: normal;
+          color: $color-font-default;
+        }
       }
       .option-price {
         width: 40px;
@@ -735,6 +743,9 @@ input {
         display: flex;
         input {
           border-right: none;
+          font-size: 13px;
+          font-weight: normal;
+          color: $color-font-default;
         }
         span {
           display: flex;
@@ -747,8 +758,8 @@ input {
         }
       }
       .button-delete {
-        width: 30px;
-        padding-left: 8px;
+        width: 20px;
+        padding-left: 7px;
       }
     }
     .options:first-child {
@@ -763,6 +774,7 @@ input {
 .button-normal {
   display: flex;
   justify-content: center;
+  margin: 10px 0;
   span {
     padding: 10px;
     width: 146px;
@@ -842,7 +854,7 @@ input {
   }
 
   .search-input-wrapper {
-    background-color: #e4e4e4;
+    background-color: #e9e9e9;
     padding: 10px 15px 10px 40px;
     border-radius: 20px;
     border: none;
