@@ -109,7 +109,7 @@ const OptionWrapper = ({
   );
 };
 
-const ProductExpand = ({
+const ProductInputModal = ({
   product,
   productIndex,
   setStateByKey,
@@ -120,13 +120,16 @@ const ProductExpand = ({
   onAddOptionButtonPress,
   deleteOptionByIndex,
   onOptionChange,
-  toggleDetailMode,
+  openPopup,
 }) => {
   const uniqueId = product.get('uniqueId');
 
   return (
-    <div className="items products">
-      <div className="product__wrapper">
+    <div className="items products popup">
+      <div className="product__wrapper popup">
+        <header className="product-header center">
+          <h3>{product.get('uniqueId') ? '상품 추가' : '상품 수정'}</h3>
+        </header>
         <div className="wrapper-padding">
           <div className="image__wrapper">
             <ButtonAddImage onImageChange={onImageChange} productIndex={productIndex} />
@@ -183,7 +186,7 @@ const ProductExpand = ({
             uniqueId={uniqueId}
           />
           <div className="button-normal">
-            <span className="button button-left" onClick={toggleDetailMode(productIndex)}>
+            <span className="button button-left" onClick={openPopup(productIndex)}>
               요약보기
             </span>
             <span className="button button-right" onClick={removeProductByIndex(productIndex)}>
@@ -196,4 +199,4 @@ const ProductExpand = ({
   );
 };
 
-export default ProductExpand;
+export default ProductInputModal;

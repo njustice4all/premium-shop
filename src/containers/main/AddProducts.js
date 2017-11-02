@@ -11,12 +11,13 @@ import {
   convertProducts,
 } from '../../utils';
 
-import { Product, Buttons, Loading, Popup } from '../../components';
+import { Product, Buttons, Loading, Popup, ProductInputModal } from '../../components';
 
 class AddProducts extends Component {
   state = {
     products: List([]),
     deletedProducts: List([]),
+    productInputModal: false,
   };
 
   componentDidMount = () => {
@@ -28,7 +29,7 @@ class AddProducts extends Component {
     if (!franchise.get('seq')) return;
     initGetProducts(franchise.get('seq')).then(result => {
       this.setState({
-        products: convertDataToState(result.data),
+        products: convertDataToState(result.data).reverse(),
         shopSequence: franchise.get('seq'),
       });
     });
@@ -177,7 +178,8 @@ class AddProducts extends Component {
     }
   };
 
-  toggleDetailMode = productIndex => () => {
+  openPopup = productIndex => () => {
+    // this.setState({ productInputModal: true });
     this.setState({
       products: this.state.products.updateIn(
         [productIndex, 'detailMode'],
@@ -213,7 +215,7 @@ class AddProducts extends Component {
         onAddOptionButtonPress={this.onAddOptionButtonPress}
         deleteOptionByIndex={this.deleteOptionByIndex}
         onOptionChange={this.onOptionChange}
-        toggleDetailMode={this.toggleDetailMode}
+        openPopup={this.openPopup}
       />
     ));
   };
@@ -248,6 +250,7 @@ class AddProducts extends Component {
 
   render() {
     const { authentication, franchise, editMode } = this.props;
+    const { productInputModal } = this.state;
     if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
@@ -269,6 +272,7 @@ class AddProducts extends Component {
             {this.renderProducts()}
           </div>
         </div>
+        {productInputModal ? <ProductInputModal /> : null}
         <Buttons
           handleConfirm={this.handleConfirm}
           handleCancel={this.handleCancel}

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import ProductExpand from './ProductExpand';
-
 const ProductImage = ({ product, shopSequence }) => {
   const imageName = product.getIn(['images', 0, 'imageName']);
   if (product.get('uniqueId')) {
@@ -13,11 +11,7 @@ const ProductImage = ({ product, shopSequence }) => {
 
 export default class Product extends Component {
   render() {
-    const { product, productIndex, toggleDetailMode, shopSequence } = this.props;
-
-    if (product.get('detailMode')) {
-      return <ProductExpand {...this.props} />;
-    }
+    const { product, productIndex, openPopup, shopSequence } = this.props;
 
     return (
       <div className="items products">
@@ -35,7 +29,7 @@ export default class Product extends Component {
                 {product.get('price')}
                 <span style={{ marginLeft: '5px' }}>원</span>
               </p>
-              <span className="button-detail" onClick={toggleDetailMode(productIndex)}>
+              <span className="button-detail" onClick={openPopup(productIndex)}>
                 상세보기
               </span>
             </div>
