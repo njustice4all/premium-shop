@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// TODO: implements logout
 class Result extends Component {
   onBack = () => {
     const { history } = this.props;
@@ -16,11 +15,13 @@ class Result extends Component {
     }
 
     return (
-      <div style={styles.wrapper}>
-        <h1>감사합니다</h1>
-        <h1 style={styles.text} onClick={this.onBack}>
-          돌아가기
-        </h1>
+      <div className="result-wrapper center">
+        <div className="result-text-wrapper center">
+          <h1>감사합니다</h1>
+          <h1 className="result-text" onClick={this.onBack}>
+            돌아가기
+          </h1>
+        </div>
       </div>
     );
   }
@@ -33,17 +34,3 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(connect(mapStateToProps)(Result));
-
-const styles = {
-  wrapper: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    textAlign: 'center',
-  },
-  text: {
-    marginTop: '10%',
-    color: '#8b41d4',
-  },
-};

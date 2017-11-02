@@ -101,7 +101,6 @@ class AddProducts extends Component {
     }
   };
 
-  // TODO: 실제 삭제되도록 구현해야함
   removeProductByIndex = index => () => {
     const { products, deletedProducts } = this.state;
     const removeProduct = products.get(index);
@@ -256,7 +255,7 @@ class AddProducts extends Component {
     return (
       <div style={{ height: 'calc(100% - 75px)' }}>
         <div className="container" style={{ minHeight: 'calc(100% - 66px)', padding: 0 }}>
-          <div style={{ overflowY: 'auto', maxHeight: 'calc(100%)' }}>
+          <div>
             <div style={{ padding: '0 10px' }}>
               <div className="btn__add-product" onClick={this.addProduct}>
                 <span id="icon-plus">+</span>

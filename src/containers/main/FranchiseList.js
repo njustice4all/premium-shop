@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Map, fromJS } from 'immutable';
+import debounce from 'lodash/debounce';
 
 import { addFranchise } from '../../actions';
+
+import InputSearch from '../../components/InputSearch';
 
 const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
   const images = franchise.get('image');
@@ -44,9 +47,9 @@ const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
             <p className="ellipsis">{franchise.get('description')}</p>
           </div>
           <div className="franchise-address">
-            <p className="ellipsis">{`${franchise.get('firstAddress')} ${franchise.get(
-              'detailAddress'
-            )}`}</p>
+            <p className="ellipsis">
+              {`${franchise.get('firstAddress')} ${franchise.get('detailAddress')}`}
+            </p>
           </div>
           <div className="franchise-contact">
             <p>{franchise.get('contact')}</p>
@@ -58,7 +61,12 @@ const Item = ({ franchise, index, onLoaded, onModifyBtnPress }) => {
 };
 
 class FranchiseList extends Component {
-  state = { franchiseLists: [] };
+  constructor(props) {
+    super(props);
+    this.state = { franchiseLists: [], query: '' };
+
+    this.inputDebounce = debounce(this.inputDebounce, 500);
+  }
 
   componentDidMount = () => {
     const { franchiseLists } = this.props;
@@ -89,6 +97,8 @@ class FranchiseList extends Component {
     history.push(`/franchise/setShop/${shopSequence}`);
   };
 
+  inputDebounce = query => this.setState({ query });
+
   render() {
     const { authentication } = this.props;
     const { franchiseLists } = this.state;
@@ -105,12 +115,7 @@ class FranchiseList extends Component {
           <h1>가맹점 목록 ({franchiseLists.size})</h1>
         </header>
         <div className="franchise-list__container">
-          <div className="franchise-list__search">
-            <span className="icon-wrapper">
-              <img src="/img/icon-zoom.png" alt="" style={{ width: '19px' }} />
-            </span>
-            <input className="search-input-wrapper" type="text" />
-          </div>
+          <InputSearch inputDebounce={this.inputDebounce} />
           <div className="divider">
             <div />
           </div>
