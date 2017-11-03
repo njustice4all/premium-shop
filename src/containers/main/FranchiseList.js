@@ -116,10 +116,10 @@ class FranchiseList extends Component {
           <h1>가맹점 목록 ({franchiseLists.size})</h1>
         </header>
         <div className="franchise-list__container">
-          <InputSearch inputDebounce={this.inputDebounce} />
+          {/*<InputSearch inputDebounce={this.inputDebounce} />
           <div className="divider">
             <div />
-          </div>
+          </div>*/}
           <div className="franchise-list__list-wrapper" ref={c => (this.shopLists = c)}>
             {franchiseLists.map((franchise, index) => (
               <Item

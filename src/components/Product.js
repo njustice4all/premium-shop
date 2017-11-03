@@ -30,7 +30,7 @@ export default class Product extends Component {
                 <span style={{ marginLeft: '5px' }}>원</span>
               </p>
               <span className="button-detail" onClick={togglePopup(productIndex)}>
-                상세보기
+                수정
               </span>
               <span className="button-detail remove" onClick={removeProductByIndex(productIndex)}>
                 삭제
