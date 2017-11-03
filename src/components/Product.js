@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const ProductImage = ({ product, shopSequence }) => {
   const imageName = product.getIn(['images', 0, 'imageName']);
-  if (product.get('uniqueId')) {
+  if (product.getIn(['images', 0, 'imageId'])) {
     return <img src={product.getIn(['images', 0, 'image'])} alt="" />;
   }
 
@@ -11,7 +11,7 @@ const ProductImage = ({ product, shopSequence }) => {
 
 export default class Product extends Component {
   render() {
-    const { product, productIndex, openPopup, shopSequence } = this.props;
+    const { product, productIndex, togglePopup, shopSequence, removeProductByIndex } = this.props;
 
     return (
       <div className="items products">
@@ -29,8 +29,11 @@ export default class Product extends Component {
                 {product.get('price')}
                 <span style={{ marginLeft: '5px' }}>원</span>
               </p>
-              <span className="button-detail" onClick={openPopup(productIndex)}>
+              <span className="button-detail" onClick={togglePopup(productIndex)}>
                 상세보기
+              </span>
+              <span className="button-detail remove" onClick={removeProductByIndex(productIndex)}>
+                삭제
               </span>
             </div>
             <div className="contents-row">

@@ -37,45 +37,6 @@ const ProductImage = ({ deleteImageByIndex, image, imageIndex, productIndex, sho
   );
 };
 
-const Options = ({
-  value,
-  onOptionChange,
-  productIndex,
-  uniqueId,
-  optionIndex,
-  deleteOptionByIndex,
-  onAddOptionButtonPress,
-}) => {
-  return (
-    <div className="options">
-      <div className="option-name">
-        <span>{`옵션 ${optionIndex + 1}`}</span>
-      </div>
-      <div className="option-input-name">
-        <input
-          type="text"
-          value={value.get('name')}
-          onChange={onOptionChange(productIndex, optionIndex, 'name')}
-        />
-      </div>
-      <div className="option-price">
-        <span>가격</span>
-      </div>
-      <div className="option-input-price">
-        <input
-          type="number"
-          value={value.get('price')}
-          onChange={onOptionChange(productIndex, optionIndex, 'price')}
-        />
-        <span>원</span>
-      </div>
-      <div className="button-delete" onClick={deleteOptionByIndex(productIndex, optionIndex)}>
-        <img src="/img/icon-close.png" alt="" />
-      </div>
-    </div>
-  );
-};
-
 const OptionWrapper = ({
   onAddOptionButtonPress,
   productIndex,
@@ -87,20 +48,34 @@ const OptionWrapper = ({
   return (
     <div className="row-wrapper options" style={{ position: 'relative' }}>
       <div className="option-wrapper">
-        {product
-          .get('options')
-          .map((option, index) => (
-            <Options
-              key={`option-${index}`}
-              value={product.getIn(['options', index])}
-              onOptionChange={onOptionChange}
-              deleteOptionByIndex={deleteOptionByIndex}
-              productIndex={productIndex}
-              uniqueId={uniqueId}
-              optionIndex={index}
-              onAddOptionButtonPress={onAddOptionButtonPress}
-            />
-          ))}
+        {product.get('options').map((option, index) => (
+          <div className="options" key={`option-${index}`}>
+            <div className="option-name">
+              <span>{`옵션 ${index + 1}`}</span>
+            </div>
+            <div className="option-input-name">
+              <input
+                type="text"
+                value={product.getIn(['options', index, 'name'])}
+                onChange={onOptionChange(productIndex, index, 'name')}
+              />
+            </div>
+            <div className="option-price">
+              <span>가격</span>
+            </div>
+            <div className="option-input-price">
+              <input
+                type="number"
+                value={product.getIn(['options', index, 'price'])}
+                onChange={onOptionChange(productIndex, index, 'price')}
+              />
+              <span>원</span>
+            </div>
+            <div className="button-delete" onClick={deleteOptionByIndex(productIndex, index)}>
+              <img src="/img/icon-close.png" alt="" />
+            </div>
+          </div>
+        ))}
         <div className="btn-add-option">
           <span onClick={onAddOptionButtonPress(productIndex)}>+ 옵션 추가</span>
         </div>
@@ -120,7 +95,8 @@ const ProductInputModal = ({
   onAddOptionButtonPress,
   deleteOptionByIndex,
   onOptionChange,
-  openPopup,
+  togglePopup,
+  testConfirm,
 }) => {
   const uniqueId = product.get('uniqueId');
 
@@ -131,7 +107,7 @@ const ProductInputModal = ({
           <h3>{product.get('uniqueId') ? '상품 추가' : '상품 수정'}</h3>
         </header>
         <div className="wrapper-padding">
-          <div className="image__wrapper">
+          <div className="image__wrapper" style={{ maxWidth: `${window.innerWidth - 32}px` }}>
             <ButtonAddImage onImageChange={onImageChange} productIndex={productIndex} />
             {product
               .get('images')
@@ -153,7 +129,7 @@ const ProductInputModal = ({
               <span className="row-title">상품명</span>
               <input
                 type="text"
-                value={product.get('title')}
+                defaultValue={product.get('title')}
                 placeholder="상품명을 입력하세요."
                 onChange={e => setStateByKey(productIndex, 'title', e.target.value, uniqueId)}
               />
@@ -186,11 +162,11 @@ const ProductInputModal = ({
             uniqueId={uniqueId}
           />
           <div className="button-normal">
-            <span className="button button-left" onClick={openPopup(productIndex)}>
-              요약보기
+            <span className="button button-left" onClick={togglePopup(productIndex, 'close')}>
+              취 소
             </span>
-            <span className="button button-right" onClick={removeProductByIndex(productIndex)}>
-              삭제하기
+            <span className="button button-right" onClick={testConfirm}>
+              확 인
             </span>
           </div>
         </div>

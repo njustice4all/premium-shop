@@ -68,36 +68,28 @@ export const convertDataToState = products => {
   return result;
 };
 
-export const getModifyProducts = products => {
-  let modifyProducts = List([]);
-  products.forEach(product => {
-    modifyProducts = modifyProducts.push(
-      Map({
-        product_seq: product.get('productSequence'),
-        title: product.get('title'),
-        price: product.get('price'),
-        contents: product.get('contents'),
-        options: product.get('options'),
-        addImages: product.get('addImages'),
-        deleteImages: product.get('deleteImages'),
-      })
-    );
-  });
-
-  return modifyProducts;
+export const getModifyProducts = product => {
+  return List([
+    Map({
+      product_seq: product.get('productSequence'),
+      title: product.get('title'),
+      price: product.get('price'),
+      contents: product.get('contents'),
+      options: product.get('options'),
+      addImages: product.get('addImages'),
+      deleteImages: product.get('deleteImages'),
+    }),
+  ]);
 };
 
-export const convertProducts = products => {
-  let result = [];
-  products.forEach(product => {
-    result.push({
+export const convertProducts = product => {
+  return List([
+    Map({
       images: product.get('images').toJS(),
       contents: product.get('contents'),
       options: product.get('options').toJS(),
       price: product.get('price'),
       title: product.get('title'),
-    });
-  });
-
-  return result;
+    }),
+  ]);
 };

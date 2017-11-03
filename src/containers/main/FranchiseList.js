@@ -74,7 +74,8 @@ class FranchiseList extends Component {
       return Map({ ...list, isLoaded: false });
     });
 
-    this.setState({ franchiseLists: lists.reverse() });
+    this.setState({ franchiseLists: lists });
+    // this.setState({ franchiseLists: lists.reverse() });
   };
 
   onLoaded = index => () => {

@@ -17,7 +17,9 @@ class AddProducts extends Component {
   state = {
     products: List([]),
     deletedProducts: List([]),
+    productStack: null,
     productInputModal: false,
+    updateFromNewProduct: false,
   };
 
   componentDidMount = () => {
@@ -36,84 +38,89 @@ class AddProducts extends Component {
   };
 
   addProduct = () => {
-    const newProduct = Map({
-      images: List([]),
-      deleteImages: List([]),
-      addImages: List([]),
-      title: '',
-      price: 0,
-      options: List([]),
-      contents: '',
-      uniqueId: createUniqueId(),
-      detailMode: true,
-      productSequence: 'add',
-    });
-
-    this.setState({
-      products: this.state.products.unshift(newProduct),
-    });
+    this.setState(prevState => ({
+      productInputModal: true,
+      productStack: Map({
+        images: List([]),
+        deleteImages: List([]),
+        addImages: List([]),
+        title: '',
+        price: 0,
+        options: List([]),
+        contents: '',
+        uniqueId: createUniqueId(),
+        detailMode: true,
+        productSequence: 'add',
+      }),
+    }));
   };
 
   setStateByKey = (index, key, value, uniqueId) => {
-    const { products } = this.state;
-    if (uniqueId) {
-      this.setState({
-        products: products.setIn([index, key], value),
-      });
-    } else {
-      this.setState({ products: products.setIn([index, key], value) });
-    }
+    const { productStack } = this.state;
+    this.setState({
+      productStack: productStack.set(key, value),
+    });
   };
 
+  // FIXME: 동작확인필수
   deleteImageByIndex = (productIndex, imageIndex, uniqueId) => () => {
-    const { products } = this.state;
-    const product = products.get(productIndex);
-    const imageIdFromProductImage = product.getIn(['images', imageIndex, 'imageId']);
+    const { productStack } = this.state;
+    const imageIdFromProductImage = productStack.getIn(['images', imageIndex, 'imageId']);
 
-    if (product.get('uniqueId')) {
+    if (productStack.get('uniqueId')) {
       this.setState({
-        products: products.withMutations(mutator =>
-          mutator
-            .deleteIn([productIndex, 'images', imageIndex])
-            .deleteIn([productIndex, 'addImages', imageIndex])
+        productStack: productStack.withMutations(mutator =>
+          mutator.deleteIn(['images', imageIndex]).deleteIn(['addImages', imageIndex])
         ),
       });
     } else {
       this.setState({
-        products: products.withMutations(mutator =>
+        productStack: productStack.withMutations(mutator =>
           mutator
-            .deleteIn([productIndex, 'images', imageIndex])
-            .updateIn(
-              [productIndex, 'deleteImages'],
+            .deleteIn(['images', imageIndex])
+            .update(
+              'deleteImages',
               deleteImages =>
-                product.getIn(['images', imageIndex, 'seq'])
-                  ? deleteImages.push(product.getIn(['images', imageIndex, 'seq']))
+                productStack.getIn(['images', imageIndex, 'seq'])
+                  ? deleteImages.push(productStack.getIn(['images', imageIndex, 'seq']))
                   : List([])
             )
-            .deleteIn([
-              productIndex,
+            .deleteIn(
               'addImages',
-              products
-                .getIn([productIndex, 'addImages'])
-                .findIndex(images => images.get('imageId') === imageIdFromProductImage),
-            ])
+              productStack
+                .get('addImages')
+                .findIndex(images => images.get('imageId') === imageIdFromProductImage)
+            )
         ),
       });
     }
   };
 
-  removeProductByIndex = index => () => {
-    const { products, deletedProducts } = this.state;
-    const removeProduct = products.get(index);
+  // FIXME: 동작확인필수
+  removeProductByIndex = productIndex => () => {
+    const { products, deletedProducts, productStack } = this.state;
+    const { initSetProducts, franchise } = this.props;
+    const removeProduct = products.get(productIndex);
 
     if (removeProduct.get('uniqueId')) {
-      this.setState({ products: products.delete(index) });
+      this.setState({ products: products.delete(productIndex) });
     } else {
       this.setState({
-        products: products.delete(index),
+        products: products.delete(productIndex),
         deletedProducts: deletedProducts.push(removeProduct.get('productSequence')),
+        productStack: null,
+        productInputModal: false,
       });
     }
+
+    // const result = {
+    //   shop_seq: franchise.get('seq'),
+    //   deleteProducts: deletedProducts.toJS(),
+    //   products: getModifyProducts(productStack).toJS(),
+    // };
+    console.log(removeProduct.toJS());
+
+    // initSetProducts();
   };
 
   onImageChange = productIndex => e => {
@@ -131,10 +138,10 @@ class AddProducts extends Component {
         });
 
         this.setState(prevState => ({
-          products: prevState.products.withMutations(mutator =>
+          productStack: prevState.productStack.withMutations(mutator =>
             mutator
-              .updateIn([productIndex, 'images'], images => images.push(image))
-              .updateIn([productIndex, 'addImages'], addImages => addImages.push(image))
+              .update('images', images => images.push(image))
+              .update('addImages', addImages => addImages.push(image))
           ),
         }));
       };
@@ -178,14 +185,77 @@ class AddProducts extends Component {
     }
   };
 
-  openPopup = productIndex => () => {
-    // this.setState({ productInputModal: true });
-    this.setState({
-      products: this.state.products.updateIn(
-        [productIndex, 'detailMode'],
-        detailMode => !detailMode
-      ),
-    });
+  // TODO: working...
+  testConfirm = () => {
+    const { franchise, initSetProducts, initAddProducts, editMode } = this.props;
+    const { deletedProducts, productStack, updateFromNewProduct } = this.state;
+    const result = {
+      shop_seq: franchise.get('seq'),
+      deleteProducts: deletedProducts.toJS(),
+      products: getModifyProducts(productStack).toJS(),
+    };
+    const productIndex = productStack.get('productIndex');
+
+    // console.log(productStack.get('title'), productStack.get('price'));
+    // 수정중일때 새상품추가
+    if (editMode) {
+      if (productStack.get('uniqueId')) {
+        this.setState(prevState => ({
+          products: prevState.products.unshift(productStack),
+          productInputModal: false,
+          productStack: null,
+        }));
+      } else {
+        this.setState(prevState => ({
+          products: prevState.products.update(productIndex, () => productStack),
+          productInputModal: false,
+          productStack: null,
+        }));
+      }
+
+      initSetProducts(result);
+    } else {
+      if (updateFromNewProduct) {
+        this.setState(prevState => ({
+          products: prevState.products.update(productIndex, () => productStack),
+          productInputModal: false,
+          productStack: null,
+        }));
+      } else {
+        this.setState(prevState => ({
+          products: prevState.products.unshift(productStack),
+          productInputModal: false,
+          productStack: null,
+        }));
+      }
+
+      initAddProducts({ products: convertProducts(productStack), seq: franchise.get('seq') });
+    }
+  };
+
+  togglePopup = (productIndex, type) => () => {
+    const { editMode } = this.props;
+    if (type === 'close') {
+      this.setState({
+        productStack: null,
+        productInputModal: false,
+        updateFromNewProduct: false,
+      });
+    } else {
+      if (!editMode) {
+        this.setState({
+          productStack: this.state.products.get(productIndex).merge({ productIndex }),
+          productInputModal: true,
+          updateFromNewProduct: true,
+        });
+      } else {
+        this.setState({
+          productStack: this.state.products.get(productIndex).merge({ productIndex }),
+          productInputModal: true,
+          updateFromNewProduct: false,
+        });
+      }
+    }
   };
 
   handleCancel = () => this.props.history.push('/');
@@ -215,7 +285,7 @@ class AddProducts extends Component {
         onAddOptionButtonPress={this.onAddOptionButtonPress}
         deleteOptionByIndex={this.deleteOptionByIndex}
         onOptionChange={this.onOptionChange}
-        openPopup={this.openPopup}
+        togglePopup={this.togglePopup}
       />
     ));
   };
@@ -223,20 +293,17 @@ class AddProducts extends Component {
   onOptionChange = (productIndex, optionIndex, type) => e => {
     e.persist();
     this.setState(prevState => ({
-      products: prevState.products.setIn(
-        [productIndex, 'options', optionIndex, type],
-        e.target.value
-      ),
+      productStack: prevState.productStack.setIn(['options', optionIndex, type], e.target.value),
     }));
   };
 
   onAddOptionButtonPress = productIndex => () => {
-    if (this.state.products.getIn([productIndex, 'options']).size > 4) {
+    if (this.state.productStack.get('options').size > 4) {
       return;
     }
 
     this.setState(prevState => ({
-      products: prevState.products.updateIn([productIndex, 'options'], options =>
+      productStack: prevState.productStack.update('options', options =>
         options.push(Map({ name: '', price: 0 }))
       ),
     }));
@@ -244,20 +311,20 @@ class AddProducts extends Component {
 
   deleteOptionByIndex = (productIndex, optionIndex) => () => {
     this.setState(prevState => ({
-      products: prevState.products.deleteIn([productIndex, 'options', optionIndex]),
+      productStack: prevState.productStack.deleteIn(['options', optionIndex]),
     }));
   };
 
   render() {
     const { authentication, franchise, editMode } = this.props;
-    const { productInputModal } = this.state;
+    const { productInputModal, productStack } = this.state;
     if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
 
     return (
       <div style={{ height: 'calc(100% - 75px)' }}>
-        <div className="container" style={{ minHeight: 'calc(100% - 66px)', padding: 0 }}>
+        <div className="container" style={{ minHeight: 'calc(100% - 59px)', padding: 0 }}>
           <div>
             <div style={{ padding: '0 10px' }}>
               <div className="btn__add-product" onClick={this.addProduct}>
@@ -272,12 +339,39 @@ class AddProducts extends Component {
             {this.renderProducts()}
           </div>
         </div>
-        {productInputModal ? <ProductInputModal /> : null}
-        <Buttons
+        {productInputModal ? (
+          <ProductInputModal
+            product={productStack}
+            productIndex={productStack.get('productIndex')}
+            setStateByKey={this.setStateByKey}
+            removeProductByIndex={this.removeProductByIndex}
+            deleteImageByIndex={this.deleteImageByIndex}
+            onImageChange={this.onImageChange}
+            shopSequence={franchise.get('seq')}
+            onAddOptionButtonPress={this.onAddOptionButtonPress}
+            deleteOptionByIndex={this.deleteOptionByIndex}
+            onOptionChange={this.onOptionChange}
+            togglePopup={this.togglePopup}
+            testConfirm={this.testConfirm}
+          />
+        ) : null}
+        <div
+          className="button-list center"
+          onClick={() => {
+            if (this.props.editMode) {
+              this.props.history.push('/franchise/list');
+            } else {
+              this.props.history.push('/');
+            }
+          }}
+        >
+          {editMode ? '상품 목록' : '메인으로'}
+        </div>
+        {/*<Buttons
           handleConfirm={this.handleConfirm}
           handleCancel={this.handleCancel}
           editMode={editMode ? true : false}
-        />
+        />*/}
         {/*franchise.getIn(['status', 'addShop']) ? null : (
           <Popup onBackButtonPress={this.onBackButtonPress} />
         )*/}
