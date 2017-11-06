@@ -18,7 +18,7 @@ class AddProducts extends Component {
     products: List([]),
     deletedProducts: List([]),
     productStack: null,
-    productInputModal: false,
+    showInputModal: false,
     updateFromNewProduct: false,
   };
 
@@ -39,7 +39,7 @@ class AddProducts extends Component {
 
   addProduct = () => {
     this.setState(prevState => ({
-      productInputModal: true,
+      showInputModal: true,
       productStack: Map({
         images: List([]),
         deleteImages: List([]),
@@ -109,7 +109,7 @@ class AddProducts extends Component {
         products: products.delete(productIndex),
         deletedProducts: deletedProducts.push(removeProduct.get('productSequence')),
         productStack: null,
-        productInputModal: false,
+        showInputModal: false,
       });
     }
 
@@ -202,13 +202,13 @@ class AddProducts extends Component {
       if (productStack.get('uniqueId')) {
         this.setState(prevState => ({
           products: prevState.products.unshift(productStack),
-          productInputModal: false,
+          showInputModal: false,
           productStack: null,
         }));
       } else {
         this.setState(prevState => ({
           products: prevState.products.update(productIndex, () => productStack),
-          productInputModal: false,
+          showInputModal: false,
           productStack: null,
         }));
       }
@@ -218,13 +218,13 @@ class AddProducts extends Component {
       if (updateFromNewProduct) {
         this.setState(prevState => ({
           products: prevState.products.update(productIndex, () => productStack),
-          productInputModal: false,
+          showInputModal: false,
           productStack: null,
         }));
       } else {
         this.setState(prevState => ({
           products: prevState.products.unshift(productStack),
-          productInputModal: false,
+          showInputModal: false,
           productStack: null,
         }));
       }
@@ -238,20 +238,20 @@ class AddProducts extends Component {
     if (type === 'close') {
       this.setState({
         productStack: null,
-        productInputModal: false,
+        showInputModal: false,
         updateFromNewProduct: false,
       });
     } else {
       if (!editMode) {
         this.setState({
           productStack: this.state.products.get(productIndex).merge({ productIndex }),
-          productInputModal: true,
+          showInputModal: true,
           updateFromNewProduct: true,
         });
       } else {
         this.setState({
           productStack: this.state.products.get(productIndex).merge({ productIndex }),
-          productInputModal: true,
+          showInputModal: true,
           updateFromNewProduct: false,
         });
       }
@@ -317,16 +317,20 @@ class AddProducts extends Component {
 
   render() {
     const { authentication, franchise, editMode } = this.props;
-    const { productInputModal, productStack } = this.state;
+    const { showInputModal, productStack } = this.state;
     if (!authentication.get('isLogin')) {
       return <Redirect to="/auth/signin" />;
     }
 
     return (
-      <div style={{ height: 'calc(100% - 75px)' }}>
-        <div className="container" style={{ minHeight: 'calc(100% - 59px)', padding: 0 }}>
+      <div
+        className={
+          showInputModal ? 'product-container-wrapper disable' : 'product-container-wrapper'
+        }
+      >
+        <div className="container product">
           <div>
-            <div style={{ padding: '0 10px' }}>
+            <div style={{ padding: '10px' }}>
               <div className="btn__add-product" onClick={this.addProduct}>
                 <span id="icon-plus">+</span>
                 <span>판매상품 추가</span>
@@ -339,7 +343,7 @@ class AddProducts extends Component {
             {this.renderProducts()}
           </div>
         </div>
-        {productInputModal ? (
+        {showInputModal ? (
           <ProductInputModal
             product={productStack}
             productIndex={productStack.get('productIndex')}

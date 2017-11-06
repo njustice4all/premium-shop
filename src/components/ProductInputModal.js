@@ -68,6 +68,7 @@ const OptionWrapper = ({
                 type="number"
                 value={product.getIn(['options', index, 'price'])}
                 onChange={onOptionChange(productIndex, index, 'price')}
+                onClick={e => e.target.select()}
               />
               <span>원</span>
             </div>
