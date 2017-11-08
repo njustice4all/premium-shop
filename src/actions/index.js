@@ -14,6 +14,8 @@ import {
   initSetProducts,
 } from './franchise';
 import { initGetShopLists } from './franchiseLists';
+import { initRequestAddress, initRequestLoadMore, resetAddress } from './address';
+import { popAddress } from './ui';
 
 export {
   initSignin,
@@ -27,4 +29,8 @@ export {
   initGetShopLists,
   autoLogin,
   addFranchise,
+  initRequestAddress,
+  initRequestLoadMore,
+  popAddress,
+  resetAddress,
 };

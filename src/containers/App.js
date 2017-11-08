@@ -18,7 +18,11 @@ class App extends Component {
     });
   };
 
-  componentWillReceiveProps = () => {
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.ui.get('address') !== this.props.ui.get('address')) {
+      return;
+    }
+
     this.props.changeRoute(this.props.history.location);
   };
 
@@ -36,8 +40,10 @@ class App extends Component {
   };
 
   render() {
+    const isPopup = this.props.ui.get('address');
+
     return (
-      <div style={{ height: '100%' }}>
+      <div className={isPopup ? 'app-container disable' : 'app-container'}>
         {this._renderHeader()}
         <Route exact path="/" component={Main} />
         <Route exact path="/auth/signin" component={Signin} />
@@ -66,9 +72,13 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  ui: state.get('ui'),
+});
+
 const mapDispatchToProps = dispatch => ({
   changeRoute: location => dispatch({ type: 'LOCATION_CHANGE', location }),
   autoLogin: userInfo => dispatch(autoLogin(userInfo)),
 });
 
-export default withRouter(connect(undefined, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

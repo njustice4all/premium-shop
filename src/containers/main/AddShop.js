@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
 import { validateState, createUniqueId, convertUrlToBase64 } from '../../utils';
-import { initAddShop, initSetShop, initGetShopLists } from '../../actions';
+import { initAddShop, initSetShop, initGetShopLists, popAddress } from '../../actions';
 
 import { Images, Info, Buttons, Loading, Address } from '../../components';
 
@@ -114,14 +114,17 @@ class AddShop extends Component {
 
   toggleAddress = () => {
     this.setState(prevState => ({ isOpenAddress: !prevState.isOpenAddress }));
+    this.props.popAddress();
   };
 
-  handleAddress = data => {
+  setAddress = data => () => {
     const { address } = this.state;
     this.setState({
-      address: address.merge({ zipCode: data.zonecode, firstAddress: data.address }),
+      address: address.merge({ zipCode: data.zipNo, firstAddress: data.roadAddr }),
       isOpenAddress: false,
     });
+
+    this.props.popAddress();
   };
 
   handleDetailAddress = value => {
@@ -284,7 +287,9 @@ class AddShop extends Component {
             className={classNames('overlay', { active: isOpenAddress })}
             onClick={this.toggleAddress}
           />
-          {isOpenAddress ? <Address handleAddress={this.handleAddress} /> : null}
+          {isOpenAddress ? (
+            <Address setAddress={this.setAddress} toggleAddress={this.toggleAddress} />
+          ) : null}
           <Images
             images={images}
             editMode={editMode}
@@ -330,12 +335,14 @@ const mapStateToProps = state => ({
   authentication: state.get('authentication'),
   franchise: state.get('franchise'),
   franchiseLists: state.get('franchiseLists'),
+  ui: state.get('ui'),
 });
 
 const mapDispatchToProps = dispatch => ({
   initAddShop: shop => dispatch(initAddShop(shop)),
   initSetShop: shop => dispatch(initSetShop(shop)),
   initGetShopLists: seq => dispatch(initGetShopLists(seq)),
+  popAddress: () => dispatch(popAddress()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddShop);

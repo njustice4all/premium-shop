@@ -56,6 +56,10 @@ input {
   box-shadow: none;
 }
 
+.flex {
+  display: flex;
+}
+
 .center {
   justify-content: center;
   align-items: center;
@@ -73,6 +77,14 @@ input {
     height: 1px;
     background-color: $color-divier-lighter;
   }
+}
+
+.app-container {
+  height: 100%;
+}
+
+.app-container.disable {
+  overflow: hidden;
 }
 
 .overlay.active {
@@ -489,7 +501,6 @@ input {
 */
 .address__wrapper {
   position: fixed;
-  padding: 10px;
   top: 5%;
   left: 5%;
   right: 5%;
@@ -497,6 +508,106 @@ input {
   z-index: 200;
   max-width: 400px;
   margin: auto;
+  header {
+    display: flex;
+    padding: 15px;
+    font-size: 20px;
+    justify-content: center;
+    background: $color-theme;
+    color: white;
+    position: relative;
+    span {
+      position: absolute;
+      right: 0;
+      height: 54px;
+      top: 0;
+      width: 54px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 20px;
+      }
+    }
+  }
+  .address-content-wrapper {
+    padding: 10px;
+    .address-search-wrapper {
+      display: flex;
+      input {
+        position: relative;
+        background: $color-divider;
+        border: none;
+        border-radius: 15px;
+        padding: 0 45px 0 15px;
+        outline: none;
+        height: 30px;
+        width: 100%;
+        color: $color-theme-second;
+      }
+      input:focus {
+        background: $color-border;
+      }
+      span {
+        position: absolute;
+        padding: 5px;
+        display: flex;
+        right: 20px;
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .address-result-wrapper {
+      margin-top: 10px;
+      min-height: 350px;
+      max-height: 350px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-size: 14px;
+      color: $color-theme-second;
+      -webkit-overflow-scrolling: touch;
+      .address-result {
+        padding: 5px;
+        border-bottom: 1px solid $color-border;
+        .address-result-content {
+          display: flex;
+          margin-bottom: 5px;
+          .address-type {
+            // font-family: dotum, '\B3CB\C6C0', sans-serif;
+            width: 35px;
+            height: 15px;
+            border: 1px solid $color-theme;
+            border-radius: 1px;
+            font-size: 11px;
+            line-height: 16px;
+            color: $color-theme;
+            text-align: center;
+            margin-right: 8px;
+          }
+          .address-type.jibun {
+            color: $color-theme-second;
+            border-color: $color-theme-second;
+          }
+          p {
+            flex: 1;
+          }
+        }
+        .address-result-content:last-child {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .result-nothing {
+    text-align: center;
+    transform: translateY(-35%);
+    color: $color-theme-second;
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 .footer-wrapper.edit {
