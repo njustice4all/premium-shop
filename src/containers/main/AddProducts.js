@@ -213,7 +213,7 @@ class AddProducts extends Component {
         }));
       }
 
-      initSetProducts(result);
+      initSetProducts(result).then(() => this.onEditMode());
     } else {
       if (updateFromNewProduct) {
         this.setState(prevState => ({
@@ -229,7 +229,11 @@ class AddProducts extends Component {
         }));
       }
 
-      initAddProducts({ products: convertProducts(productStack), seq: franchise.get('seq') });
+      // initAddProducts({
+      //   products: convertProducts(productStack),
+      //   seq: franchise.get('seq'),
+      // }).then(() => this.onEditMode());
+      initSetProducts(result).then(() => this.onEditMode());
     }
   };
 

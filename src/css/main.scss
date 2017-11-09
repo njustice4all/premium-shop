@@ -561,9 +561,8 @@ input {
     }
     .address-result-wrapper {
       margin-top: 10px;
-      min-height: 350px;
-      max-height: 350px;
-      overflow-y: auto;
+      height: 350px;
+      overflow-y: scroll;
       overflow-x: hidden;
       font-size: 14px;
       color: $color-theme-second;
@@ -598,6 +597,15 @@ input {
           margin: 0;
         }
       }
+    }
+    .address-result-wrapper::-webkit-scrollbar {
+      width: 2px;
+    }
+    .address-result-wrapper::-webkit-scrollbar-thumb {
+      background: rgb(169, 169, 169);
+    }
+    .address-result-wrapper::-webkit-scrollbar-thumb:window-inactive {
+      background: rgb(128, 128, 128);
     }
   }
   .result-nothing {

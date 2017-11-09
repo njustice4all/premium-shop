@@ -29,6 +29,7 @@ export default class Images extends Component<Props> {
           style={{ display: 'none' }}
           id="upload-image"
           multiple
+          capture="camera"
           accept="image/*"
           name="photo"
           type="file"
