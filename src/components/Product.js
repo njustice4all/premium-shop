@@ -15,7 +15,7 @@ export default class Product extends Component {
 
     return (
       <div className="items products">
-        <div className="product__wrapper-normal">
+        <div className="product__wrapper-normal" onClick={togglePopup(productIndex)}>
           <div className="image__wrapper">
             <i className="fa fa-camera" aria-hidden="true" />
             <ProductImage product={product} shopSequence={shopSequence} />
@@ -29,9 +29,7 @@ export default class Product extends Component {
                 {product.get('price')}
                 <span style={{ marginLeft: '5px' }}>원</span>
               </p>
-              <span className="button-detail" onClick={togglePopup(productIndex)}>
-                수정
-              </span>
+              <span className="button-detail">수정</span>
               <span className="button-detail remove" onClick={removeProductByIndex(productIndex)}>
                 삭제
               </span>

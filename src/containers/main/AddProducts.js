@@ -97,7 +97,8 @@ class AddProducts extends Component {
   };
 
   // FIXME: 동작확인필수
-  removeProductByIndex = productIndex => () => {
+  removeProductByIndex = productIndex => e => {
+    e.stopPropagation();
     const { products, deletedProducts, productStack } = this.state;
     const { initSetProducts, franchise } = this.props;
     const removeProduct = products.get(productIndex);
@@ -237,7 +238,7 @@ class AddProducts extends Component {
     }
   };
 
-  togglePopup = (productIndex, type) => () => {
+  togglePopup = (productIndex, type) => e => {
     const { editMode } = this.props;
     if (type === 'close') {
       this.setState({
