@@ -93,3 +93,10 @@ export const convertProducts = product => {
     }),
   ]);
 };
+
+export const isAndroid = () => {
+  if (/Android/i.test(navigator.userAgent)) {
+    return true;
+  }
+  return false;
+};

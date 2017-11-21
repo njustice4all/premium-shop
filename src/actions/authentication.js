@@ -64,11 +64,11 @@ const reqSignupFailure = result => {
 export const initSignup = user => async dispatch => {
   dispatch(reqSignup());
   const response = await apiSignup(user);
+  const result = await response.json();
 
-  if (response.status >= 400) {
+  if (!result.msg) {
     dispatch(reqSignupFailure({ error: true }));
   } else {
-    const result = await response.json();
     dispatch(reqSignupSuccess(result));
     return true;
   }
