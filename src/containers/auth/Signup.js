@@ -6,10 +6,12 @@ import { withRouter } from 'react-router-dom';
 
 import { initSignup } from '../../actions';
 
+import { Terms } from '../../components';
+
 const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 
 class Signup extends Component {
-  state = { email: '', password: '', confirmPassword: '' };
+  state = { email: '', password: '', confirmPassword: '', checkedTerms: false, showTerms: false };
 
   handleEmailChange = e => {
     if (!regex.test(e.target.value)) {
@@ -47,13 +49,17 @@ class Signup extends Component {
 
   handleSignup = () => {
     const { initSignup, history } = this.props;
-    const { email, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword, checkedTerms } = this.state;
 
+    if (!checkedTerms) {
+      alert('이용약관 확인은 필수');
+      return;
+    }
     if (!regex.test(email)) return;
     if (password.trim().length < 6) return;
     if (email.trim().length > 0 && password === confirmPassword) {
       initSignup({ email, password }).then(value => {
-        return value ? history.push('/franchise/addShop') : null;
+        return value ? history.push('/') : null;
       });
     }
   };
@@ -63,7 +69,21 @@ class Signup extends Component {
     history.push('/auth/signin');
   };
 
+  toggleAcceptTerms = () => {
+    this.setState(prevState => ({
+      checkedTerms: !prevState.checkedTerms,
+    }));
+  };
+
+  toggleVisibilityTermsComponent = () => {
+    this.setState(prevState => ({
+      showTerms: !prevState.showTerms,
+    }));
+  };
+
   render() {
+    const { checkedTerms, showTerms } = this.state;
+
     return (
       <div className="mobile-auth-wrapper" style={{ position: 'relative' }}>
         <div className="greeting-wrapper">
@@ -75,6 +95,9 @@ class Signup extends Component {
           </div>
         </div>
         <div className="login-form">
+          {showTerms ? (
+            <Terms toggleVisibilityTermsComponent={this.toggleVisibilityTermsComponent} />
+          ) : null}
           <div>
             <label className="login-label" style={{ display: 'inline' }}>
               이메일
@@ -119,6 +142,15 @@ class Signup extends Component {
               className="login-input"
               onChange={e => this.handleConfirmPassword(e)}
             />
+            <div className="button-terms">
+              <label>
+                <input type="checkbox" checked={checkedTerms} onChange={this.toggleAcceptTerms} />
+              </label>
+              <span>개인정보취급방침 동의 (필수)</span>
+              <span className="check-terms" onClick={this.toggleVisibilityTermsComponent}>
+                약관확인
+              </span>
+            </div>
             <button className="btn-login signup signup__page" onClick={this.handleSignup}>
               회원가입하기
             </button>

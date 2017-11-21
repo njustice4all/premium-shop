@@ -246,7 +246,7 @@ input {
   }
 
   .btn-login.signup.signup__page {
-    margin-top: 14%;
+    margin-top: 5%;
     background-color: $color-theme;
     color: white;
   }
@@ -262,6 +262,22 @@ input {
 
     span {
       color: $color-theme;
+    }
+  }
+
+  .button-terms {
+    font-size: 12px;
+    span {
+      vertical-align: middle;
+    }
+    label {
+      vertical-align: middle;
+      display: inline-flex;
+      padding: 2px 5px;
+    }
+    .check-terms {
+      float: right;
+      line-height: 17px;
     }
   }
 }
@@ -1198,4 +1214,36 @@ input {
 .container.product {
   min-height: calc(100% - 59px);
   padding: 0;
+}
+
+.terms-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(30, 31, 33, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-font-default;
+  .terms-wrapper {
+    background-color: white;
+  }
+  .terms-side {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .terms-side.terms-confirm {
+    background-color: $color-theme;
+    color: white;
+  }
+  .terms-content-wrapper {
+    // color: $color-font-default;
+    padding: 10px;
+    width: 320px;
+    height: 300px;
+    overflow-y: scroll;
+  }
 }
