@@ -221,6 +221,10 @@ input {
     color: white;
   }
 
+  .login-input:focus {
+    border-color: $color-theme;
+  }
+
   .login-input.wrong {
     border-color: $color-theme;
   }
@@ -267,17 +271,14 @@ input {
 
   .button-terms {
     font-size: 12px;
-    span {
-      vertical-align: middle;
+    label input {
+      vertical-align: text-top;
     }
-    label {
-      vertical-align: middle;
-      display: inline-flex;
-      padding: 2px 5px;
+    label span {
+      margin-left: 5px;
     }
     .check-terms {
       float: right;
-      line-height: 17px;
     }
   }
 }
@@ -1234,6 +1235,8 @@ input {
     font-size: 20px;
     text-align: center;
     padding: 10px 0;
+    background-color: #d8d8d8;
+    font-weight: 400;
   }
   .terms-side.terms-confirm {
     background-color: $color-theme;
@@ -1245,5 +1248,18 @@ input {
     width: 320px;
     height: 300px;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    p {
+      padding: 10px 0;
+    }
+  }
+  .terms-content-wrapper::-webkit-scrollbar {
+    width: 2px;
+  }
+  .terms-content-wrapper::-webkit-scrollbar-thumb {
+    background: rgb(169, 169, 169);
+  }
+  .terms-content-wrapper::-webkit-scrollbar-thumb:window-inactive {
+    background: rgb(128, 128, 128);
   }
 }

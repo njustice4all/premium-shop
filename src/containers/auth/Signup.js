@@ -52,7 +52,7 @@ class Signup extends Component {
     const { email, password, confirmPassword, checkedTerms } = this.state;
 
     if (!checkedTerms) {
-      alert('이용약관 확인은 필수');
+      alert('개인정보취급방침 동의는 필수 항목 입니다.');
       return;
     }
     if (!regex.test(email)) return;
@@ -145,8 +145,8 @@ class Signup extends Component {
             <div className="button-terms">
               <label>
                 <input type="checkbox" checked={checkedTerms} onChange={this.toggleAcceptTerms} />
+                <span>개인정보취급방침 동의 (필수)</span>
               </label>
-              <span>개인정보취급방침 동의 (필수)</span>
               <span className="check-terms" onClick={this.toggleVisibilityTermsComponent}>
                 약관확인
               </span>
@@ -157,7 +157,7 @@ class Signup extends Component {
           </div>
           <div className="franchise-count-wrapper">
             <p>
-              가맹점 등록수 <span>122222</span>개
+              가맹점 등록수 <span>71</span>개
             </p>
           </div>
         </div>

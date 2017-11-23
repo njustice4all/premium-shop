@@ -65,6 +65,9 @@ class Signin extends Component {
             <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
           </div>
         </div>
+        <a href="market://details?id=com.nice.appcard">
+          <h1>안녕?</h1>
+        </a>
         <div className="login-form">
           <div>
             <label className="login-label login-email">이메일</label>
@@ -93,7 +96,7 @@ class Signin extends Component {
           </div>
           <div className="franchise-count-wrapper">
             <p>
-              가맹점 등록수 <span>122222</span>개
+              가맹점 등록수 <span>71</span>개
             </p>
           </div>
         </div>
