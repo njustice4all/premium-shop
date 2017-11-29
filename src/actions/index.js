@@ -15,7 +15,7 @@ import {
 } from './franchise';
 import { initGetShopLists } from './franchiseLists';
 import { initRequestAddress, initRequestLoadMore, resetAddress } from './address';
-import { popAddress } from './ui';
+import { popAddress, popSelector } from './ui';
 
 export {
   initSignin,
@@ -32,5 +32,6 @@ export {
   initRequestAddress,
   initRequestLoadMore,
   popAddress,
+  popSelector,
   resetAddress,
 };

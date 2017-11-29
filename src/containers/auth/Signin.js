@@ -53,6 +53,10 @@ class Signin extends Component {
     this.setState(prevState => ({ autoLogin: !prevState.autoLogin }));
   };
 
+  reqPayment = () => {
+    window.postMessage('post message from web');
+  };
+
   render() {
     const { authentication } = this.props;
     const { email, autoLogin } = this.state;
@@ -64,10 +68,15 @@ class Signin extends Component {
           <div>
             <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
           </div>
+          <div onClick={this.reqPayment}>
+            <h1 style={{ color: 'white' }}>결제요청</h1>
+          </div>
+          <div>
+            <h1 style={{ color: 'white' }}>
+              <a href="test://custom?hey=hi">스키마 이동</a>
+            </h1>
+          </div>
         </div>
-        <a href="market://details?id=com.nice.appcard">
-          <h1>안녕?</h1>
-        </a>
         <div className="login-form">
           <div>
             <label className="login-label login-email">이메일</label>

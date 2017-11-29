@@ -12,10 +12,12 @@ import { Images, Info, Buttons, Loading, Address } from '../../components';
 class AddShop extends Component {
   state = {
     images: List([]),
+    base64Images: List([]),
     isOpenAddress: false,
     category: 'restaurant',
     name: '티바 두마리 치킨 대치점',
-    description: '2001년부터 17년간 치킨만을 생각하고 연구해왔으며 가맹점 사장님의 작은 성공에 도움이 되도록 노력하겠습니다.',
+    description:
+      '2001년부터 17년간 치킨만을 생각하고 연구해왔으며 가맹점 사장님의 작은 성공에 도움이 되도록 노력하겠습니다.',
     address: Map({
       zipCode: '419328',
       firstAddress: '서울특별시 강남구 대치동',
@@ -259,6 +261,22 @@ class AddShop extends Component {
 
   handleCancel = () => this.props.history.push('/');
 
+  addBase64Images = async result => {
+    const imageData = await JSON.parse(result);
+    const image = Map({
+      image: `data:image/jpeg;base64, ${imageData.data}`,
+      imageName: imageData.path,
+      imageType: imageData.mime,
+      added: true,
+      uniqueId: createUniqueId(),
+    });
+
+    this.setState(prevState => ({
+      images: prevState.images.push(image),
+      addImages: prevState.addImages.push(image),
+    }));
+  };
+
   render() {
     const { authentication, franchise, editMode } = this.props;
     const {
@@ -275,9 +293,9 @@ class AddShop extends Component {
       errors,
     } = this.state;
 
-    if (!authentication.get('isLogin')) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // if (!authentication.get('isLogin')) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div>
@@ -297,6 +315,7 @@ class AddShop extends Component {
             validateClass={this.validateClass}
             deleteImageByIndex={this.deleteImageByIndex}
             shopSequence={franchise.get('seq')}
+            addBase64Images={this.addBase64Images}
           />
           <div className="divider">
             <div />

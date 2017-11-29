@@ -70,3 +70,4 @@ export const RESET_ADDRESS = 'RESET_ADDRESS';
  * ui관련
  */
 export const POP_ADDRESS = 'POP_ADDRESS';
+export const POP_SELECTOR = 'POP_SELECTOR';

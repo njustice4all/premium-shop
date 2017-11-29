@@ -10,9 +10,9 @@ class Result extends Component {
 
   render() {
     const { authentication } = this.props;
-    if (!authentication.get('isLogin')) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // if (!authentication.get('isLogin')) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div className="result-wrapper center">

@@ -19,7 +19,10 @@ class App extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.ui.get('address') !== this.props.ui.get('address')) {
+    if (
+      nextProps.ui.get('address') !== this.props.ui.get('address') ||
+      nextProps.ui.get('selector') !== this.props.ui.get('selector')
+    ) {
       return;
     }
 

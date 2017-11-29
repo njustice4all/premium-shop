@@ -1263,3 +1263,28 @@ input {
     background: rgb(128, 128, 128);
   }
 }
+
+.selector-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(30, 31, 33, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-font-default;
+  z-index: 1;
+  .selector-wrapper {
+    width: 320px;
+    background-color: white;
+    text-align: center;
+    .selector-contents {
+      padding: 15px 0;
+    }
+    .selector-contents:first-child {
+      border-bottom: 1px solid $color-theme;
+    }
+  }
+}
