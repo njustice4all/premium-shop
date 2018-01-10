@@ -53,10 +53,6 @@ class Signin extends Component {
     this.setState(prevState => ({ autoLogin: !prevState.autoLogin }));
   };
 
-  reqPayment = () => {
-    window.postMessage('post message from web');
-  };
-
   render() {
     const { authentication } = this.props;
     const { email, autoLogin } = this.state;
@@ -67,14 +63,6 @@ class Signin extends Component {
         <div className="greeting-wrapper">
           <div>
             <h1 style={{ fontWeight: 'normal' }}>단골프리미엄</h1>
-          </div>
-          <div onClick={this.reqPayment}>
-            <h1 style={{ color: 'white' }}>결제요청</h1>
-          </div>
-          <div>
-            <h1 style={{ color: 'white' }}>
-              <a href="test://custom?hey=hi">스키마 이동</a>
-            </h1>
           </div>
         </div>
         <div className="login-form">
