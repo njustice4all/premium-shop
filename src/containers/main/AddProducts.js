@@ -323,9 +323,9 @@ class AddProducts extends Component {
   render() {
     const { authentication, franchise, editMode } = this.props;
     const { showInputModal, productStack } = this.state;
-    if (!authentication.get('isLogin')) {
-      return <Redirect to="/auth/signin" />;
-    }
+    // if (!authentication.get('isLogin')) {
+    //   return <Redirect to="/auth/signin" />;
+    // }
 
     return (
       <div

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { Map, List } from 'immutable';
 
 import { validateState, createUniqueId, convertUrlToBase64 } from '../../utils';
@@ -11,7 +10,7 @@ import { Images, Info, Buttons, Loading, Address } from '../../components';
 
 const regex = /^[a-z0-9_-]\w{5,14}$/;
 
-class AddShop extends Component {
+class Boss extends Component {
   state = {
     images: List([]),
     base64Images: List([]),
@@ -42,11 +41,9 @@ class AddShop extends Component {
   };
 
   componentDidMount = () => {
-    const search = this.props.location.search;
-    const params = new URLSearchParams(search);
-
-    console.log(params.get('shop'), params.get('member'));
-    if (this.props.editMode) this.onEditMode();
+    const { id } = this.props.match.params;
+    console.log(id);
+    // if (this.props.editMode) this.onEditMode();
   };
 
   onEditMode = () => {
@@ -56,8 +53,6 @@ class AddShop extends Component {
     const result = lists.filter(shop => shop.seq === shopSequence).get(0);
 
     if (lists.size === 0) return;
-
-    // const info = franchise.get('shop');
 
     this.setState({
       category: result.category,
@@ -195,42 +190,6 @@ class AddShop extends Component {
 
   validateClass = name => (this.state.errors.includes(name) ? true : false);
 
-  handleConfirm = () => (this.props.editMode ? this.onModifyShop() : this.onAddShop());
-
-  onAddShop = () => {
-    const {
-      images,
-      category,
-      name,
-      description,
-      address,
-      contact,
-      openingHours,
-      closeDays,
-    } = this.state;
-    const { initAddShop, history, authentication } = this.props;
-    const { errors, possible } = validateState(this.state);
-
-    this.setState({ errors: errors });
-
-    if (errors.length === 0) {
-      initAddShop({
-        images: images.toJS(),
-        address: address.toJS(),
-        possible: possible.toJS(),
-        member_seq: authentication.get('seq'),
-        category,
-        name,
-        description,
-        contact,
-        openingHours,
-        closeDays,
-      }).then(value => history.push('/franchise/addProducts'));
-    } else {
-      console.log('validate');
-    }
-  };
-
   onModifyShop = () => {
     const {
       addImages,
@@ -291,7 +250,7 @@ class AddShop extends Component {
   };
 
   render() {
-    const { authentication, franchise, editMode } = this.props;
+    const { franchise, editMode } = this.props;
     const {
       images,
       isOpenAddress,
@@ -306,10 +265,6 @@ class AddShop extends Component {
       errors,
       id,
     } = this.state;
-
-    // if (!authentication.get('isLogin')) {
-    //   return <Redirect to="/auth/signin" />;
-    // }
 
     return (
       <div>
@@ -356,8 +311,8 @@ class AddShop extends Component {
           />
         </div>
         <Buttons
-          editMode={editMode ? true : false}
-          handleConfirm={this.handleConfirm}
+          editMode
+          handleConfirm={this.onModifyShop}
           handleCancel={this.handleCancel}
           errors={errors.length > 0 ? true : false}
         />
@@ -380,4 +335,4 @@ const mapDispatchToProps = dispatch => ({
   popAddress: () => dispatch(popAddress()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddShop);
+export default connect(mapStateToProps, mapDispatchToProps)(Boss);

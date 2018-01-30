@@ -8,6 +8,7 @@ import { autoLogin } from '../actions';
 
 import { Header } from '../components';
 import { AddShop, AddProducts, Result, FranchiseList, Main } from './main';
+import Boss from './Boss';
 
 class App extends Component {
   componentDidMount = () => {
@@ -30,7 +31,12 @@ class App extends Component {
   };
 
   _renderHeader = () => {
-    switch (window.location.pathname) {
+    const pathname = window.location.pathname;
+    if (pathname.split('/ceo/')[0] === '') {
+      return null;
+    }
+
+    switch (pathname) {
       case '/auth/signin':
       case '/auth/signup':
       case '/franchise/list':
@@ -70,6 +76,7 @@ class App extends Component {
           render={props => <AddProducts editMode {...props} />}
         />
         <Route exact path="/result" component={Result} />
+        <Route exact path="/ceo/:id" component={Boss} />
       </div>
     );
   }

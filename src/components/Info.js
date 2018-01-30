@@ -16,19 +16,53 @@ const Info = ({
   handleDetailAddress,
   handleCategory,
   validateClass,
+  id,
+  setId,
 }) => {
   return (
     <div className="items" style={{ padding: '5px 8px', marginTop: '10px' }}>
       <h5 className="title__big">가맹점 정보</h5>
       <div className="info__wrapper">
         <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('category') })}>분류</div>
+          <div className={classNames('input__title', { wrong: validateClass('description') })}>
+            아이디
+          </div>
+          <div className="input__content">
+            <input
+              style={{ margin: '0', width: 'calc(70% - 10px)' }}
+              type="text"
+              className="default__form"
+              value={id}
+              onChange={setId}
+              maxLength="12"
+              minLength="4"
+              placeholder="4 ~ 12글자 사이"
+            />
+            <button
+              style={{
+                width: '30%',
+                height: '34px',
+                marginLeft: '10px',
+                verticalAlign: 'middle',
+                backgroundColor: '#606060',
+                color: 'white',
+                borderRadius: '3px',
+                border: 'none',
+                fontSize: '13px',
+              }}>
+              중복확인
+            </button>
+          </div>
+        </div>
+        <div className="input__box">
+          <div className={classNames('input__title', { wrong: validateClass('category') })}>
+            분류
+          </div>
           <div className="input__content" style={{ height: '35px' }}>
             <select
               value={category}
               onChange={e => handleCategory(e.target.value)}
-              style={{ borderRadius: '0px', backgroundColor: 'white', paddingLeft: '5px' }}
-            >
+              style={{ borderRadius: '0px', backgroundColor: 'white', paddingLeft: '5px' }}>
               <option default>카페/한식/중식/일식....</option>
               <option value="cafe">카페</option>
               <option value="korean">한식</option>
@@ -46,7 +80,9 @@ const Info = ({
           </div>
         </div>
         <div className="input__box">
-          <div className={classNames('input__title', { wrong: validateClass('name') })}>가맹점명</div>
+          <div className={classNames('input__title', { wrong: validateClass('name') })}>
+            가맹점명
+          </div>
           <div className="input__content" style={{ height: '35px' }}>
             <input
               type="text"
@@ -61,8 +97,7 @@ const Info = ({
         <div className="input__box">
           <div
             className={classNames('input__title', { wrong: validateClass('description') })}
-            style={{ verticalAlign: 'top' }}
-          >
+            style={{ verticalAlign: 'top' }}>
             가맹점소개
           </div>
           <div className="input__content">
@@ -79,8 +114,7 @@ const Info = ({
         <div className="input__box" style={{ paddingTop: '0px' }}>
           <div
             className={classNames('input__title', { wrong: validateClass('address') })}
-            style={{ verticalAlign: 'top', paddingTop: '5px' }}
-          >
+            style={{ verticalAlign: 'top', paddingTop: '5px' }}>
             주소
           </div>
           <div className="input__content">
@@ -153,8 +187,7 @@ const Info = ({
         <div className="input__box">
           <div
             className={classNames('input__title', { wrong: validateClass('possible') })}
-            style={{ verticalAlign: 'top' }}
-          >
+            style={{ verticalAlign: 'top' }}>
             가능여부
           </div>
           <div className="input__content">
@@ -166,8 +199,7 @@ const Info = ({
                     className={classNames('possible__icon', {
                       active: value.get('isChecked'),
                     })}
-                    onClick={() => handleCheck(value.get('index'))}
-                  >
+                    onClick={() => handleCheck(value.get('index'))}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <img
                         src={`${value.get('src')}${value.get('isChecked') ? '_on' : ''}.png`}
